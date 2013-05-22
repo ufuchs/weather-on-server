@@ -1,0 +1,41 @@
+{
+
+	"timeFormat" : {
+		"currDate": "{{day}}.{{month}}",
+		"observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
+	},
+
+	"dayOfWeek" : {
+		"today" : "Heute",
+		"tomorrow" : "Morgen"
+	},
+
+	"months" : [
+
+		{ "full": "Januar", "abbr": "Jan." },
+
+	    { "full": "Februar", "abbr": "Febr." },
+
+		{ "full": "März", "abbr": "März" },
+
+		{ "full": "April", "abbr": "Apr." },
+
+		{ "full": "Mai", "abbr": "Mai" },
+
+		{ "full": "Juni", "abbr": "Juni" },
+
+		{ "full": "Juli", "abbr": "Juli" },
+
+		{ "full": "August", "abbr": "Aug." },
+
+		{ "full": "September", "abbr": "Sept." },
+
+		{ "full": "Oktober", "abbr": "Okt." },
+
+		{ "full": "November", "abbr": "Nov." },
+
+		{ "full": "Dezember", "abbr": "Dez." }
+
+	]
+
+}

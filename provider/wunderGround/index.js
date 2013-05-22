@@ -1,0 +1,179 @@
+/*jslint node: true */
+/*jslint todo: true */
+
+'use strict';
+
+var locale = require('../../i18n/de_DE.json'),
+    utils = require('../../lib/utils.js'),
+    moment = require('moment'),
+    astroProvider = require('../../astronomy/index.js').provider;
+
+//
+// 
+//
+function getLocalDate(epoch) {
+    var d = new Date(epoch);
+
+    return utils.fillTemplates(locale.timeFormat.currDate, {
+        day: d.getDate(),
+        month: locale.months[d.getMonth()].abbr
+    });
+
+}
+
+//
+// TODO : umbauen auf 'observation_time_rfc822'
+//
+function getObservationTimeFormated(epoch) {
+
+    /*
+    "observation_time":"Last Updated on Januar 31, 22:13 CET",
+    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
+    "observation_epoch":"1359666789",
+    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
+    "local_epoch":"1359667327",
+    "local_tz_short":"CET",
+    "local_tz_long":"Europe/Berlin",
+    "local_tz_offset":"+0100",
+    */
+
+    var d = new Date(epoch),
+        ts = d.toTimeString().split(' '),
+        time = ts[0].split(':');
+    return utils.fillTemplates(locale.timeFormat.observationTime, {
+        day: d.getDate(),
+        month: locale.months[d.getMonth()].abbr,
+        hour: time[0],
+        min: time[1],
+        timezone: ts[1]
+    });
+
+}
+
+//
+//
+//
+exports.serviceUrl = (function () {
+
+    var url_template = 'http://api.wunderground.com/api/{{apikey}}/astronomy/conditions/forecast/lang:{{language}}/q/{{locSpec}}.json';
+
+    function populateWith(loc) {
+
+        return utils.fillTemplates(url_template, {
+            apikey: process.env.WONDERGROUND_KEY,
+            language: loc.language,
+            locSpec: loc.name
+        });
+
+    }
+
+    return {
+        populateWith : populateWith
+    };
+
+}());
+
+//
+//
+//
+exports.extractWeatherFromProviderData = function (aWeather, callback) {
+
+    var
+        weather = aWeather,
+        forecastday = weather.forecast.simpleforecast.forecastday,
+        localEpoch = weather.current_observation.local_epoch * 1000,
+        sun,
+        map = {
+
+            chanceflurries: 'sn',
+
+            chancesnow: 'sn',
+
+            snow: 'sn',
+
+            chancerain: 'ra',
+
+            rain: 'ra',
+
+            chancesleet: 'rasn',
+
+            sleet: 'rasn',
+
+            mostlysunny: 'few',
+
+            partlycloudy: 'sct',
+
+            partlysunny: 'bkn',
+
+            mostlycloudy: 'bkn',
+
+            cloudy: 'ovc',
+
+            clear: 'skc',
+
+            sunny: 'skc',
+
+            chancetstorms: 'tsra',
+
+            tstorms: 'tsra',
+
+            fog: 'fg',
+
+            hazy: 'mist'
+
+        },
+
+        // all values in seconds
+        yesterdaysSun = {
+            rise: 23220,
+            set: 71840,
+            dayLenght: 48600,
+            dayLenghtDiff: 0
+        };
+
+    astroProvider.init(weather);
+
+    sun = astroProvider.sun(yesterdaysSun);
+
+    callback({
+
+        date : getLocalDate(localEpoch),
+        doy : moment(localEpoch).dayOfYear(),
+
+        sr : sun.rise,
+        ss : sun.set,
+        dl : sun.dayLenght,
+        dld : sun.dayLenghtDiff,
+
+        // today
+        h0 : forecastday[0].high.celsius,
+        l0 : forecastday[0].low.celsius,
+        ic0 : map[forecastday[0].icon],
+        sic0 : map[forecastday[0].skyicon],
+
+        // tommorow
+        h1 : forecastday[1].high.celsius,
+        l1 : forecastday[1].low.celsius,
+        ic1 : map[forecastday[1].icon],
+        sic1 : map[forecastday[1].skyicon],
+
+        // day after tommorow
+        dow2 : forecastday[2].date.weekday,
+        h2 : forecastday[2].high.celsius,
+        l2 : forecastday[2].low.celsius,
+        ic2 : map[forecastday[2].icon],
+        sic2 : map[forecastday[2].skyicon],
+
+        // // day after tommorow + 1
+        dow3 : forecastday[3].date.weekday,
+        h3 : forecastday[3].high.celsius,
+        l3 : forecastday[3].low.celsius,
+        ic3 : map[forecastday[3].icon],
+        sic3 : map[forecastday[3].skyicon],
+
+        lastObservation : getObservationTimeFormated(weather.current_observation.observation_epoch * 1000)
+
+    });
+
+}
+
