@@ -26,16 +26,26 @@ http://nodejs.org/dist/v0.10.6/node-v0.10.6-linux-arm-pi.tar.gz
 
 ### rsvg-convert, pngcrush 
 
-On your Linux host you should install it per package manager
+On your Linux host you should install those binaries per package manager
 
 e.g: 
 
 apt-get update && apt-get install librsvg pngcrush
 
-### Wonderground API key
+### Wunderground API key
+
+The weather data comes from Wunderground.
+
+Wunderground provides a free developer account with 500 calls per day.
+
+The only thing you need is an so called API key.
+
+You can get it for free at:
 
 http://www.wunderground.com/weather/api/
 
 http://www.wunderground.com/weather/api/d/pricing.html
 
+This API key must be bound on the env variable 'API_KEY'.
 
+Good luck and positive critics are welcome!
