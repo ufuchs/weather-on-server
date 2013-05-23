@@ -14,7 +14,7 @@ https://github.com/joyent/node
 
 and please follow the instruction.
 
-Be aware of nodejs from your package magment:
+Be aware of nodejs from your package managment:
 
 At the most deprecated.
 
@@ -48,4 +48,18 @@ http://www.wunderground.com/weather/api/d/pricing.html
 
 This API key must be bound on the env variable 'WONDERGROUND_KEY' in the 'weather.sh' file.
 
+### Your locations
+
+There is a file called 'locations.json'.
+
+It contains the query parameters for the Wunderground API.
+
+Please take a look at 
+
+http://www.wunderground.com/weather/api/d/docs?d=data/index
+
+to set your city and language.
+
 Good luck and every positive critics are welcome!
+
+PS : At the moment you should adjust the SVG files for your native language. It's all in German, yet.

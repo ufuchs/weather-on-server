@@ -251,6 +251,10 @@ var main = function (params, callback) {
 
 module.exports = main;
 
+/*
+
+// THIS IS FOR TESTS ONLY.
+// PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
 
 var test = function (params, callback) {
 
@@ -263,4 +267,4 @@ var params = { id : 1, device : 'df3120' };
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);
 });
-
+*/
