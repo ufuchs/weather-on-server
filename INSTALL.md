@@ -2,7 +2,7 @@
 
 Node.js
 
-rsvg-convert (depends on librsvg)
+phantomjs
 
 pngcrush
 
@@ -24,13 +24,13 @@ Here you can find a crosscompiled binary for the ARM cpu
 
 http://nodejs.org/dist/v0.10.6/node-v0.10.6-linux-arm-pi.tar.gz
 
-### rsvg-convert, pngcrush 
+### phantomjs, pngcrush 
 
 On your Linux host you should install those binaries per package manager
 
 e.g: 
 
-apt-get update && apt-get install librsvg pngcrush
+apt-get update && apt-get install phantomjs pngcrush
 
 ### Wunderground API key
 
@@ -46,6 +46,6 @@ http://www.wunderground.com/weather/api/
 
 http://www.wunderground.com/weather/api/d/pricing.html
 
-This API key must be bound on the env variable 'API_KEY'.
+This API key must be bound on the env variable 'WONDERGROUND_KEY' in the 'weather.sh' file.
 
-Good luck and positive critics are welcome!
+Good luck and every positive critics are welcome!
