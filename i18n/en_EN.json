@@ -1,22 +1,14 @@
 {
 
-	"displayLabels" : {
-		"tempUnit" : "°C",
-		"sunRise": "SA",
-		"sunSet": "SU",
-		"tempMin": "Min",
-		"tempMax": "Max"
-	},
-
 	"timeFormat" : {
 		"currDate": "{{day}}.{{month}}",
 		"observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}",
-		"dayOfYear": "{{doy}}. Tag im Jahr"
+		"dayOfYear": "{{doy}}. day of year"
 	},
 
 	"dayOfWeek" : {
-		"today" : "Heute",
-		"tomorrow" : "Morgen"
+		"today" : "Today",
+		"tomorrow" : "Tomorrow"
 	},
 
 	"months" : [

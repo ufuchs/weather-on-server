@@ -47,15 +47,15 @@ function populateSvgTemplate(device, weather, callback) {
             date : weather.date,
             doy : weather.doy,
 
-            sr : astro.formatSec2HhMm(weather.sr),
-            ss : astro.formatSec2HhMm(weather.ss),
-            dl : astro.formatSec2HhMm(weather.dl, ':'),
+            sr : 'SA' + ' ' + astro.formatSec2HhMm(weather.sr),
+            ss : 'SU' + ' ' + astro.formatSec2HhMm(weather.ss),
+            dl : astro.formatSec2HhMm(weather.dl, ':') + 'h',
             dld : '', //weather.dld,
 
             // today
             dow0 : locale.dayOfWeek.today,
-            h0 : weather.h0,
-            l0 : weather.l0,
+            h0 : weather.h0 + '°C',
+            l0 : weather.l0 + '°C',
             ic0 : weather.ic0,
             sic0 : weather.sic0,
 
@@ -251,7 +251,7 @@ var main = function (params, callback) {
 
 module.exports = main;
 
-/*
+
 
 // THIS IS FOR TESTS ONLY.
 // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
@@ -267,4 +267,4 @@ var params = { id : 1, device : 'df3120' };
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);
 });
-*/
+
