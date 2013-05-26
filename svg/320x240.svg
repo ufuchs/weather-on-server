@@ -143,7 +143,7 @@
     -->
 
     <!-- 
-    -- Header
+      Header
     -->
      
     <text
@@ -156,7 +156,7 @@
     </text>    
 
     <!-- 
-    -- Sun
+      Sun
     -->
 
     <svg x="20">
@@ -178,7 +178,7 @@
     </svg>
 
     <!-- 
-    -- Icon
+      Icon
     -->
 
     <g transform="matrix(1.1, 0, 0, 1.1, 41, 145)">
@@ -192,7 +192,7 @@
     </g>
     
     <!-- 
-    -- Temprature
+      Temprature
     -->
 
     <svg x="180" y="80">
@@ -210,7 +210,7 @@
     </svg>
 
     <!-- 
-    -- Footer
+      Footer
     -->
 
     <line class="line"              x1="10"  y1="220" 
