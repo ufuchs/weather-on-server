@@ -40,6 +40,8 @@ function populateSvgTemplate(device, weather, callback) {
 
     var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device];
 
+    console.log(path.resolve(CFG.svgPool.dir));
+
     utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
 
         callback(utils.fillTemplates(svgTemplate, {
@@ -51,6 +53,7 @@ function populateSvgTemplate(device, weather, callback) {
             ss : 'SU' + ' ' + astro.formatSec2HhMm(weather.ss),
             dl : astro.formatSec2HhMm(weather.dl, ':') + 'h',
             dld : '', //weather.dld,
+            icoPath : path.resolve(CFG.svgPool.dir),
 
             // today
             dow0 : locale.dayOfWeek.today,
