@@ -1,0 +1,44 @@
+.lable 
+{ 
+	text-align:start; 
+	text-anchor:start;
+}
+
+text.center
+{ 
+	text-align:center; 
+	text-anchor:middle;
+}
+
+text.start
+{ 
+	text-align:start; 
+	text-anchor:start;
+}
+
+text.end
+{ 
+	text-align:start; 
+	text-anchor:end;
+}
+
+text.sun {
+	font-size:20px;
+}
+
+text.today {
+	font-size:50px;
+}
+
+text.footer {
+	font-size:18px;
+}
+
+
+rect {fill:#ffffff; stroke:#000000; stroke-width:1;}
+.today-temp-lbl {font-size:35px; text-align:start; text-anchor:start;}
+.otherdays {font-size:32px; text-anchor:middle;}
+.line {stroke:#000000; stroke-width:2; }
+.temp-lbl {font-size:20px; text-align:start; text-anchor:start;}
+.temp {font-size:58px; text-anchor:end;}
+.footer {font-size:18px; text-align:center; text-anchor:middle}

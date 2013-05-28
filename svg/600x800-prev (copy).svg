@@ -1,18 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-
-   width="320"
-   height="240"
-   id="svg2"
-
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="800"
+   width="600"
    version="1.1"
-   >
-
-  <defs>
-
+   id="svg3133"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="template.svg"
+   inkscape:export-filename="/home/ufuchs/12-24-2012-weather.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <metadata
+     id="metadata3241">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1322"
+     inkscape:window-height="962"
+     id="namedview3239"
+     showgrid="false"
+     inkscape:zoom="0.69296465"
+     inkscape:cx="305.69395"
+     inkscape:cy="418.23136"
+     inkscape:window-x="72"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3133" />
+  <defs
+     id="defs3135">
     <path
        id="bkn"
        d="M33.469,15v11.938h3.125v-11.938h-3.125zm-13.813,3.406l-2.656,1.656,6.312,10.126,2.657-1.657-6.313-10.125zm30.938,0.313l-4.719,8.531c-2.986,0.663-5.776,1.865-8.25,3.5-0.847-0.119-1.715-0.188-2.594-0.188-10.675,0-19.312,8.695-19.312,19.407,0,1.947,0.305,3.825,0.843,5.593-0.978,1.235-1.775,2.642-2.312,4.157l-0.688-1.063-10.062,6.344,0.3438,0.562c-2.3766,2.331-3.8438,5.561-3.8438,9.126,0,3.52,1.6295,6.439,4.0938,8.093,2.4642,1.654,5.5401,2.219,8.7182,2.219h20.469,3.125,9.125,17.844,16.375c11.15,0,20.25-9.098,20.25-20.25s-9.099-20.219-20.25-20.219c-1.607,0-3.124,0.264-4.594,0.625-2.866-10.607-12.411-18.5-23.906-18.5-0.499,0-0.977,0.034-1.469,0.063l3.563-6.469-2.75-1.531zm-44.532,11.375l-1.5313,2.75,10.407,5.781,1.5-2.75-10.376-5.781zm45.188,1.344c10.088,0,18.319,7.377,19.844,17.031l0.468,2.906,2.75-1.031c1.734-0.658,3.538-1.063,5.438-1.063,8.58,0,15.5,6.89,15.5,15.469s-6.921,15.5-15.5,15.5h-16.375-17.844-32.719c-2.576,0-4.757-0.53-6.062-1.406s-2-1.922-2-4.156c0-4.463,3.5946-8.032,8.062-8.032,0.74,0,1.486,0.128,2.313,0.375l3.063,0.938v-3.219c0-0.288,0.007-0.458,0-0.5,0.133-5.302,4.412-9.5,9.75-9.5-0.078,0,0.118,0.026,0.656,0.062l2.656,0.188-0.125-2.656c-0.029-0.651-0.063-0.871-0.063-0.719,0-11.178,9.002-20.187,20.188-20.187zm-51.25,16.062v3.125h11.906v-3.125h-11.906z" />
@@ -85,105 +123,333 @@
     <path
        id="wind"
        d="M62.781,0.0062768c-1.621,0.18889-7.737,6.4392-19.093,25.311,3.0187,0.032,5.663,1.6919,7.0938,4.1247,11.41-20.557,13.346-28.772,12.25-29.404-0.0685-0.039435-0.14194-0.043841-0.25-0.031248zm-19.187,29.467c-2.2942,0-4.1562,1.8647-4.1562,4.156s1.862,4.156,4.1562,4.156,4.1562-1.8647,4.1562-4.156-1.862-4.156-4.1562-4.156zm-7.2188,0.0625c-23.477,0.41497-31.531,2.8316-31.531,4.0935,0,1.2609,8.0532,3.6795,31.531,4.0935-0.68785-1.2069-1.0938-2.6066-1.0938-4.0935,0-1.4859,0.40594-2.8856,1.0938-4.0935zm14.406,8.2495c-1.4238,2.4358-4.0448,4.0887-7.0625,4.1247,12.105,20.107,18.216,25.878,19.312,25.248,1.0943-0.63196-0.84705-8.8283-12.25-29.373zm-50.468,2.062c-0.063218-0.0073-0.11601,0.0082-0.15625,0.03125-0.6438,0.373,0.50625,5.156,7.0312,16.999,0.9162-1.38,2.4383-2.304,4.1875-2.438-6.5661-10.832-10.114-14.483-11.062-14.592zm65.062,0c-0.06321-0.0073-0.11601,0.0082-0.15625,0.03125-0.643,0.37298,0.50625,5.1567,7.0312,16.999,0.9172-1.3799,2.4393-2.3034,4.1875-2.4373-6.566-10.833-10.113-14.484-11.061-14.593zm-25.938,3.0311,0,57.121,8.3125,0,0-43.935c-2.379-3.518-5.134-7.856-8.31-13.186zm-27.655,14.28c-1.5295,0-2.75,1.2223-2.75,2.7498s1.2205,2.7811,2.75,2.7811,2.7812-1.2536,2.7812-2.7811-1.2518-2.7498-2.7812-2.7498zm65.094,0c-1.5295,0-2.7812,1.2223-2.7812,2.7498s1.2518,2.7811,2.7812,2.7811c1.5295,0,2.7812-1.2536,2.7812-2.7811s-1.2518-2.7498-2.7812-2.7498zm-60.125,0.344c0.35844,0.73095,0.59375,1.5372,0.59375,2.4061,0,0.87594-0.2293,1.7014-0.59375,2.4373,13.471-0.28298,18.156-1.6671,18.156-2.4061,0-0.74195-4.6902-2.1544-18.156-2.4373zm65.094,0c0.35744,0.73095,0.5625,1.5372,0.5625,2.4061,0,0.87594-0.20306,1.7014-0.5625,2.4373,13.471-0.283,18.156-1.667,18.156-2.406,0-0.742-4.69-2.154-18.156-2.437zm-74.656,5.468c-6.523,11.842-7.675,16.627-7.0312,16.999,0.644,0.371,4.2152-3.01,11.219-14.562-1.7502-0.135-3.2694-1.056-4.1875-2.437zm65.062,0c-6.524,11.842-7.675,16.623-7.031,16.999,0.643,0.37,4.216-3.007,11.219-14.562-1.752-0.135-3.27-1.056-4.188-2.437zm-57.688,2.5311c-2.15,3.6138-3.9764,6.4613-5.5312,8.7182l-0.0308,25.78h5.5312l0.03125-34.498zm65.094,0c-2.1496,3.6137-4.0086,6.4613-5.5625,8.7182v25.78h5.5312l0.03125-34.498z" />
-
-
-      <style type="text/css">
-       <![CDATA[
-       recta {fill:yellow; stroke:black; stroke-width:.1cm;}
-       .temp {font-size:40px; text-anchor:end;}
-       .dow {font-size:22px; text-anchor:middle;}
-       .lbl-temp {font-size:20px; text-anchor:end;}
-       .lbl-sun {font-size:14px; text-align:start;text-anchor:start;}
-       .sun {font-size:14px; text-align:end;text-anchor:end;}
-       .line {stroke:#000000; stroke-width:1; }
-       ]]>
-       </style>
-
-      <text 
-        id="temp-unit"
-        style="text-anchor:end"
-        font-size="40px">°C</text>
-
-      <text class="lbl-sun" id="lbl-sun-rise">SA</text>
-      <text class="lbl-sun" id="lbl-sun-set">SU</text>
-
-      <text class="lbl-temp" id="lbl-temp-min">Min</text>
-      <text class="lbl-temp" id="lbl-temp-max">Max</text>
-
   </defs>
-
-  <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
-  <g id="main" style="font-family:DejaVu Sans">
-
-    <title>DF3120-320x240</title>
-
-    <rect
-       id="background"
-       height="240"
-       width="320"
-       y="0"
+  <rect
+     style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter"
+     id="rect3155"
+     width="600"
+     height="800"
+     x="0"
+     y="0" />
+  <g
+     transform="matrix(2.25,0,0,2.25,41.37375,145.3735)"
+     id="g3161">
+    <use
+       xlink:href="#{{ic0}}"
+       id="use3163"
+       transform="translate(3.5555558,7.1111112)"
        x="0"
-       stroke-width="1"
-       stroke="#000000"
-       fill="#ffffff" />
-
-    <!-- 
-    =============================================================================
-      Today
-    =============================================================================
-    -->
-     
+       y="0"
+       width="600"
+       height="800" />
+  </g>
+  <g
+     transform="matrix(1.2,0,0,1.2,41.0004,459.67)"
+     id="g3165">
+    <use
+       xlink:href="#{{ic1}}"
+       id="use3167"
+       x="0"
+       y="0"
+       width="600"
+       height="800" />
+  </g>
+  <g
+     transform="matrix(1.2,0,0,1.2,240,461.67)"
+     id="g3169">
+    <use
+       xlink:href="#{{ic2}}"
+       id="use3171"
+       x="0"
+       y="0"
+       width="600"
+       height="800" />
+  </g>
+  <g
+     transform="matrix(1.2,0,0,1.2,438.9996,461.67)"
+     id="g3173">
+    <use
+       xlink:href="#{{ic3}}"
+       id="use3175"
+       x="0"
+       y="0"
+       width="600"
+       height="800" />
+  </g>
+  <g
+     id="g3177"
+     style="font-family:DejaVu Sans">
     <text
-      style="text-align:start;text-anchor:start;"
-      font-size="22px"
-      x="20"
-      y="35"
-      id="dow0"
-      >{{dow0}} {{date}}/<tspan style="font-size:14px; fill:#000000">{{doy}}.Tag im Jahr</tspan>
-    </text>    
-
-    <use xlink:href="#lbl-sun-rise" x="20"  y="60"/>
-    <use xlink:href="#lbl-sun-set"  x="20"  y="80"/>
-
-    <text class="sun"               x="85"  y="60">{{sr}}</text>
-    <text class="sun"               x="85"  y="80">{{ss}}</text>
-
-    <line class="line"              x1="95" y1="45" 
-                                    x2="95" y2="85"/>
-
-    <text class="sun"               x="155" y="70">{{dl}}h</text>
-
-    <g transform="matrix(1.1, 0, 0, 1.1, 41, 145)" id="g3161">
-      <use
-         xlink:href="#{{ic0}}"
-         id="use3163"
-         transform="translate(-15,-40)"
-         x="0"
-         y="0"
-         width="320"
-         height="240" />
-    </g>
-
-    <use xlink:href="#lbl-temp-min" x="230"  y="100"/>
-    <use xlink:href="#lbl-temp-max" x="230"  y="170"/>
-
-    <text class="temp"              x="255"  y="140">{{l0}}</text>
-    <text class="temp"              x="255"  y="210">{{h0}}</text>
-
-
-    <use xlink:href="#temp-unit"    x="305"  y="140"/>    
-    <use xlink:href="#temp-unit"    x="305"  y="210"/>
-
-    <line class="line"              x1="10"  y1="220" 
-                                    x2="310" y2="220"/>
-
+       style="font-size:50px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       font-size="35px"
+       y="56.256058"
+       x="16.039062"
+       id="text3179"
+       sodipodi:linespacing="125%">{{dow0}} {{date}}/<tspan
+   style="font-size:20px"
+   id="tspan3061">{{doy}}.Tag im Jahr</tspan>
+</text>
+    <text
+       style="font-size:32px;text-anchor:middle"
+       font-size="35px"
+       y="185.70688"
+       x="440.26932"
+       id="text3181">Max</text>
+    <text
+       style="font-size:88px;text-anchor:end"
+       font-size="88px"
+       y="259.20593"
+       x="510.72095"
+       id="text3183">{{h0}}</text>
+    <text
+       style="font-size:64px;text-anchor:middle"
+       font-size="64px"
+       y="238.48717"
+       x="544.30981"
+       id="text3185">°C</text>
+    <text
+       style="font-size:32px;text-anchor:middle"
+       font-size="35px"
+       y="313.13895"
+       x="435.80063"
+       id="text3187">Min</text>
+    <text
+       style="font-size:88px;text-anchor:end"
+       font-size="88px"
+       y="385.8533"
+       x="512.23267"
+       id="text3189">{{l0}}</text>
+    <text
+       style="font-size:64px;text-anchor:middle"
+       font-size="64px"
+       y="365.13455"
+       x="544.30981"
+       id="text3191">°C</text>
+    <text
+       style="font-size:32px;text-anchor:middle"
+       font-size="32px"
+       y="445.16922"
+       x="102.92969"
+       id="text3193">{{dow1}}</text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="615.68347"
+       x="50.958111"
+       id="text3195">Max</text>
+    <text
+       style="font-size:56px;text-anchor:end"
+       font-size="58px"
+       y="666.3255"
+       x="116.05887"
+       id="text3197">{{h1}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="650.86145"
+       x="134.01662"
+       id="text3199">°C</text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="704.48578"
+       x="50.906109"
+       id="text3201">Min</text>
+    <text
+       style="font-size:58px;text-anchor:end"
+       font-size="58px"
+       y="753.51617"
+       x="118.00232"
+       id="text3203">{{l1}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="738.05206"
+       x="136.01663"
+       id="text3205">°C</text>
+    <text
+       style="font-size:32px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:DejaVu Sans;-inkscape-font-specification:DejaVu Sans"
+       font-size="32px"
+       y="446.15359"
+       x="300.3125"
+       id="text3207"
+       sodipodi:linespacing="125%">
+      <tspan
+         sodipodi:role="line"
+         id="tspan3249"
+         x="300.3125"
+         y="446.15359">{{dow2}}</tspan>
+    </text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="617.68347"
+       x="249.95811"
+       id="text3209">Max</text>
+    <text
+       style="font-size:58px;text-anchor:end"
+       font-size="58px"
+       y="668.3255"
+       x="319.1543"
+       id="text3211">{{h2}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="652.86145"
+       x="337.01663"
+       id="text3213">°C</text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="706.48578"
+       x="249.90611"
+       id="text3215">Min</text>
+    <text
+       style="font-size:58px;text-anchor:end"
+       font-size="58px"
+       y="755.51617"
+       x="319.08429"
+       id="text3217">{{l2}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="740.05206"
+       x="337.0166"
+       id="text3219">°C</text>
+    <text
+       style="font-size:32px;text-anchor:middle"
+       font-size="32px"
+       y="446.15359"
+       x="499.82812"
+       id="text3221">{{dow3}}</text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="617.68347"
+       x="448.9581"
+       id="text3223">Max</text>
+    <text
+       style="font-size:58px;text-anchor:end"
+       font-size="58px"
+       y="668.3255"
+       x="518.3103"
+       id="text3225">{{h3}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="652.86145"
+       x="536.0166"
+       id="text3227">°C</text>
+    <text
+       style="font-size:20px;text-align:start;text-anchor:start"
+       font-size="20px"
+       y="706.48578"
+       x="448.9061"
+       id="text3229">Min</text>
+    <text
+       style="font-size:58px;text-anchor:end"
+       font-size="58px"
+       y="755.51617"
+       x="517.73383"
+       id="text3231">{{l3}}</text>
+    <text
+       style="font-size:37px;text-anchor:middle"
+       font-size="37px"
+       y="740.05206"
+       x="536.0166"
+       id="text3233">°C</text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="143.0498"
+       y="94.57196"
+       id="text3255"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="143.0498"
+         y="94.57196"
+         id="tspan3259">{{dl}}h</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="222.87805"
+       y="94.894287"
+       id="text3255-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="222.87805"
+         y="94.894287"
+         id="tspan3259-2">{{dld}}</tspan></text>
+  </g>
+  <path
+     d="m 199,429.35 0,321.5 3,0 0,-321.5 -3,0 z"
+     id="path3235"
+     inkscape:connector-curvature="0" />
+  <path
+     d="m 400,429.35 0,321.5 3,0 0,-321.5 -3,0 z"
+     id="path3237"
+     inkscape:connector-curvature="0" />
   <text
      xml:space="preserve"
-     style="font-size:12px;text-align:center;text-anchor:middle"
-     x="160"
-     y="234"
-     id="text3251">{{update}}</text>
-
-  </g>
-
+     style="font-size:18px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="307.63721"
+     y="792.51367"
+     id="text3251"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3253"
+       x="307.63721"
+       y="792.51367">{{update}}</tspan></text>
+  <path
+     d="m 582.86657,770.32878 -563.39435,0 0,3 563.39435,0 0,-3 z"
+     id="path3235-7"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="18.666656"
+     y="82.772308"
+     id="text3313"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3315"
+       x="18.666656"
+       y="82.772308">SA</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="18.666656"
+     y="108.48816"
+     id="text3317"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3319"
+       x="18.666656"
+       y="108.48816">SU</tspan></text>
+  <path
+     d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
+     id="path3235-6"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-size:20px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="113.32802"
+     y="82.772797"
+     id="text3058"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3060"
+       x="113.32802"
+       y="82.772797">{{sr}}</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:20px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="113.32802"
+     y="108.4878"
+     id="text3058-5"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan3060-0"
+       x="113.32802"
+       y="108.4878">{{ss}}</tspan></text>
 </svg>
