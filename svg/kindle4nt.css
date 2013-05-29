@@ -1,34 +1,66 @@
-.lable 
+/* aligments */
+
+.right
 { 
-	text-align:start; 
-	text-anchor:start;
+	text-align : end; 
+	text-anchor: end;
 }
 
-text.center
+
+.center
 { 
-	text-align:center; 
+	text-align :center; 
 	text-anchor:middle;
 }
 
-text.start
+.left
 { 
-	text-align:start; 
+	text-align :start; 
 	text-anchor:start;
 }
 
-text.end
-{ 
-	text-align:start; 
-	text-anchor:end;
+/* head line */
+
+text.date {
+	font-size : 50px;
 }
+
+tspan.doy {
+	font-size : 20px;
+}
+
+/* sun */
 
 text.sun {
-	font-size:20px;
+	font-size:40px;
 }
 
-text.today {
-	font-size:50px;
+text.temp-lbl {
+	font-size :35px;
 }
+
+text.temp {
+	font-size:88px
+}
+
+tspan.temp-unit {
+	font-size :64px;
+}
+
+text.temp-lbl-x {
+	font-size :20px;
+}
+
+text.temp-x {
+	font-size:58px
+}
+
+tspan.temp-unit-x {
+	font-size :37px;
+}
+
+
+
 
 text.footer {
 	font-size:18px;

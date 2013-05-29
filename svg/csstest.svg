@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet href="kindle4nt.css" type="text/css"?>
+<svg
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="600"
+  height="800"
+  version="1.1"
+  >
+
+  <title>Kindle4NT-600x800</title>
+
+  <defs>
+
+      <text class="temp-lbl" id="temp-lbl-min">Min</text>
+      <text class="temp-lbl" id="temp-lbl-max">Max</text>
+
+
+  </defs>
+
+<!--
+===============================================================================
+  main document
+===============================================================================
+-->
+
+  <g id="main" style="font-family:DejaVu Sans">
+
+    <rect id="background" 
+          width="600" 
+          height="800" y="0" x="0"/>
+
+
+    <text
+       class="date  left"
+       y="56.256058"
+       x="16.039062"
+
+       >{{dow0}} {{date}}/<tspan class="doy">{{doy}}.Tag im Jahr</tspan></text>
+
+
+
+    <!-- Sun -->
+    <text class="sun left"             x="20"  y="82">abc</text>
+    <text class="sun"             x="20"  y="108">def</text>
+
+
+  </g>
+
+</svg>
