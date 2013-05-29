@@ -101,19 +101,40 @@
         ]]>
       </style>
 -->
-      <text class="temp-lbl" id="temp-lbl-min">Min</text>
-      <text class="temp-lbl" id="temp-lbl-max">Max</text>
+      <text class="temp-lbl left" id="temp-lbl-min">Min</text>
+      <text class="temp-lbl left" id="temp-lbl-max">Max</text>
+
+      <text class="temp-lbl-x left" id="temp-lbl-min-x">Min</text>
+      <text class="temp-lbl-x left" id="temp-lbl-max-x">Max</text>
+
 
       <!--
       today    
       =====
       -->
 
-
       <symbol id="today"> 
 
-        <text class="today"             x="20" y="56">{{dow0}} {{date}}/<tspan font-size="20px">{{doy}}.Tag im Jah</tspan>
+        <text class="date  left"     x="20" y="56">{{dow0}} {{date}}/<tspan class="doy" >{{doy}}.Tag im Jah</tspan>
         </text>    
+
+        <!-- Sun -->
+        <text xml:space="preserve" 
+              class="sun"             x="20"  y="82">{{sr}}</text>
+        <text xml:space="preserve" 
+              class="sun"             x="20"  y="108">{{ss}}</text>
+
+        <!--
+        <line class="line"            x1="95" y1="45" 
+                                      x2="95" y2="85"/>
+    -->
+        <path
+           d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
+           id="path3235-6"
+           inkscape:connector-curvature="0" />
+
+        <text xml:space="preserve" 
+              class="sun"             x="143" y="94">{{dl}}</text>            
 
         <!-- icon -->
         <g transform="matrix(2.25, 0, 0, 2.25, 45, 152)">
@@ -129,20 +150,20 @@
         <svg id="max-group" >
           <use 
             xlink:href="#temp-lbl-max" 
-            font-size="32px"           x="405" y="185"/>      
+                                      x="405" y="185"/>      
           <text 
-            class="temp" 
-            style="font-size:88px;"    x="600" y="260">}}<tspan dy="-25" font-size="64px">°C
+            class="temp right" 
+                                      x="600" y="260">}}<tspan class="temp-unit" dy="-25" >°C
           </tspan>
           </text>    
         </svg>
         <svg id="min-group" y="130">
           <use 
             xlink:href="#temp-lbl-min" 
-            font-size="32px"           x="405" y="185"/>   
+                                      x="405" y="185"/>   
           <text 
-            class="temp" 
-            style="font-size:88px;"    x="600" y="260">}}<tspan dy="-25" font-size="64px">°C
+            class="temp right" 
+                                      x="600" y="260">}}<tspan class="temp-unit" dy="-25">°C
           </tspan>
           </text>    
         </svg>
@@ -150,14 +171,16 @@
       </symbol> 
 
       <!--
-      today    
+      tomorrow  
       =====
       -->
 
-      <symbol id="day-after-tomorrow+1"> 
+      <symbol id="tomorrow"> 
 
-        <text class="otherdays"           x="100" y="65">Donnerstag</text>
+        <!-- day -->
+        <text class="day-x center"           x="100" y="65">Donnerstag</text>
 
+        <!-- icon -->
         <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
           <use
              xlink:href="#tsra"
@@ -168,27 +191,73 @@
         </g>
 
         <!-- temparature -->
-        <svg id="min-group" y="90">
+        <svg id="max-group" >
           <use 
-            xlink:href="#temp-lbl-min" x="50"  y="235"/>      
+            xlink:href="#temp-lbl-max-x" 
+                                      x="50"  y="235"/>      
           <text 
-            class="temp"               x="175" y="285">00<tspan dy="-15" style="font-size:37px;">°C
+            class="temp-x right"      x="175" y="285">100<tspan class="temp-unit-x" dy="-15" >°C
           </tspan>
           </text>
         </svg>
-        <svg id="max-group" >
+
+        <svg id="min-group" y="90">
           <use 
-            xlink:href="#temp-lbl-max" x="50"  y="235"/>      
+            xlink:href="#temp-lbl-min-x" 
+                                       x="50"  y="235"/>      
           <text 
-            class="temp"               x="175" y="285">100<tspan dy="-15" style="font-size:37px;">°C
+            class="temp-x right"       x="175" y="285">00<tspan class="temp-unit-x" dy="-15">°C
           </tspan>
           </text>
         </svg>
 
       </symbol> 
 
-  </defs>
+      <!--
+      tomorrow  
+      =====
+      -->
 
+      <symbol id="day-after-tomorrow"> 
+
+        <!-- day -->
+        <text class="day-x center"           x="100" y="65">Donnerstag</text>
+
+        <!-- icon -->
+        <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
+          <use
+             xlink:href="#tsra"
+             x="0"
+             y="0"
+             width="600"
+             height="800" />
+        </g>
+
+        <!-- temparature -->
+        <svg id="max-group" >
+          <use 
+            xlink:href="#temp-lbl-max-x" 
+                                      x="50"  y="235"/>      
+          <text 
+            class="temp-x right"      x="175" y="285">100<tspan class="temp-unit-x" dy="-15" >°C
+          </tspan>
+          </text>
+        </svg>
+
+        <svg id="min-group" y="90">
+          <use 
+            xlink:href="#temp-lbl-min-x" 
+                                       x="50"  y="235"/>      
+          <text 
+            class="temp-x right"       x="175" y="285">00<tspan class="temp-unit-x" dy="-15">°C
+          </tspan>
+          </text>
+        </svg>
+
+      </symbol> 
+
+
+  </defs>
 
 <!--
 ===============================================================================
@@ -207,33 +276,6 @@
     =====
     -->
 
-    <!-- Sun -->
-    <text xml:space="preserve" 
-          class="sun"             x="20"  y="82">{{sr}}</text>
-    <text xml:space="preserve" 
-          class="sun"             x="20"  y="108">{{ss}}</text>
-
-    <!--
-    <line class="line"            x1="95" y1="45" 
-                                  x2="95" y2="85"/>
--->
-    <path
-       d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
-       id="path3235-6"
-       inkscape:connector-curvature="0" />
-
-    <text xml:space="preserve" 
-          class="sun"             x="143" y="94">{{dl}}</text>            
-
-    <!-- 
-      Icon
-    -->
-
-    
-    <!-- 
-      Temparature
-    -->
-
     <use xlink:href="#today" />
 
     <!--
@@ -241,7 +283,7 @@
     ========
     -->
 
-    <g transform="translate(180,80)">
+    <g transform="translate(0,380)">
         <use xlink:href="#tomorrow" />
     </g>
 
@@ -254,7 +296,7 @@
     ==================
     -->
 
-    <g transform="translate(180,80)">
+    <g transform="translate(200,380)">
       <use xlink:href="#day-after-tomorrow" />
     </g>
 
@@ -267,8 +309,8 @@
     ======================
     -->
 
-    <g transform="translate(0,380)">
-        <use xlink:href="#day-after-tomorrow+1" />
+    <g transform="translate(400,380)">
+        <use xlink:href="#day-after-tomorrow" />
     </g>
 
     <!-- 
@@ -285,8 +327,9 @@
     <line class="line"                  x1="10"  y1="220" 
                                         x2="310" y2="220"/>
 -->
-    <text class="footer"                x="300" y="792">{{update}}</text>
+    <text class="footer center"       x="300" y="792">{{update}}</text>
 
   </g>
+
 
 </svg>
