@@ -40,7 +40,7 @@ function populateSvgTemplate(device, weather, callback) {
 
     var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device];
 
-    console.log(path.resolve(CFG.svgPool.dir));
+//    console.log(path.resolve(CFG.svgPool.dir));
 
     utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
 
@@ -180,6 +180,7 @@ function getWeatherFilenames(params, callback) {
         }
 
         callback({
+            weatherCss   : path.resolve(dir + params.device + '.css'),
             weatherSvg   : path.resolve(dir + fn.weatherSvg),
             unweatherPng : path.resolve(dir + fn.unweatherPng),
             weatherPng   : path.resolve(dir + fn.weatherPng)
@@ -194,8 +195,13 @@ function getWeatherFilenames(params, callback) {
 //
 function writeResults(svg, params, callback) {
 
+    var cssFile = CFG.svgPool.dir + '/' + params.device + '.css';
+ 
     // 1
     getWeatherFilenames(params, function (out) {
+
+        // copy the style sheet into the weather dir
+        fs.createReadStream(cssFile).pipe(fs.createWriteStream(out.weatherCss));
 
         // 2
         fs.writeFile(out.weatherSvg, svg, function (err) {
@@ -267,7 +273,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'kindle4nt' };
+var params = { id : 1, device : 'df3120' };
 
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);

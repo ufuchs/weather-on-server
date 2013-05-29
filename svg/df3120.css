@@ -22,46 +22,29 @@
 /* head line */
 
 .date {
-	font-size : 50px;
+	font-size : 22px;
 }
 
 .doy {
-	font-size : 20px;
+	font-size : 12px;
 }
 
 /* sun */
 
 .sun {
-	font-size:20px;
+	font-size:14px;
 }
 
 .temp-lbl {
-	font-size :32px;
-}
-
-.temp {
-	font-size:88px
-}
-
-.temp-unit {
-	font-size :64px;
-}
-
-.day-x {
-	font-size : 32px;
-}
-
-
-.temp-lbl-x {
 	font-size :20px;
 }
 
-.temp-x {
-	font-size:58px
+.temp {
+	font-size:40px
 }
 
-.temp-unit-x {
-	font-size :37px;
+.temp-unit {
+	font-size :24px;
 }
 
 .footer {
