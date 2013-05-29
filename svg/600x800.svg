@@ -86,27 +86,12 @@
     <path
        id="wind"
        d="M62.781,0.0062768c-1.621,0.18889-7.737,6.4392-19.093,25.311,3.0187,0.032,5.663,1.6919,7.0938,4.1247,11.41-20.557,13.346-28.772,12.25-29.404-0.0685-0.039435-0.14194-0.043841-0.25-0.031248zm-19.187,29.467c-2.2942,0-4.1562,1.8647-4.1562,4.156s1.862,4.156,4.1562,4.156,4.1562-1.8647,4.1562-4.156-1.862-4.156-4.1562-4.156zm-7.2188,0.0625c-23.477,0.41497-31.531,2.8316-31.531,4.0935,0,1.2609,8.0532,3.6795,31.531,4.0935-0.68785-1.2069-1.0938-2.6066-1.0938-4.0935,0-1.4859,0.40594-2.8856,1.0938-4.0935zm14.406,8.2495c-1.4238,2.4358-4.0448,4.0887-7.0625,4.1247,12.105,20.107,18.216,25.878,19.312,25.248,1.0943-0.63196-0.84705-8.8283-12.25-29.373zm-50.468,2.062c-0.063218-0.0073-0.11601,0.0082-0.15625,0.03125-0.6438,0.373,0.50625,5.156,7.0312,16.999,0.9162-1.38,2.4383-2.304,4.1875-2.438-6.5661-10.832-10.114-14.483-11.062-14.592zm65.062,0c-0.06321-0.0073-0.11601,0.0082-0.15625,0.03125-0.643,0.37298,0.50625,5.1567,7.0312,16.999,0.9172-1.3799,2.4393-2.3034,4.1875-2.4373-6.566-10.833-10.113-14.484-11.061-14.593zm-25.938,3.0311,0,57.121,8.3125,0,0-43.935c-2.379-3.518-5.134-7.856-8.31-13.186zm-27.655,14.28c-1.5295,0-2.75,1.2223-2.75,2.7498s1.2205,2.7811,2.75,2.7811,2.7812-1.2536,2.7812-2.7811-1.2518-2.7498-2.7812-2.7498zm65.094,0c-1.5295,0-2.7812,1.2223-2.7812,2.7498s1.2518,2.7811,2.7812,2.7811c1.5295,0,2.7812-1.2536,2.7812-2.7811s-1.2518-2.7498-2.7812-2.7498zm-60.125,0.344c0.35844,0.73095,0.59375,1.5372,0.59375,2.4061,0,0.87594-0.2293,1.7014-0.59375,2.4373,13.471-0.28298,18.156-1.6671,18.156-2.4061,0-0.74195-4.6902-2.1544-18.156-2.4373zm65.094,0c0.35744,0.73095,0.5625,1.5372,0.5625,2.4061,0,0.87594-0.20306,1.7014-0.5625,2.4373,13.471-0.283,18.156-1.667,18.156-2.406,0-0.742-4.69-2.154-18.156-2.437zm-74.656,5.468c-6.523,11.842-7.675,16.627-7.0312,16.999,0.644,0.371,4.2152-3.01,11.219-14.562-1.7502-0.135-3.2694-1.056-4.1875-2.437zm65.062,0c-6.524,11.842-7.675,16.623-7.031,16.999,0.643,0.37,4.216-3.007,11.219-14.562-1.752-0.135-3.27-1.056-4.188-2.437zm-57.688,2.5311c-2.15,3.6138-3.9764,6.4613-5.5312,8.7182l-0.0308,25.78h5.5312l0.03125-34.498zm65.094,0c-2.1496,3.6137-4.0086,6.4613-5.5625,8.7182v25.78h5.5312l0.03125-34.498z" />
-<!--
-      <style type="text/css">
-        <![CDATA[
-        rect {fill:#ffffff; stroke:#000000; stroke-width:1;}
-        .today {font-size:50px; text-align:start; text-anchor:start;}
-        .today-temp-lbl {font-size:35px; text-align:start; text-anchor:start;}
-        .otherdays {font-size:32px; text-anchor:middle;}
-        .sun {font-size:20px; text-align:start;text-anchor:start;}
-        .line {stroke:#000000; stroke-width:2; }
-        .temp-lbl {font-size:20px; text-align:start; text-anchor:start;}
-        .temp {font-size:58px; text-anchor:end;}
-        .footer {font-size:18px; text-align:center; text-anchor:middle}
-        ]]>
-      </style>
--->
+
       <text class="temp-lbl left" id="temp-lbl-min">Min</text>
       <text class="temp-lbl left" id="temp-lbl-max">Max</text>
 
       <text class="temp-lbl-x left" id="temp-lbl-min-x">Min</text>
       <text class="temp-lbl-x left" id="temp-lbl-max-x">Max</text>
-
 
       <!--
       today    
@@ -115,7 +100,7 @@
 
       <symbol id="today"> 
 
-        <text class="date  left"     x="20" y="56">{{dow0}} {{date}}/<tspan class="doy" >{{doy}}.Tag im Jah</tspan>
+        <text class="date  left"     x="20" y="56">{{dow0}} {{date}}/<tspan class="doy" >{{doy}}</tspan>
         </text>    
 
         <!-- Sun -->
@@ -130,8 +115,7 @@
     -->
         <path
            d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
-           id="path3235-6"
-           inkscape:connector-curvature="0" />
+           id="path3235-6"/>
 
         <text xml:space="preserve" 
               class="sun"             x="143" y="94">{{dl}}</text>            
@@ -139,7 +123,7 @@
         <!-- icon -->
         <g transform="matrix(2.25, 0, 0, 2.25, 45, 152)">
           <use
-             xlink:href="#tsra"
+             xlink:href="#{{ic0}}"
              x="0"
              y="0"
              width="600"
@@ -147,23 +131,23 @@
         </g>
 
         <!-- temparature -->
-        <svg id="max-group" >
+        <svg id="max-group-0" >
           <use 
             xlink:href="#temp-lbl-max" 
                                       x="405" y="185"/>      
           <text 
             class="temp right" 
-                                      x="600" y="260">}}<tspan class="temp-unit" dy="-25" >°C
+                                      x="600" y="260">{{h0}}<tspan class="temp-unit" dy="-25" >{{tempUnit}}
           </tspan>
           </text>    
         </svg>
-        <svg id="min-group" y="130">
+        <svg id="min-group-0" y="130">
           <use 
             xlink:href="#temp-lbl-min" 
                                       x="405" y="185"/>   
           <text 
             class="temp right" 
-                                      x="600" y="260">}}<tspan class="temp-unit" dy="-25">°C
+                                      x="600" y="260">{{l0}}<tspan class="temp-unit" dy="-25">{{tempUnit}}
           </tspan>
           </text>    
         </svg>
@@ -178,12 +162,12 @@
       <symbol id="tomorrow"> 
 
         <!-- day -->
-        <text class="day-x center"           x="100" y="65">Donnerstag</text>
+        <text class="day-x center"           x="100" y="65">{{dow1}}</text>
 
         <!-- icon -->
         <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
           <use
-             xlink:href="#tsra"
+             xlink:href="#{{ic1}}"
              x="0"
              y="0"
              width="600"
@@ -191,22 +175,22 @@
         </g>
 
         <!-- temparature -->
-        <svg id="max-group" >
+        <svg id="max-group-1" >
           <use 
             xlink:href="#temp-lbl-max-x" 
                                       x="50"  y="235"/>      
           <text 
-            class="temp-x right"      x="175" y="285">100<tspan class="temp-unit-x" dy="-15" >°C
+            class="temp-x right"      x="175" y="285">{{h1}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
           </tspan>
           </text>
         </svg>
 
-        <svg id="min-group" y="90">
+        <svg id="min-group-1" y="90">
           <use 
             xlink:href="#temp-lbl-min-x" 
                                        x="50"  y="235"/>      
           <text 
-            class="temp-x right"       x="175" y="285">00<tspan class="temp-unit-x" dy="-15">°C
+            class="temp-x right"       x="175" y="285">{{l1}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -214,19 +198,19 @@
       </symbol> 
 
       <!--
-      tomorrow  
-      =====
+      day-after-tomorrow
+      ==================
       -->
 
       <symbol id="day-after-tomorrow"> 
 
         <!-- day -->
-        <text class="day-x center"           x="100" y="65">Donnerstag</text>
+        <text class="day-x center"           x="100" y="65">{{dow2}}</text>
 
         <!-- icon -->
         <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
           <use
-             xlink:href="#tsra"
+             xlink:href="#{{ic2}}"
              x="0"
              y="0"
              width="600"
@@ -234,28 +218,70 @@
         </g>
 
         <!-- temparature -->
-        <svg id="max-group" >
+        <svg id="max-group-2" >
           <use 
             xlink:href="#temp-lbl-max-x" 
                                       x="50"  y="235"/>      
           <text 
-            class="temp-x right"      x="175" y="285">100<tspan class="temp-unit-x" dy="-15" >°C
+            class="temp-x right"      x="175" y="285">{{h2}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
           </tspan>
           </text>
         </svg>
 
-        <svg id="min-group" y="90">
+        <svg id="min-group-2" y="90">
           <use 
             xlink:href="#temp-lbl-min-x" 
                                        x="50"  y="235"/>      
           <text 
-            class="temp-x right"       x="175" y="285">00<tspan class="temp-unit-x" dy="-15">°C
+            class="temp-x right"       x="175" y="285">{{l2}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
           </tspan>
           </text>
         </svg>
 
       </symbol> 
 
+      <!--
+      day-after-tomorrow+1
+      ====================
+      -->
+
+      <symbol id="day-after-tomorrow+1"> 
+
+        <!-- day -->
+        <text class="day-x center"           x="100" y="65">{{dow3}}</text>
+
+        <!-- icon -->
+        <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
+          <use
+             xlink:href="#{{ic3}}"
+             x="0"
+             y="0"
+             width="600"
+             height="800" />
+        </g>
+
+        <!-- temparature -->
+        <svg id="max-group-3" >
+          <use 
+            xlink:href="#temp-lbl-max-x" 
+                                      x="50"  y="235"/>      
+          <text 
+            class="temp-x right"      x="175" y="285">{{h3}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
+          </tspan>
+          </text>
+        </svg>
+
+        <svg id="min-group-3" y="90">
+          <use 
+            xlink:href="#temp-lbl-min-x" 
+                                       x="50"  y="235"/>      
+          <text 
+            class="temp-x right"       x="175" y="285">{{l3}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
+          </tspan>
+          </text>
+        </svg>
+
+      </symbol> 
 
   </defs>
 
@@ -310,7 +336,7 @@
     -->
 
     <g transform="translate(400,380)">
-        <use xlink:href="#day-after-tomorrow" />
+        <use xlink:href="#day-after-tomorrow+1" />
     </g>
 
     <!-- 

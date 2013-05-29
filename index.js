@@ -49,6 +49,8 @@ function populateSvgTemplate(device, weather, callback) {
             date : weather.date,
             doy : weather.doy,
 
+            tempUnit : '°C',
+
             sr : 'SA' + ' ' + astro.formatSec2HhMm(weather.sr),
             ss : 'SU' + ' ' + astro.formatSec2HhMm(weather.ss),
             dl : astro.formatSec2HhMm(weather.dl, ':') + 'h',
@@ -57,8 +59,8 @@ function populateSvgTemplate(device, weather, callback) {
 
             // today
             dow0 : locale.dayOfWeek.today,
-            h0 : weather.h0 + '°C',
-            l0 : weather.l0 + '°C',
+            h0 : weather.h0,
+            l0 : weather.l0,
             ic0 : weather.ic0,
             sic0 : weather.sic0,
 
@@ -265,7 +267,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'df3120' };
+var params = { id : 1, device : 'kindle4nt' };
 
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);
