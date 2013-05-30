@@ -1,6 +1,6 @@
 {
   "name": "weather-on-server",
-  "description": "The server side of 'kindle4nt-weather'",
+  "description": "The server side of 'weather-on-kindle4nt','weather-on-df3120'",
   "version": "0.0.1",
   "author": {
     "name": "Uli Fuchs",
@@ -23,7 +23,8 @@
     "express": "3.1.x",
     "request": "2.16.x",
     "mkdirp": "0.3.x",
-    "moment": ">=2.0.0"
+    "moment": ">=2.0.0",
+    "i18n-2": ">=0.4.5"
   },
   "main": "index",  
   "engines": {

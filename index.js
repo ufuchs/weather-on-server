@@ -10,6 +10,8 @@ var fs = require('fs'),
 
     mkdirp = require('mkdirp'),
 
+    I18n = require('i18n-2'),
+    i18n = new I18n({locales: ['en', 'de']}),
 
 
     CFG = require('./app-config.js'),

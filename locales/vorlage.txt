@@ -1,0 +1,9 @@
+"dayOfYear": "{{doy}}.Tag im Jahr",
+"today": "Heute",
+"tomorrow": "Morgen",
+"sunrise": "SA",        	# Bitte eine Abkürzung für (S)onnen(A)ufgang
+"sunset": "SU",				# Bitte eine Abkürzung für (S)onnen(U)ntergang
+"minimal": "Min",			# Bitte eine Abkürzung für 'Minimal'
+"maximal": "Max",			# Bitte eine Abkürzung für 'Maximal'
+"hour": "h",				# Bitte eine Abkürzung für 'Stunden' z.B. '12:13h'
+"min": "min"				# Bitte eine Abkürzung für 'Minuten' z.B. '+4min'
