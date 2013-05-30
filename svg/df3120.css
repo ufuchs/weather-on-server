@@ -51,6 +51,11 @@
 	font-size:18px;
 }
 
+.line {
+	stroke:#000000;
+	stroke-width:2
+}
+
 rect {
 	fill:#ffffff; 
 	stroke:#000000; 
