@@ -49,15 +49,17 @@ function populateSvgTemplate(device, weather, callback) {
         callback(utils.fillTemplates(svgTemplate, {
 
             date : weather.date,
-            doy : weather.doy,
+            doy : weather.doy + '. day of the year',
 
             tempUnit : '°C',
 
-            sr : 'SA' + ' ' + astro.formatSec2HhMm(weather.sr),
-            ss : 'SU' + ' ' + astro.formatSec2HhMm(weather.ss),
+            sr : i18n.__('sunrise') + ' ' + astro.formatSec2HhMm(weather.sr),
+            ss : i18n.__('sunset') + ' ' + astro.formatSec2HhMm(weather.ss),
             dl : astro.formatSec2HhMm(weather.dl, ':') + 'h',
             dld : '', //weather.dld,
-            icoPath : path.resolve(CFG.svgPool.dir),
+
+            min : i18n.__('minimal'),
+            max : i18n.__('maximal'),
 
             // today
             dow0 : locale.dayOfWeek.today,
