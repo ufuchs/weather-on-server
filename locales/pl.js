@@ -7,5 +7,5 @@
     "minimal": "Min",
     "maximal": "Maks",
     "hour": "godz.",
-    "min": "min
+    "min": "min"
 }
