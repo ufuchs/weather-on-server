@@ -1,11 +1,11 @@
 {
-    "dayOfYear": "{{doy}}. day in the year",
-    "today": "Today",
-    "tomorrow": "Tomorrow",
-    "sunrise": "SR",
-    "sunset": "SS",
+    "dayOfYear": "{{doy}}.dzień w roku",
+    "today": "dzisiaj",
+    "tomorrow": "jutro",
+    "sunrise": "WS",
+    "sunset": "ZS",
     "minimal": "Min",
-    "maximal": "Max",
-    "hour": "h",
-    "min": "min"
+    "maximal": "Maks",
+    "hour": "godz.",
+    "min": "min
 }
