@@ -1,11 +1,13 @@
 {
-    "dayOfYear": "{{doy}}.Tag im Jahr",
     "today": "Heute",
+    "currDate": "{{day}}.{{month}}/",
+    "dayOfYear": "{{doy}}.Tag im Jahr",
+    "sunrise": "SA {{hour}}.{{min}}",
+    "sunset": "SU {{hour}}.{{min}}",
+    "dayLenght": "{{hours}}:{{min}}h",
+    "dayLenghtDiff": "{{min}}min",
     "tomorrow": "Morgen",
-    "sunrise": "SA",
-    "sunset": "SU",
     "minimal": "Min",
     "maximal": "Max",
-    "hour": "h",
-    "min": "min"
+    "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }

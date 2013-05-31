@@ -6,15 +6,27 @@
 //
 //
 //
-function sec2HhMm(sec) {
+exports.sec2HhMm = function (sec) {
+
+    var hour = Math.floor(sec / 3600),
+        min = Math.floor((sec % 3600) / 60);
+
+    if (hour.length === 1) {
+        hour = '0' + hour;
+    }
+
+    if (min.length === 1) {
+        min = '0' + min;
+    }
 
     return {
-        min : Math.floor((sec % 3600) / 60),
-        hour : Math.floor(sec / 3600)
+        min : min,
+        hour : hour
     };
 
 }
 
+/*
 exports.formatSec2HhMm = function (sec, delimiter) {
 
     var t = sec2HhMm(sec),
@@ -37,5 +49,5 @@ exports.formatSec2HhMm = function (sec, delimiter) {
     return hh + delimiter + mm;
 
 }
-
+*/
 

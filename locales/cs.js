@@ -1,11 +1,13 @@
 {
+    "currDate": "{{day}}.{{month}}/",
     "dayOfYear": "{{doy}}.den v roce",
-    "today": "dnes",
-    "tomorrow": "zítra",
     "sunrise": "vs",
     "sunset": "zs",
+    "hour": "hod",
+    "min": "min",
+    "today": "dnes",
+    "tomorrow": "zítra",
     "minimal": "min",
     "maximal": "max",
-    "hour": "hod",
-    "min": "min"
+    "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }

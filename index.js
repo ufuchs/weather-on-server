@@ -15,7 +15,7 @@ var fs = require('fs'),
 
 
     CFG = require('./app-config.js'),
-    locale = require('./i18n/de_DE.json'),
+//    locale = require('./i18n/de_DE.json'),
     utils = require('./lib/utils.js'),
 
     provider = require('./provider/wunderGround/index.js'),
@@ -40,36 +40,89 @@ function Weather(provider) {
 //
 function populateSvgTemplate(device, weather, callback) {
 
-    var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device];
+    var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device],
+        cssFile,
+        today,
+        doy,
+        hhmm,
+        sr,
+        ss,
+        dayLenght,
+        dayLenghtDiff,
+        tomorrow,
+        min,
+        max;
 
-//    console.log(path.resolve(CFG.svgPool.dir));
+    i18n.setLocale('de');
+
+    // function i18n()
+
+    cssFile = device + '.css';
+
+    today = i18n.__('today');
+
+    tomorrow = i18n.__('tomorrow');
+
+    doy = utils.fillTemplates(i18n.__('dayOfYear'), {
+        doy: weather.doy
+    });
+
+    // TODO : !Zusammenfassen!
+    hhmm = astro.sec2HhMm(weather.sr);
+    sr = utils.fillTemplates(i18n.__('sunrise'), {
+        hour : hhmm.hour,
+        min : hhmm.min
+    });
+
+    hhmm = astro.sec2HhMm(weather.sr);
+    ss = utils.fillTemplates(i18n.__('sunset'), {
+        hour : hhmm.hour,
+        min : hhmm.min
+    });
+
+    hhmm = astro.sec2HhMm(weather.dl);
+    dayLenght = utils.fillTemplates(i18n.__('dayLenght'), {
+        hours : hhmm.hour,
+        min : hhmm.min
+    });
+
+    dayLenghtDiff = '';
+
+    min = i18n.__('minimal');
+
+    max = i18n.__('maximal');
+
+    // 
 
     utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
 
         callback(utils.fillTemplates(svgTemplate, {
 
-            date : weather.date,
-            doy : weather.doy + '. day of the year',
+            css : cssFile,
 
+            date : weather.date,
+            doy : doy,
+
+            // TODO : HERE!
             tempUnit : '°C',
 
-            sr : i18n.__('sunrise') + ' ' + astro.formatSec2HhMm(weather.sr),
-            ss : i18n.__('sunset') + ' ' + astro.formatSec2HhMm(weather.ss),
-            dl : astro.formatSec2HhMm(weather.dl, ':') + 'h',
-            dld : '', //weather.dld,
+            sr : sr,
+            ss : ss,
+            dl : dayLenght,
+            dld : dayLenghtDiff,
 
-            min : i18n.__('minimal'),
-            max : i18n.__('maximal'),
+            min : min,
+            max : max,
 
             // today
-            dow0 : locale.dayOfWeek.today,
+            dow0 : today,
             h0 : weather.h0,
             l0 : weather.l0,
             ic0 : weather.ic0,
             sic0 : weather.sic0,
 
             // tommorow
-            dow1 : locale.dayOfWeek.tomorrow,
+            dow1 : tomorrow,
             h1 : weather.h1,
             l1 : weather.l0,
             ic1 : weather.ic1,
@@ -277,7 +330,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'df3120' };
+var params = { id : 1, device : 'kindle4nt' };
 
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);
