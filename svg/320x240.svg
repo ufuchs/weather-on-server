@@ -7,9 +7,47 @@
   width="320"
   height="240"
   version="1.1"
+  onload='Init(evt)'
   >
 
   <title>DF3120-320x240</title>
+
+<!--
+  <script type="text/ecmascript" xlink:href="./script.js"/>
+-->
+
+  <script type='text/ecmascript'><![CDATA[
+        var SVGDocument = null;
+        var SVGRoot = null;
+
+        function Init(evt)
+        {
+           SVGDocument = evt.target.ownerDocument;
+           SVGRoot = SVGDocument.documentElement;
+           HideSunGroup();
+        }
+
+        //
+        // Hides the `sun-group` in case of 'sun-rise' 
+        //  - is empty
+        //  - is null 
+        //  - '{{sr}}' (default value)
+        //
+        function HideSunGroup() {
+
+          var sunRise = SVGDocument.getElementById('sun-rise'),
+              sunGroup = SVGDocument.getElementById('sun-group'),
+              value = sunRise.textContent,
+              placeHolder = '\{\{sr\}\}';
+
+          if (value === 'null' || value === '' || value === placeHolder ) {
+            sunGroup.setAttributeNS(null, 'visibility', 'hidden');
+          }
+
+        }
+
+     ]]>
+   </script>
 
   <defs>
 
@@ -95,13 +133,31 @@
         <text class="date left"           x="20" y="35">{{dow0}} {{date}}/<tspan class="doy">{{doy}}</tspan>
         </text>    
 
-        <!-- Sun -->
+        <!-- Sun 
         <text class="sun left"            x="20"  y="60">{{sr}}</text>
         <text class="sun left"            x="20"  y="80">{{ss}}</text>
         <line class="line"                x1="95" y1="45" 
                                           x2="95" y2="85"/>
         <text xml:space="preserve" 
               class="sun left"            x="110" y="70">{{dl}}</text>            
+        -->
+
+        <!-- Sun -->
+        <g id="sun-group" >
+
+          <text class="sun left" id="sun-rise"
+                xml:space="preserve"      x="20"  y="60">{{sr}}</text>
+
+          <text class="sun left" id="sun-set"
+                xml:space="preserve"      x="20"  y="80">{{ss}}</text>
+
+          <line class="line"              x1="95" y1="45" 
+                                          x2="95" y2="85"/>
+
+          <text class="sun left" id="sun-dayLenght"
+                xml:space="preserve"      x="110" y="70">{{dl}}</text>            
+
+        </g>
 
         <!-- icon -->
         <g transform="matrix(1.1, 0, 0, 1.1, 41, 100)">
@@ -158,7 +214,7 @@
     <line class="line"    x1="10"  y1="218" 
                           x2="310" y2="218"/>
 
-    <text class="footer center"                x="160" y="234">{{update}}</text>
+    <text class="footer center"       x="160" y="234">{{update}}</text>
 
   </g>
 

@@ -7,9 +7,48 @@
   width="600"
   height="800"
   version="1.1"
+  onload='Init(evt)'
   >
 
   <title>Kindle4NT-600x800</title>
+
+<!--
+  <script type="text/ecmascript" xlink:href="./script.js"/>
+-->
+
+  <script type='text/ecmascript'><![CDATA[
+        var SVGDocument = null;
+        var SVGRoot = null;
+
+        function Init(evt)
+        {
+           SVGDocument = evt.target.ownerDocument;
+           SVGRoot = SVGDocument.documentElement;
+           HideSunGroup();
+        }
+
+        //
+        // Hides the `sun-group` in case of 'sun-rise' 
+        //  - is empty
+        //  - is null 
+        //  - '{{sr}}' (default value)
+        //
+        function HideSunGroup() {
+
+          var sunRise = SVGDocument.getElementById('sun-rise'),
+              sunGroup = SVGDocument.getElementById('sun-group'),
+              value = sunRise.textContent,
+              placeHolder = '\{\{sr\}\}';
+
+          if (value === 'null' || value === '' || value === placeHolder ) {
+              alert(value);          
+            sunGroup.setAttributeNS(null, 'visibility', 'hidden');
+          }
+
+        }
+
+     ]]>
+   </script>
 
   <defs>
 
@@ -104,21 +143,26 @@
         </text>    
 
         <!-- Sun -->
-        <text xml:space="preserve" 
-              class="sun"             x="20"  y="82">{{sr}}</text>
-        <text xml:space="preserve" 
-              class="sun"             x="20"  y="108">{{ss}}</text>
+        <g id="sun-group" >
 
-        <!--
-        <line class="line"            x1="95" y1="45" 
-                                      x2="95" y2="85"/>
-    -->
-        <path
-           d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
-           id="path3235-6"/>
+          <text class="sun" id="sun-rise"
+                xml:space="preserve"  x="20"  y="82">{{sr}}</text>
 
-        <text xml:space="preserve" 
-              class="sun"             x="143" y="94">{{dl}}</text>            
+          <text class="sun" id="sun-set"
+                xml:space="preserve"  x="20"  y="108">{{ss}}</text>
+
+          <!--
+          <line class="line"            x1="95" y1="45" 
+                                        x2="95" y2="85"/>
+      -->
+          <path
+             d="m 126.52186,66.57196 0,51.005 3,0 0,-51.005 -3,0 z"
+             id="path3235-6"/>
+
+          <text class="sun" id="sun-dayLenght"
+                xml:space="preserve"  x="143" y="94">{{dl}}</text>            
+
+        </g>
 
         <!-- icon -->
         <g transform="matrix(2.25, 0, 0, 2.25, 45, 152)">
