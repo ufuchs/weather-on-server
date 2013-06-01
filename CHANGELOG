@@ -1,0 +1,16 @@
+next release
+============
+
+1.`sunrise/sunset`
+
+If your weather provider doesn't deliver any sun relevant data, so fill 
+
+	sr : '',
+	ss : '',
+	dl : '',
+	dld: ''
+
+with empty strings.	
+
+The sun relevant date will be vanished completely and leave an empty place in the PNG.
+
