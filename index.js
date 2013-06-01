@@ -120,11 +120,13 @@ function populateSvgTemplate(device, weather, callback) {
         min : hhmm.min
     });
 
-    hhmm = astro.sec2HhMm(weather.sr);
+    hhmm = astro.sec2HhMm(weather.ss);
     ss = utils.fillTemplates(i18n.__('sunset'), {
         hour : hhmm.hour,
         min : hhmm.min
     });
+
+    console.log(ss);
 
     hhmm = astro.sec2HhMm(weather.dl);
     dayLenght = utils.fillTemplates(i18n.__('dayLenght'), {
