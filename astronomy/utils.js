@@ -15,8 +15,8 @@
 // @return {hour, minute} Object
 exports.sec2HhMm = function (sec) {
 
-    var hour = Math.floor(sec / 3600),
-        min = Math.floor((sec % 3600) / 60);
+    var hour = String(Math.floor(sec / 3600)),
+        min = String(Math.floor((sec % 3600) / 60));
 
     if (hour.length === 1) {
         hour = '0' + hour;
@@ -25,6 +25,8 @@ exports.sec2HhMm = function (sec) {
     if (min.length === 1) {
         min = '0' + min;
     }
+
+    console.log(hour.length);
 
     return {
         min : min,
