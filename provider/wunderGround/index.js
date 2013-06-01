@@ -3,24 +3,9 @@
 
 'use strict';
 
-var locale = require('../../i18n/de_DE.json'),
-    utils = require('../../lib/utils.js'),
+var utils = require('../../lib/utils.js'),
     moment = require('moment'),
     astroProvider = require('../../astronomy/index.js').provider;
-
-//
-// 
-//
-function getLocalDate(epoch) {
-    var d = new Date(epoch);
-
-    return utils.fillTemplates(locale.timeFormat.currDate, {
-        day: d.getDate(),
-        month: locale.months[d.getMonth()].abbr
-    });
-
-}
-
 
 //
 //
@@ -109,7 +94,7 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
 
     callback({
 
-        date : getLocalDate(localEpoch),
+        date : weather.current_observation.local_epoch * 1000,
         doy : moment(localEpoch).dayOfYear(),
 
         sr : sun.rise,

@@ -36,6 +36,19 @@ function Weather(provider) {
 }
 
 //
+// 
+//
+function getLocalDate(epoch) {
+    var d = new Date(epoch);
+
+    return utils.fillTemplates(locale.timeFormat.currDate, {
+        day: d.getDate(),
+        month: locale.months[d.getMonth()].abbr
+    });
+
+}
+
+//
 // TODO : umbauen auf 'observation_time_rfc822'
 //
 function getObservationTimeFormated(epoch) {
@@ -95,7 +108,7 @@ function populateSvgTemplate(device, weather, callback) {
     tomorrow = i18n.__('tomorrow');
 
     doy = utils.fillTemplates(i18n.__('dayOfYear'), {
-        doy: weather.doy
+        doy: weather.doy  // moment(localEpoch).dayOfYear()
     });
 
     // TODO : !Zusammenfassen!
@@ -133,7 +146,7 @@ function populateSvgTemplate(device, weather, callback) {
 
             css : cssFile,
 
-            date : weather.date,
+            date : getLocalDate(weather.date),
             doy : doy,
 
             // TODO : HERE!
