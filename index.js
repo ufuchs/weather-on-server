@@ -22,7 +22,7 @@ var fs = require('fs'),
 
     demoWeather = require('./test/2013-03-29.json'),
 
-
+    locale = require('./i18n/de_DE.json'),
 
     renderService = require('./lib/svg2png-renderer.js'),
 
@@ -34,6 +34,36 @@ function Weather(provider) {
     this.config = CFG;
 
 }
+
+//
+// TODO : umbauen auf 'observation_time_rfc822'
+//
+function getObservationTimeFormated(epoch) {
+
+    /*
+    "observation_time":"Last Updated on Januar 31, 22:13 CET",
+    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
+    "observation_epoch":"1359666789",
+    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
+    "local_epoch":"1359667327",
+    "local_tz_short":"CET",
+    "local_tz_long":"Europe/Berlin",
+    "local_tz_offset":"+0100",
+    */
+
+    var d = new Date(epoch),
+        ts = d.toTimeString().split(' '),
+        time = ts[0].split(':');
+    return utils.fillTemplates(locale.timeFormat.observationTime, {
+        day: d.getDate(),
+        month: locale.months[d.getMonth()].abbr,
+        hour: time[0],
+        min: time[1],
+        timezone: ts[1]
+    });
+
+}
+
 
 //
 //
@@ -51,7 +81,8 @@ function populateSvgTemplate(device, weather, callback) {
         dayLenghtDiff,
         tomorrow,
         min,
-        max;
+        max,
+        update;
 
     i18n.setLocale('de');
 
@@ -91,6 +122,8 @@ function populateSvgTemplate(device, weather, callback) {
     min = i18n.__('minimal');
 
     max = i18n.__('maximal');
+
+    update = getObservationTimeFormated(weather.lastObservation);
 
     // 
 
@@ -142,7 +175,7 @@ function populateSvgTemplate(device, weather, callback) {
             ic3 : weather.ic3,
             sic3 : weather.sic3,
 
-            update : weather.lastObservation
+            update : update
 
         }));
 

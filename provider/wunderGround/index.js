@@ -21,34 +21,6 @@ function getLocalDate(epoch) {
 
 }
 
-//
-// TODO : umbauen auf 'observation_time_rfc822'
-//
-function getObservationTimeFormated(epoch) {
-
-    /*
-    "observation_time":"Last Updated on Januar 31, 22:13 CET",
-    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
-    "observation_epoch":"1359666789",
-    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
-    "local_epoch":"1359667327",
-    "local_tz_short":"CET",
-    "local_tz_long":"Europe/Berlin",
-    "local_tz_offset":"+0100",
-    */
-
-    var d = new Date(epoch),
-        ts = d.toTimeString().split(' '),
-        time = ts[0].split(':');
-    return utils.fillTemplates(locale.timeFormat.observationTime, {
-        day: d.getDate(),
-        month: locale.months[d.getMonth()].abbr,
-        hour: time[0],
-        min: time[1],
-        timezone: ts[1]
-    });
-
-}
 
 //
 //
@@ -171,9 +143,8 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         ic3 : map[forecastday[3].icon],
         sic3 : map[forecastday[3].skyicon],
 
-        lastObservation : getObservationTimeFormated(weather.current_observation.observation_epoch * 1000)
+        lastObservation : weather.current_observation.observation_epoch * 1000
 
     });
 
-}
-
+};
