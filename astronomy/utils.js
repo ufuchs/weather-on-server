@@ -1,11 +1,18 @@
 /*jslint node: true */
 /*jslint todo: true */
 
+/*!
+ * utils
+ * Copyright(c) 2013 Uli Fuchs <ufuchs@gmx.com>
+ * MIT Licensed
+ */
+
 'use strict';
 
+// Splits the `sec` into a `hour` and a `minute` part
 //
-//
-//
+// @param {sec} Integer
+// @return {hour, minute} Object
 exports.sec2HhMm = function (sec) {
 
     var hour = Math.floor(sec / 3600),
@@ -24,30 +31,4 @@ exports.sec2HhMm = function (sec) {
         hour : hour
     };
 
-}
-
-/*
-exports.formatSec2HhMm = function (sec, delimiter) {
-
-    var t = sec2HhMm(sec),
-        hh = t.hour.toString(),
-        mm = t.min.toString(),
-        res;
-
-    if (hh.length === 1) {
-        hh = '0' + hh;
-    }
-
-    if (mm.length === 1) {
-        mm = '0' + mm;
-    }
-
-    if (delimiter === undefined) {
-        delimiter = '.';
-    }
-
-    return hh + delimiter + mm;
-
-}
-*/
-
+};
