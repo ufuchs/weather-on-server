@@ -26,8 +26,6 @@ exports.sec2HhMm = function (sec) {
         min = '0' + min;
     }
 
-    console.log(hour.length);
-
     return {
         min : min,
         hour : hour

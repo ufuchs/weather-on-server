@@ -126,8 +126,6 @@ function populateSvgTemplate(device, weather, callback) {
         min : hhmm.min
     });
 
-    console.log(ss);
-
     hhmm = astro.sec2HhMm(weather.dl);
     dayLenght = utils.fillTemplates(i18n.__('dayLenght'), {
         hours : hhmm.hour,
@@ -159,7 +157,6 @@ function populateSvgTemplate(device, weather, callback) {
             sr : sr,
             ss : ss,
             dl : dayLenght,
-            dld : dayLenghtDiff,
 
             min : min,
             max : max,
