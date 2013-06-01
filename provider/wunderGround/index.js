@@ -4,7 +4,6 @@
 'use strict';
 
 var utils = require('../../lib/utils.js'),
-    moment = require('moment'),
     astroProvider = require('../../astronomy/index.js').provider;
 
 //
@@ -38,7 +37,6 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
     var
         weather = aWeather,
         forecastday = weather.forecast.simpleforecast.forecastday,
-        localEpoch = weather.current_observation.local_epoch * 1000,
         sun,
         map = {
 
@@ -95,7 +93,6 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
     callback({
 
         date : weather.current_observation.local_epoch * 1000,
-        doy : moment(localEpoch).dayOfYear(),
 
         sr : sun.rise,
         ss : sun.set,

@@ -8,6 +8,8 @@ var fs = require('fs'),
     request = require('request'),
     astro = require('./astronomy/utils.js'),
 
+    moment = require('moment'),
+
     mkdirp = require('mkdirp'),
 
     I18n = require('i18n-2'),
@@ -108,7 +110,7 @@ function populateSvgTemplate(device, weather, callback) {
     tomorrow = i18n.__('tomorrow');
 
     doy = utils.fillTemplates(i18n.__('dayOfYear'), {
-        doy: weather.doy  // moment(localEpoch).dayOfYear()
+        doy: moment(weather.date).dayOfYear()
     });
 
     // TODO : !Zusammenfassen!
