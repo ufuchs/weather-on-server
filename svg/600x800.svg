@@ -41,7 +41,6 @@
               placeHolder = '\{\{sr\}\}';
 
           if (value === 'null' || value === '' || value === placeHolder ) {
-              alert(value);          
             sunGroup.setAttributeNS(null, 'visibility', 'hidden');
           }
 
@@ -175,26 +174,28 @@
         </g>
 
         <!-- temparature -->
-        <svg id="max-group-0" >
-          <use 
-            xlink:href="#temp-lbl-max" 
-                                      x="405" y="185"/>      
-          <text 
-            class="temp right" 
-                                      x="600" y="260">{{h0}}<tspan class="temp-unit" dy="-25" >{{tempUnit}}
-          </tspan>
-          </text>    
-        </svg>
-        <svg id="min-group-0" y="130">
-          <use 
-            xlink:href="#temp-lbl-min" 
-                                      x="405" y="185"/>   
-          <text 
-            class="temp right" 
-                                      x="600" y="260">{{l0}}<tspan class="temp-unit" dy="-25">{{tempUnit}}
-          </tspan>
-          </text>    
-        </svg>
+        <svg id="temp-group-0" y="0">
+          <svg id="max-group-0" >
+            <use 
+              xlink:href="#temp-lbl-max" 
+                                        x="400" y="175"/>      
+            <text 
+              class="temp right" 
+                                        x="585" y="250">{{h0}}<tspan class="temp-unit" dy="-25" >{{tempUnit}}
+            </tspan>
+            </text>    
+          </svg>
+          <svg id="min-group-0" y="130">
+            <use 
+              xlink:href="#temp-lbl-min" 
+                                        x="400" y="175"/>   
+            <text 
+              class="temp right" 
+                                        x="585" y="250">{{l0}}<tspan class="temp-unit" dy="-25">{{tempUnit}}
+            </tspan>
+            </text>    
+          </svg>
+        </svg>  
 
       </symbol> 
 
@@ -224,7 +225,7 @@
             xlink:href="#temp-lbl-max-x" 
                                       x="50"  y="235"/>      
           <text 
-            class="temp-x right"      x="175" y="285">{{h1}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
+            class="temp-x right"      x="165" y="285">{{h1}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -234,7 +235,7 @@
             xlink:href="#temp-lbl-min-x" 
                                        x="50"  y="235"/>      
           <text 
-            class="temp-x right"       x="175" y="285">{{l1}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
+            class="temp-x right"       x="165" y="285">{{l1}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -249,7 +250,7 @@
       <symbol id="day-after-tomorrow"> 
 
         <!-- day -->
-        <text class="day-x center"           x="100" y="65">{{dow2}}</text>
+        <text class="day-x center"    x="100" y="65">{{dow2}}</text>
 
         <!-- icon -->
         <g transform="matrix(1.2, 0, 0, 1.2, 40, 75)">
@@ -267,7 +268,7 @@
             xlink:href="#temp-lbl-max-x" 
                                       x="50"  y="235"/>      
           <text 
-            class="temp-x right"      x="175" y="285">{{h2}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
+            class="temp-x right"      x="165" y="285">{{h2}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -277,7 +278,7 @@
             xlink:href="#temp-lbl-min-x" 
                                        x="50"  y="235"/>      
           <text 
-            class="temp-x right"       x="175" y="285">{{l2}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
+            class="temp-x right"       x="165" y="285">{{l2}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -310,7 +311,7 @@
             xlink:href="#temp-lbl-max-x" 
                                       x="50"  y="235"/>      
           <text 
-            class="temp-x right"      x="175" y="285">{{h3}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
+            class="temp-x right"      x="165" y="285">{{h3}}<tspan class="temp-unit-x" dy="-15" >{{tempUnit}}
           </tspan>
           </text>
         </svg>
@@ -320,7 +321,7 @@
             xlink:href="#temp-lbl-min-x" 
                                        x="50"  y="235"/>      
           <text 
-            class="temp-x right"       x="175" y="285">{{l3}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
+            class="temp-x right"       x="165" y="285">{{l3}}<tspan class="temp-unit-x" dy="-15">{{tempUnit}}
           </tspan>
           </text>
         </svg>
