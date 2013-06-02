@@ -128,7 +128,7 @@ astroProvider = (function () {
     }
 
     return {
-        init : init,
+        update : update,
         sun : getSun
     };
 
