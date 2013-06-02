@@ -4,7 +4,47 @@
 'use strict';
 
 var utils = require('../../lib/utils.js'),
-    astroProvider;// = require('../../astronomy/index.js').provider;
+    astroProvider,
+    iconMap = {
+
+        chanceflurries: 'sn',
+
+        chancesnow: 'sn',
+
+        snow: 'sn',
+
+        chancerain: 'ra',
+
+        rain: 'ra',
+
+        chancesleet: 'rasn',
+
+        sleet: 'rasn',
+
+        mostlysunny: 'few',
+
+        partlycloudy: 'sct',
+
+        partlysunny: 'bkn',
+
+        mostlycloudy: 'bkn',
+
+        cloudy: 'ovc',
+
+        clear: 'skc',
+
+        sunny: 'skc',
+
+        chancetstorms: 'tsra',
+
+        tstorms: 'tsra',
+
+        fog: 'fg',
+
+        hazy: 'mist'
+
+    };
+
 
 //
 //
@@ -106,8 +146,8 @@ function getTemp(forecastday) {
         low = forecastday.low;
 
     return {
-        high : {'F': high.fahrenheit, 'C': high.celsius},
-        low : {'F': low.fahrenheit, 'C': low.celsius}
+        high : {'fahrenheit': high.fahrenheit, 'celsius': high.celsius},
+        low : {'fahrenheit': low.fahrenheit, 'celsius': low.celsius}
     };
 }
 
@@ -117,47 +157,7 @@ function getTemp(forecastday) {
 //
 function mapIcon(icon) {
 
-    var map = {
-
-        chanceflurries: 'sn',
-
-        chancesnow: 'sn',
-
-        snow: 'sn',
-
-        chancerain: 'ra',
-
-        rain: 'ra',
-
-        chancesleet: 'rasn',
-
-        sleet: 'rasn',
-
-        mostlysunny: 'few',
-
-        partlycloudy: 'sct',
-
-        partlysunny: 'bkn',
-
-        mostlycloudy: 'bkn',
-
-        cloudy: 'ovc',
-
-        clear: 'skc',
-
-        sunny: 'skc',
-
-        chancetstorms: 'tsra',
-
-        tstorms: 'tsra',
-
-        fog: 'fg',
-
-        hazy: 'mist'
-
-    };
-
-    return map[icon];
+    return iconMap[icon];
 }
 
 //
@@ -171,7 +171,7 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         currObs = weather.current_observation,
 
         sun,
-        
+
         // all values in seconds
         yesterdaysSun = {
             rise: 23220,
@@ -204,24 +204,18 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
 
         // tommorow
         temp1 : getTemp(forecastday[1]),
-        h1 : forecastday[1].high.celsius,
-        l1 : forecastday[1].low.celsius,
         ic1 : mapIcon([forecastday[1].icon]),
         sic1 : mapIcon([forecastday[1].skyicon]),
 
         // day after tommorow
         dow2 : forecastday[2].date.weekday,
         temp2 : getTemp(forecastday[2]),
-        h2 : forecastday[2].high.celsius,
-        l2 : forecastday[2].low.celsius,
         ic2 : mapIcon([forecastday[2].icon]),
         sic2 : mapIcon([forecastday[2].skyicon]),
 
         // day after tommorow + 1
         dow3 : forecastday[3].date.weekday,
         temp3 : getTemp(forecastday[3]),
-        h3 : forecastday[3].high.celsius,
-        l3 : forecastday[3].low.celsius,
         ic3 : mapIcon([forecastday[3].icon]),
         sic3 : mapIcon([forecastday[3].skyicon]),
 
