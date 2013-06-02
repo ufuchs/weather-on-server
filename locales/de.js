@@ -1,5 +1,5 @@
 {
-    "tempUnit": "°C",
+    "tempUnit": "celsius_°C",
     "minimal": "Min",
     "maximal": "Max",
     "today": "Heute",
