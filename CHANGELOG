@@ -6,11 +6,10 @@ next release
 If your weather provider doesn't deliver any sun relevant data, so fill 
 
 	sr : '',
-	ss : '',
-	dl : '',
-	dld: ''
+or
+	sr : null,
 
-with empty strings.	
+(with an empty string or null).	
 
 The sun relevant date will be vanished completely and leave an empty place in the PNG.
 
