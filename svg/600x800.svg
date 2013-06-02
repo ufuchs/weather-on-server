@@ -12,44 +12,10 @@
 
   <title>Kindle4NT-600x800</title>
 
-<!--
-  <script type="text/ecmascript" xlink:href="./script.js"/>
--->
-
-  <script type='text/ecmascript'><![CDATA[
-        var SVGDocument = null;
-        var SVGRoot = null;
-
-        function Init(evt)
-        {
-           SVGDocument = evt.target.ownerDocument;
-           SVGRoot = SVGDocument.documentElement;
-           HideSunGroup();
-        }
-
-        //
-        // Hides the `sun-group` in case of 'sun-rise' 
-        //  - is empty
-        //  - is null 
-        //  - '{{sr}}' (default value)
-        //
-        function HideSunGroup() {
-
-          var sunRise = SVGDocument.getElementById('sun-rise'),
-              sunGroup = SVGDocument.getElementById('sun-group'),
-              value = sunRise.textContent,
-              placeHolder = '\{\{sr\}\}';
-
-          if (value === 'null' || value === '' || value === placeHolder ) {
-            sunGroup.setAttributeNS(null, 'visibility', 'hidden');
-          }
-
-        }
-
-     ]]>
-   </script>
+  <script type="text/ecmascript" xlink:href="common.js"/>
 
   <defs>
+
 
     <path
        id="bkn"
@@ -165,6 +131,11 @@
 
         <!-- icon -->
         <g transform="matrix(2.25, 0, 0, 2.25, 45, 152)">
+
+          <!--
+          <image x="20" y="20" width="300" height="80" xlink:href="icons.svg#{{ic0}}" />
+          -->
+
           <use
              xlink:href="#{{ic0}}"
              x="0"
