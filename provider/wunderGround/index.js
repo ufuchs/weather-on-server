@@ -76,7 +76,7 @@ astroProvider = (function () {
 
     var weather;
 
-    function init(aWeather) {
+    function update(aWeather) {
         weather = aWeather;
     }
 
@@ -180,7 +180,7 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
             dayLenghtDiff: 0
         };
 
-    astroProvider.init(weather);
+    astroProvider.update(weather);
 
     sun = astroProvider.sun(yesterdaysSun);
 
@@ -197,8 +197,6 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
 
         // today
         temp0 : getTemp(forecastday[0]),
-        h0 : forecastday[0].high.celsius,
-        l0 : forecastday[0].low.celsius,
         ic0 : mapIcon([forecastday[0].icon]),
         sic0 : mapIcon([forecastday[0].skyicon]),
 
