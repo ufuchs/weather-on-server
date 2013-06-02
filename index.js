@@ -105,9 +105,13 @@ function populateSvgTemplate(device, weather, callback) {
     countryISO = weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
-    moment.lang(countryISO);
+    var iso = moment().lang(countryISO);
 
     console.log(countryISO);
+
+    console.log(weather.temp0);
+
+//    console.log(iso.lang().months[1]);
 
     cssFile = device + '.css';
 

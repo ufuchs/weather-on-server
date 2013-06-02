@@ -94,6 +94,23 @@ astroProvider = (function () {
 
 }());
 
+// Extracts the temperature of the given `forecastday` and map it into a 
+// API compatible Object.
+//
+// @param {forecastday} Object
+// @return Object
+//
+function getTemp(forecastday) {
+
+    var high = forecastday.high,
+        low = forecastday.low;
+
+    return {
+        high : {'F': high.fahrenheit, 'C': high.celsius},
+        low : {'F': low.fahrenheit, 'C': low.celsius}
+    };
+}
+
 //
 //
 //
@@ -169,12 +186,14 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         dld : sun.dayLenghtDiff,
 
         // today
+        temp0 : getTemp(forecastday[0]),
         h0 : forecastday[0].high.celsius,
         l0 : forecastday[0].low.celsius,
         ic0 : map[forecastday[0].icon],
         sic0 : map[forecastday[0].skyicon],
 
         // tommorow
+        temp1 : getTemp(forecastday[1]),
         h1 : forecastday[1].high.celsius,
         l1 : forecastday[1].low.celsius,
         ic1 : map[forecastday[1].icon],
@@ -182,13 +201,15 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
 
         // day after tommorow
         dow2 : forecastday[2].date.weekday,
+        temp2 : getTemp(forecastday[2]),
         h2 : forecastday[2].high.celsius,
         l2 : forecastday[2].low.celsius,
         ic2 : map[forecastday[2].icon],
         sic2 : map[forecastday[2].skyicon],
 
-        // // day after tommorow + 1
+        // day after tommorow + 1
         dow3 : forecastday[3].date.weekday,
+        temp3 : getTemp(forecastday[3]),
         h3 : forecastday[3].high.celsius,
         l3 : forecastday[3].low.celsius,
         ic3 : map[forecastday[3].icon],
