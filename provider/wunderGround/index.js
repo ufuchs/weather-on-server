@@ -102,6 +102,8 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
     var
         weather = aWeather,
         forecastday = weather.forecast.simpleforecast.forecastday,
+        currObs = weather.current_observation,
+
         sun,
         map = {
 
@@ -157,7 +159,9 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
 
     callback({
 
-        date : weather.current_observation.local_epoch * 1000,
+        countryISO : currObs.display_location.country_iso3166,
+
+        date : currObs.local_epoch * 1000,
 
         sr : sun.rise,
         ss : sun.set,
@@ -190,7 +194,7 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         ic3 : map[forecastday[3].icon],
         sic3 : map[forecastday[3].skyicon],
 
-        lastObservation : weather.current_observation.observation_epoch * 1000
+        lastObservation : currObs.observation_epoch * 1000
 
     });
 

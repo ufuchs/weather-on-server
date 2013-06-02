@@ -40,7 +40,7 @@ function Weather(provider) {
 //
 // 
 //
-function getLocalDate(epoch) {
+function getLocalDate(i18n, epoch) {
     var d = new Date(epoch);
 
     return utils.fillTemplates(locale.timeFormat.currDate, {
@@ -53,7 +53,7 @@ function getLocalDate(epoch) {
 //
 // TODO : umbauen auf 'observation_time_rfc822'
 //
-function getObservationTimeFormated(epoch) {
+function getObservationTimeFormated(i18n, epoch) {
 
     /*
     "observation_time":"Last Updated on Januar 31, 22:13 CET",
@@ -87,7 +87,10 @@ function populateSvgTemplate(device, weather, callback) {
 
     var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device],
         cssFile,
+        countryISO,
+        tempUnit,
         today,
+        date,
         doy,
         hhmm,
         sr,
@@ -99,15 +102,26 @@ function populateSvgTemplate(device, weather, callback) {
         max,
         update;
 
-    i18n.setLocale('de');
+    countryISO = weather.countryISO.toLowerCase();
 
-    // function i18n()
+    i18n.setLocale(countryISO);
+    moment.lang(countryISO);
+
+    console.log(countryISO);
 
     cssFile = device + '.css';
 
+    // function i18n()
+
+    tempUnit = i18n.__('tempUnit');
+
+    min = i18n.__('minimal');
+
+    max = i18n.__('maximal');
+
     today = i18n.__('today');
 
-    tomorrow = i18n.__('tomorrow');
+    date = getLocalDate(i18n, weather.date);
 
     doy = utils.fillTemplates(i18n.__('dayOfYear'), {
         doy: moment(weather.date).dayOfYear()
@@ -134,11 +148,9 @@ function populateSvgTemplate(device, weather, callback) {
 
     dayLenghtDiff = '';
 
-    min = i18n.__('minimal');
+    tomorrow = i18n.__('tomorrow');
 
-    max = i18n.__('maximal');
-
-    update = getObservationTimeFormated(weather.lastObservation);
+    update = getObservationTimeFormated(i18n, weather.lastObservation);
 
     // 
 
@@ -146,23 +158,21 @@ function populateSvgTemplate(device, weather, callback) {
 
         callback(utils.fillTemplates(svgTemplate, {
 
+            // common 
             css : cssFile,
-
-            date : getLocalDate(weather.date),
-            doy : doy,
-
-            // TODO : HERE!
-            tempUnit : '°C',
-
-            sr : sr,
-            ss : ss,
-            dl : dayLenght,
-
+            tempUnit : tempUnit,
             min : min,
             max : max,
 
             // today
             dow0 : today,
+            date : date,
+            doy : doy,
+
+            sr : sr,
+            ss : ss,
+            dl : dayLenght,
+
             h0 : weather.h0,
             l0 : weather.l0,
             ic0 : weather.ic0,

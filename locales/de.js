@@ -1,4 +1,7 @@
 {
+    "tempUnit": "°C",
+    "minimal": "Min",
+    "maximal": "Max",
     "today": "Heute",
     "currDate": "{{day}}.{{month}}/",
     "dayOfYear": "{{doy}}.Tag im Jahr",
@@ -7,7 +10,5 @@
     "dayLenght": "{{hours}}:{{min}}h",
     "dayLenghtDiff": "{{min}}min",
     "tomorrow": "Morgen",
-    "minimal": "Min",
-    "maximal": "Max",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }
