@@ -112,6 +112,55 @@ function getTemp(forecastday) {
 }
 
 //
+// @param {icon} String
+// @return String
+//
+function mapIcon(icon) {
+
+    var map = {
+
+        chanceflurries: 'sn',
+
+        chancesnow: 'sn',
+
+        snow: 'sn',
+
+        chancerain: 'ra',
+
+        rain: 'ra',
+
+        chancesleet: 'rasn',
+
+        sleet: 'rasn',
+
+        mostlysunny: 'few',
+
+        partlycloudy: 'sct',
+
+        partlysunny: 'bkn',
+
+        mostlycloudy: 'bkn',
+
+        cloudy: 'ovc',
+
+        clear: 'skc',
+
+        sunny: 'skc',
+
+        chancetstorms: 'tsra',
+
+        tstorms: 'tsra',
+
+        fog: 'fg',
+
+        hazy: 'mist'
+
+    };
+
+    return map[icon];
+}
+
+//
 //
 //
 exports.extractWeatherFromProviderData = function (aWeather, callback) {
@@ -122,46 +171,7 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         currObs = weather.current_observation,
 
         sun,
-        map = {
-
-            chanceflurries: 'sn',
-
-            chancesnow: 'sn',
-
-            snow: 'sn',
-
-            chancerain: 'ra',
-
-            rain: 'ra',
-
-            chancesleet: 'rasn',
-
-            sleet: 'rasn',
-
-            mostlysunny: 'few',
-
-            partlycloudy: 'sct',
-
-            partlysunny: 'bkn',
-
-            mostlycloudy: 'bkn',
-
-            cloudy: 'ovc',
-
-            clear: 'skc',
-
-            sunny: 'skc',
-
-            chancetstorms: 'tsra',
-
-            tstorms: 'tsra',
-
-            fog: 'fg',
-
-            hazy: 'mist'
-
-        },
-
+        
         // all values in seconds
         yesterdaysSun = {
             rise: 23220,
@@ -189,31 +199,31 @@ exports.extractWeatherFromProviderData = function (aWeather, callback) {
         temp0 : getTemp(forecastday[0]),
         h0 : forecastday[0].high.celsius,
         l0 : forecastday[0].low.celsius,
-        ic0 : map[forecastday[0].icon],
-        sic0 : map[forecastday[0].skyicon],
+        ic0 : mapIcon([forecastday[0].icon]),
+        sic0 : mapIcon([forecastday[0].skyicon]),
 
         // tommorow
         temp1 : getTemp(forecastday[1]),
         h1 : forecastday[1].high.celsius,
         l1 : forecastday[1].low.celsius,
-        ic1 : map[forecastday[1].icon],
-        sic1 : map[forecastday[1].skyicon],
+        ic1 : mapIcon([forecastday[1].icon]),
+        sic1 : mapIcon([forecastday[1].skyicon]),
 
         // day after tommorow
         dow2 : forecastday[2].date.weekday,
         temp2 : getTemp(forecastday[2]),
         h2 : forecastday[2].high.celsius,
         l2 : forecastday[2].low.celsius,
-        ic2 : map[forecastday[2].icon],
-        sic2 : map[forecastday[2].skyicon],
+        ic2 : mapIcon([forecastday[2].icon]),
+        sic2 : mapIcon([forecastday[2].skyicon]),
 
         // day after tommorow + 1
         dow3 : forecastday[3].date.weekday,
         temp3 : getTemp(forecastday[3]),
         h3 : forecastday[3].high.celsius,
         l3 : forecastday[3].low.celsius,
-        ic3 : map[forecastday[3].icon],
-        sic3 : map[forecastday[3].skyicon],
+        ic3 : mapIcon([forecastday[3].icon]),
+        sic3 : mapIcon([forecastday[3].skyicon]),
 
         lastObservation : currObs.observation_epoch * 1000
 
