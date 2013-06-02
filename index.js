@@ -89,6 +89,7 @@ function populateSvgTemplate(device, weather, callback) {
         cssFile,
         countryISO,
         tempUnit,
+        tempUnitToDisplay,
         today,
         date,
         doy,
@@ -100,24 +101,27 @@ function populateSvgTemplate(device, weather, callback) {
         tomorrow,
         min,
         max,
-        update;
+        update,
+        str;
 
     countryISO = weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
     var iso = moment().lang(countryISO);
 
-    console.log(countryISO);
-
-    console.log(weather.temp0);
-
-//    console.log(iso.lang().months[1]);
-
     cssFile = device + '.css';
 
     // function i18n()
 
-    tempUnit = i18n.__('tempUnit');
+    ///////////////////////////////////////////////////////////////
+
+    str = i18n.__('tempUnit').split('_');
+
+    tempUnit = str[0];
+
+    tempUnitToDisplay = str[1];
+
+    ///////////////////////////////////////////////////////////////
 
     min = i18n.__('minimal');
 
@@ -164,45 +168,43 @@ function populateSvgTemplate(device, weather, callback) {
 
             // common 
             css : cssFile,
-            tempUnit : tempUnit,
+            tempUnit : tempUnitToDisplay,
             min : min,
             max : max,
 
-            // today
+            // headline
             dow0 : today,
             date : date,
             doy : doy,
 
+            // sun
             sr : sr,
             ss : ss,
             dl : dayLenght,
 
-            h0 : weather.h0,
-            l0 : weather.l0,
+            h0 : weather.temp0.high[tempUnit],
+            l0 : weather.temp0.low[tempUnit],
             ic0 : weather.ic0,
-            sic0 : weather.sic0,
 
             // tommorow
             dow1 : tomorrow,
-            h1 : weather.h1,
-            l1 : weather.l0,
+            h1 : weather.temp1.high[tempUnit],
+            l1 : weather.temp1.low[tempUnit],
             ic1 : weather.ic1,
-            sic1 : weather.sic1,
 
             // day after tommorow
             dow2 : weather.dow2,
-            h2 : weather.h2,
-            l2 : weather.l2,
+            h2 : weather.temp2.high[tempUnit],
+            l2 : weather.temp2.low[tempUnit],
             ic2 : weather.ic2,
-            sic2 : weather.sic2,
 
             // // day after tommorow + 1
             dow3 : weather.dow3,
-            h3 : weather.h3,
-            l3 : weather.l3,
+            h3 : weather.temp3.high[tempUnit],
+            l3 : weather.temp3.low[tempUnit],
             ic3 : weather.ic3,
-            sic3 : weather.sic3,
 
+            // observation time line
             update : update
 
         }));
