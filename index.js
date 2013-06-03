@@ -3,7 +3,7 @@
 
 'use strict';
 
-var fs = require('fs'),
+var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
     astro = require('./astronomy/utils.js'),
@@ -85,8 +85,12 @@ function getObservationTimeFormated(i18n, epoch) {
 //
 function populateSvgTemplate(device, weather, callback) {
 
-    var svgTemplateFilename = CFG.svgPool.dir + '/' + CFG.svgPool.devices[device],
-        cssFile,
+    var svgTemplateFilename = CFG.svgPool.dir
+            + '/'
+            + device
+            + '/app-dir/'
+            + CFG.svgPool.devices[device],
+        cssFilename = device + '.css',
         countryISO,
         tempUnit,
         tempUnitToDisplay,
@@ -104,12 +108,12 @@ function populateSvgTemplate(device, weather, callback) {
         update,
         str;
 
+    console.log(svgTemplateFilename);
+
     countryISO = weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
     var iso = moment().lang(countryISO);
-
-    cssFile = device + '.css';
 
     // function i18n()
 
@@ -167,7 +171,7 @@ function populateSvgTemplate(device, weather, callback) {
         callback(utils.fillTemplates(svgTemplate, {
 
             // common 
-            css : cssFile,
+            css : cssFilename,
             tempUnit : tempUnitToDisplay,
             min : min,
             max : max,
@@ -291,19 +295,20 @@ function getWeatherByLocationId(id, callback) {
 function getWeatherFilenames(params, callback) {
 
     var fn = CFG.weatherPool.fileNames,
-        dir = CFG.weatherPool.dir + '/' + params.id + '/' + params.device + '/';
+        dir1 = CFG.weatherPool.dir + '/' + params.device + '/',
+        dir2 = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/';
 
-    mkdirp(dir, 509, function (err) {
+    mkdirp(dir2, 509, function (err) {
 
         if (err !== null) {
             throw err;
         }
 
         callback({
-            weatherCss   : path.resolve(dir + params.device + '.css'),
-            weatherSvg   : path.resolve(dir + fn.weatherSvg),
-            unweatherPng : path.resolve(dir + fn.unweatherPng),
-            weatherPng   : path.resolve(dir + fn.weatherPng)
+            weatherCss   : path.resolve(dir1 + params.device + '.css'),
+            weatherSvg   : path.resolve(dir2 + fn.weatherSvg),
+            unweatherPng : path.resolve(dir2 + fn.unweatherPng),
+            weatherPng   : path.resolve(dir2 + fn.weatherPng)
         });
 
     });
@@ -315,29 +320,34 @@ function getWeatherFilenames(params, callback) {
 //
 function writeResults(svg, params, callback) {
 
-    var cssFile = CFG.svgPool.dir + '/' + params.device + '.css';
- 
+    var cssFile =
+        CFG.svgPool.dir
+        + '/'
+        + params.device
+        + '/'
+        + params.device + '.css';
+
     // 1
     getWeatherFilenames(params, function (out) {
 
         // copy the style sheet into the weather dir
-        fs.createReadStream(cssFile).pipe(fs.createWriteStream(out.weatherCss));
+        fs.copy(cssFile, out.weatherCss, function () {
 
-        // 2
-        fs.writeFile(out.weatherSvg, svg, function (err) {
+            // 2
+            fs.writeFile(out.weatherSvg, svg, function (err) {
 
-            if (err) {
-                callback(null, err);
-                return;
-            }
+                if (err) {
+                    callback(null, err);
+                    return;
+                }
 
-            // 3
-            renderService.render(params.device, out, function (weatherPng, err) {
-                callback(out.weatherPng, err);
+                // 3
+                renderService.render(params.device, out, function (weatherPng, err) {
+                    callback(out.weatherPng, err);
+                });
+
             });
-
         });
-
     });
 
 }
@@ -368,13 +378,75 @@ function core(params, jsonData, callback) {
 }
 
 //
+//
+//
+function prepare(params, callback) {
+
+    var fn = CFG.weatherPool.fileNames,
+        dir1 = CFG.weatherPool.dir + '/' + params.device + '/',
+        dir2 = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/',
+        src,
+        dst,
+        device,
+        i;
+
+    fs.exists(CFG.weatherPool.dir, function (exists) {
+
+        if (!exists) {
+
+            fs.mkdir(CFG.weatherPool.dir, 509, function (err) {
+
+                for (i = 0; i < CFG.svgPool.commons.length; i++) {
+
+                    src = path.resolve(CFG.svgPool.dir + '/' + CFG.svgPool.commons[i]);
+                    dst = path.resolve(CFG.weatherPool.dir + '/' + CFG.svgPool.commons[i]);
+
+                    fs.copy(src, dst, null);
+
+                }
+
+                for (device in CFG.svgPool.devices) {
+
+                    if (CFG.svgPool.devices.hasOwnProperty(device)) {
+
+                        src = path.resolve(CFG.weatherPool.dir + '/' + device);
+
+                        fs.mkdir(src, 509, function (err) {
+
+                            dst = src + '/';
+
+
+//                            fs.copy(src, dst, null);
+
+                        });
+
+                    }
+                }
+
+                callback();
+
+            });
+
+        } else {
+            callback();
+        }
+
+    });
+
+}
+
+//
 // 
 //
 var main = function (params, callback) {
 
-    getWeatherByLocationId(params.id, function (jsonData) {
+    prepare(params, function () {
 
-        core(params, jsonData, callback);
+        getWeatherByLocationId(params.id, function (jsonData) {
+
+            core(params, jsonData, callback);
+
+        });
 
     });
 
@@ -389,7 +461,12 @@ module.exports = main;
 
 var test = function (params, callback) {
 
-    core(params, demoWeather, callback);
+
+    prepare(params, function () {
+
+//        core(params, demoWeather, callback);
+
+    });
 
 };
 
