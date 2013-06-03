@@ -93,6 +93,7 @@
 
       <text id="minText">{{min}}</text>
       <text id="maxText">{{max}}</text>
+      <text id="tuText">{{tempUnit}}</text>
 
       <text class="temp-lbl left" id="temp-lbl-min"><tref xlink:href="#minText" /></text>
       <text class="temp-lbl left" id="temp-lbl-max"><tref xlink:href="#maxText" /></text>
@@ -129,12 +130,12 @@
              height="240" />
         </g>
 
-        <!-- temparature  180, 80 -->
+        <!-- temparature -->
         <svg id="max-group-0" >
           <use xlink:href="#temp-lbl-max" 
                                         x="225"  y="100"/>      
           <text 
-            class="temp right"          x="300" y="140">{{h0}}<tspan class="temp-unit" dy="-11" >{{tempUnit}}
+            class="temp right"          x="300" y="140">{{h0}}<tspan class="temp-unit" dy="-11" ><tref xlink:href="#tuText" />
           </tspan>
           </text>
         </svg>
@@ -143,7 +144,7 @@
           <use xlink:href="#temp-lbl-min" 
                                         x="225"  y="100"/>      
           <text 
-            class="temp right"          x="300" y="140">{{l0}}<tspan class="temp-unit" dy="-11" >{{tempUnit}}
+            class="temp right"          x="300" y="140">{{l0}}<tspan class="temp-unit" dy="-11" ><tref xlink:href="#tuText" />
           </tspan>
           </text>
         </svg>
@@ -151,6 +152,12 @@
       </symbol> 
 
   </defs>
+
+  <!--
+  =============================================================================
+  content starts here
+  =============================================================================
+  -->
 
   <g id="main" style="font-family:DejaVu Sans">
 
