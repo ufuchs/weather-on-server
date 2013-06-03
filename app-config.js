@@ -15,6 +15,7 @@ module.exports = {
 
     svgPool : {
         dir : './svg',
+        commons : [ 'commons.js', 'icons.svg' ],
         devices : {
             kindle4nt : '600x800.svg',
             df3120 : '320x240.svg'
