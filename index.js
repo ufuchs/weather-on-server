@@ -382,53 +382,35 @@ function core(params, jsonData, callback) {
 //
 function prepare(params, callback) {
 
-    var fn = CFG.weatherPool.fileNames,
-        dir1 = CFG.weatherPool.dir + '/' + params.device + '/',
-        dir2 = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/',
-        src,
-        dst,
-        device,
-        i;
+    var svgPool = CFG.svgPool.dir,
+        weatherPool = CFG.weatherPool.dir;
 
-    fs.exists(CFG.weatherPool.dir, function (exists) {
+    fs.exists(weatherPool, function (exists) {
 
         if (!exists) {
 
-            fs.mkdir(CFG.weatherPool.dir, 509, function (err) {
+            fs.copyRecursive(svgPool, weatherPool, function (err) {
 
-                for (i = 0; i < CFG.svgPool.commons.length; i++) {
-
-                    src = path.resolve(CFG.svgPool.dir + '/' + CFG.svgPool.commons[i]);
-                    dst = path.resolve(CFG.weatherPool.dir + '/' + CFG.svgPool.commons[i]);
-
-                    fs.copy(src, dst, null);
-
+                if (err) {
+                    callback(err);
                 }
 
-                for (device in CFG.svgPool.devices) {
+                fs.rmrf(weatherPool + '/df3120/app-dir', function (err) {
 
-                    if (CFG.svgPool.devices.hasOwnProperty(device)) {
-
-                        src = path.resolve(CFG.weatherPool.dir + '/' + device);
-
-                        fs.mkdir(src, 509, function (err) {
-
-                            dst = src + '/';
-
-
-//                            fs.copy(src, dst, null);
-
-                        });
-
+                    if (err) {
+                        callback(err);
                     }
-                }
 
-                callback();
+                    fs.rmrf(weatherPool + '/kindle4nt/app-dir', function (err) {
+                        callback(err);
+                    });
+
+                });
 
             });
 
         } else {
-            callback();
+            callback(null);
         }
 
     });
