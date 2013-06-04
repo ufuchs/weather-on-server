@@ -79,6 +79,27 @@ function getObservationTimeFormated(i18n, epoch) {
 
 }
 
+//
+//
+//
+function i18n_getWeekdays() {
+
+    moment().lang('ru');
+    var duration = moment.duration({'days' : 1}),
+        tomorrow = moment().add(duration),
+        day_after_tomorrow = moment().add(duration).add(duration),
+        day_after_tomorrow_plusOne = moment().add(duration).add(duration).add(duration);
+
+    return {
+        tomorrow : tomorrow.format('dddd'),
+        day_after_tomorrow : day_after_tomorrow.format('dddd'),
+        day_after_tomorrow_plusOne : day_after_tomorrow_plusOne.format('dddd')
+    };
+}
+
+//
+//
+//
 function i18n_getHeader() {
 
     var today = i18n.__('today'),
@@ -123,6 +144,7 @@ function populateSvgTemplate(params, weather, callback) {
         tempUnit,
         tempUnitToDisplay,
         header = i18n_getHeader(),
+        weekDays = i18n_getWeekdays(),
         today,
         date,
         doy,
@@ -189,7 +211,7 @@ function populateSvgTemplate(params, weather, callback) {
 
     dayLenghtDiff = '';
 
-    tomorrow = i18n.__('tomorrow');
+    tomorrow = weekDays.tomorrow;
 
     update = getObservationTimeFormated(i18n, weather.lastObservation);
 
@@ -226,13 +248,13 @@ function populateSvgTemplate(params, weather, callback) {
             ic1 : weather.ic1,
 
             // day after tommorow
-            dow2 : weather.dow2,
+            dow2 : weekDays.day_after_tomorrow,
             h2 : weather.temp2.high[tempUnit],
             l2 : weather.temp2.low[tempUnit],
             ic2 : weather.ic2,
 
             // // day after tommorow + 1
-            dow3 : weather.dow3,
+            dow3 : weekDays.day_after_tomorrow_plusOne,
             h3 : weather.temp3.high[tempUnit],
             l3 : weather.temp3.low[tempUnit],
             ic3 : weather.ic3,
