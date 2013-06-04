@@ -85,16 +85,25 @@ function getObservationTimeFormated(i18n, epoch) {
 function i18n_getWeekdays() {
 
     moment().lang('ru');
+
     var duration = moment.duration({'days' : 1}),
-        tomorrow = moment().add(duration),
-        day_after_tomorrow = moment().add(duration).add(duration),
-        day_after_tomorrow_plusOne = moment().add(duration).add(duration).add(duration);
+        tomorrow = i18n.__('tomorrow'),
+        day_after_tomorrow,
+        day_after_tomorrow_plusOne;
+
+    if ((tomorrow === '') || (tomorrow === null)) {
+        tomorrow = moment().add(duration).format('dddd');
+    }
+
+    day_after_tomorrow = moment().add(duration).add(duration);
+    day_after_tomorrow_plusOne = moment().add(duration).add(duration).add(duration);
 
     return {
-        tomorrow : tomorrow.format('dddd'),
+        tomorrow : tomorrow,
         day_after_tomorrow : day_after_tomorrow.format('dddd'),
         day_after_tomorrow_plusOne : day_after_tomorrow_plusOne.format('dddd')
     };
+
 }
 
 //
