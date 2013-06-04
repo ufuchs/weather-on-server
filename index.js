@@ -297,18 +297,10 @@ function getWeatherFilenames(params, callback) {
     var fn = CFG.weatherPool.fileNames,
         dir = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/';
 
-    mkdirp(dir, 509, function (err) {
-
-        if (err !== null) {
-            throw err;
-        }
-
-        callback({
-            weatherSvg   : path.resolve(dir + fn.weatherSvg),
-            unweatherPng : path.resolve(dir + fn.unweatherPng),
-            weatherPng   : path.resolve(dir + fn.weatherPng)
-        });
-
+    callback({
+        weatherSvg   : path.resolve(dir + fn.weatherSvg),
+        unweatherPng : path.resolve(dir + fn.unweatherPng),
+        weatherPng   : path.resolve(dir + fn.weatherPng)
     });
 
 }
@@ -318,34 +310,24 @@ function getWeatherFilenames(params, callback) {
 //
 function writeResults(svg, params, callback) {
 
-    var cssFile =
-        CFG.svgPool.dir
-        + '/'
-        + params.device
-        + '/'
-        + params.device + '.css';
-
     // 1
     getWeatherFilenames(params, function (out) {
 
-        // copy the style sheet into the weather dir
-        fs.copy(cssFile, out.weatherCss, function () {
+        // 2
+        fs.writeFile(out.weatherSvg, svg, function (err) {
 
-            // 2
-            fs.writeFile(out.weatherSvg, svg, function (err) {
+            if (err) {
+                callback(null, err);
+                return;
+            }
 
-                if (err) {
-                    callback(null, err);
-                    return;
-                }
-
-                // 3
-                renderService.render(params.device, out, function (weatherPng, err) {
-                    callback(out.weatherPng, err);
-                });
-
+            // 3
+            renderService.render(params.device, out, function (weatherPng, err) {
+                callback(out.weatherPng, err);
             });
+
         });
+
     });
 
 }
@@ -384,16 +366,15 @@ function makeTargetDir(params, callback) {
         weatherPool = CFG.weatherPool.dir,
         targetDir = weatherPool + '/' + params.device + '/' + params.id;
 
-
     fs.exists(targetDir, function (exists) {
 
         if (!exists) {
             fs.mkdir(targetDir, function (err) {
-                callback();
+                callback(err);
             });
         }
 
-        callback();
+        callback(null);
 
     });
 
@@ -424,7 +405,15 @@ function prepare(params, callback) {
                     }
 
                     fs.rmrf(weatherPool + '/kindle4nt/app-dir', function (err) {
-                        callback(err);
+
+                        if (err) {
+                            callback(err);
+                        }
+
+                        makeTargetDir(params, function (err) {
+                            callback(err);
+                        });
+
                     });
 
                 });
@@ -432,7 +421,11 @@ function prepare(params, callback) {
             });
 
         } else {
-            callback(null);
+
+            makeTargetDir(params, function (err) {
+                callback(err);
+            });
+
         }
 
     });
@@ -465,10 +458,9 @@ module.exports = main;
 
 var test = function (params, callback) {
 
-
     prepare(params, function () {
 
-//        core(params, demoWeather, callback);
+        core(params, demoWeather, callback);
 
     });
 
