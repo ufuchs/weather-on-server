@@ -6,6 +6,7 @@
 .idea
 .env
 wunderground.sh
+repl.js
 
 pids
 logs

@@ -79,13 +79,41 @@ function getObservationTimeFormated(i18n, epoch) {
 
 }
 
+function i18n_getHeader() {
+
+    var today = i18n.__('today'),
+        dateFormatStr = utils.fillTemplates(i18n.__('currDate'), {
+            day: 'MM',
+            month: 'MMM'
+        }),
+        date,
+        doy;
+
+    if ((today === '') || (today === null)) {
+        today = moment().format('dddd');
+    }
+
+    date = moment().format(dateFormatStr);
+
+    doy = utils.fillTemplates('{{doy}}-й день года', {
+        doy: moment().dayOfYear()
+    });
+
+    return {
+        today : today,
+        date : date,
+        doy : doy
+    };
+
+}
 
 //
 //
 //
-function populateSvgTemplate(device, weather, callback) {
+function populateSvgTemplate(params, weather, callback) {
 
-    var svgTemplateFilename = CFG.svgPool.dir
+    var device = params.device,
+        svgTemplateFilename = CFG.svgPool.dir
             + '/'
             + device
             + '/app-dir/'
@@ -94,6 +122,7 @@ function populateSvgTemplate(device, weather, callback) {
         countryISO,
         tempUnit,
         tempUnitToDisplay,
+        header = i18n_getHeader(),
         today,
         date,
         doy,
@@ -179,7 +208,7 @@ function populateSvgTemplate(device, weather, callback) {
             // headline
             dow0 : today,
             date : date,
-            doy : doy,
+            doy : header.doy,
 
             // sun
             sr : sr,
@@ -339,7 +368,7 @@ function core(params, jsonData, callback) {
 
     provider.extractWeatherFromProviderData(jsonData, function (weather) {
 
-        populateSvgTemplate(params.device, weather, function (svg) {
+        populateSvgTemplate(params, weather, function (svg) {
 
             writeResults(svg, params, function (weatherPng, err) {
 
