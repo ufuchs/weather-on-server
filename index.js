@@ -295,20 +295,18 @@ function getWeatherByLocationId(id, callback) {
 function getWeatherFilenames(params, callback) {
 
     var fn = CFG.weatherPool.fileNames,
-        dir1 = CFG.weatherPool.dir + '/' + params.device + '/',
-        dir2 = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/';
+        dir = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/';
 
-    mkdirp(dir2, 509, function (err) {
+    mkdirp(dir, 509, function (err) {
 
         if (err !== null) {
             throw err;
         }
 
         callback({
-            weatherCss   : path.resolve(dir1 + params.device + '.css'),
-            weatherSvg   : path.resolve(dir2 + fn.weatherSvg),
-            unweatherPng : path.resolve(dir2 + fn.unweatherPng),
-            weatherPng   : path.resolve(dir2 + fn.weatherPng)
+            weatherSvg   : path.resolve(dir + fn.weatherSvg),
+            unweatherPng : path.resolve(dir + fn.unweatherPng),
+            weatherPng   : path.resolve(dir + fn.weatherPng)
         });
 
     });
@@ -372,6 +370,30 @@ function core(params, jsonData, callback) {
             });
 
         });
+
+    });
+
+}
+
+//
+//
+//
+function makeTargetDir(params, callback) {
+
+    var svgPool = CFG.svgPool.dir,
+        weatherPool = CFG.weatherPool.dir,
+        targetDir = weatherPool + '/' + params.device + '/' + params.id;
+
+
+    fs.exists(targetDir, function (exists) {
+
+        if (!exists) {
+            fs.mkdir(targetDir, function (err) {
+                callback();
+            });
+        }
+
+        callback();
 
     });
 
@@ -452,7 +474,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'kindle4nt' };
+var params = { id : 1, device : 'kindle4nt', lang : null };
 
 test(params, function (filename, err) {
     console.log('test mode: ' + filename);
