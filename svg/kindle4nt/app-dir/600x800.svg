@@ -108,7 +108,7 @@
 
       <symbol id="today"> 
 
-        <text class="date  left"     x="20" y="56">{{dow0}} {{date}}/<tspan class="doy" >{{doy}}</tspan>
+        <text class="date  left"     x="20" y="56">{{dow0}} {{date}}<tspan class="doy" >{{doy}}</tspan>
         </text>    
 
         <!-- Sun -->
