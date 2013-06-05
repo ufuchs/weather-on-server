@@ -13,7 +13,7 @@ var fs = require('fs.extra'),
     mkdirp = require('mkdirp'),
 
     I18n = require('i18n-2'),
-    i18n = new I18n({locales: ['en', 'de']}),
+    i18n = new I18n({locales: ['en', 'de', 'ru', 'tr', 'cs', 'pl']}),
 
 
     CFG = require('./app-config.js'),
@@ -24,7 +24,7 @@ var fs = require('fs.extra'),
 
     demoWeather = require('./test/2013-03-29.json'),
 
-    locale = require('./i18n/de_DE.json'),
+//    locale = require('./i18n/de_DE.json'),
 
     renderService = require('./lib/svg2png-renderer.js'),
 
@@ -77,53 +77,40 @@ function i18n_getCssFileName(device, lang, callback) {
 }
 
 //
-// 
 //
-function getLocalDate(i18n, epoch) {
-    var d = new Date(epoch);
+//
+function i18n_getHeader(weather) {
 
-    return utils.fillTemplates(locale.timeFormat.currDate, {
-        day: d.getDate(),
-        month: locale.months[d.getMonth()].abbr
+    var today = i18n.__('today'),
+        dateFormatStr = utils.fillTemplates(i18n.__('currDate'), {
+            day: 'MM',
+            month: 'MMM'
+        }),
+        date,
+        doy;
+
+    if ((today === '') || (today === null)) {
+        today = moment(weather.date).format('dddd');
+    }
+
+    date = moment().format(dateFormatStr);
+
+    doy = utils.fillTemplates(i18n.__('dayOfYear'), {
+        doy: moment(weather.date).dayOfYear()
     });
 
-}
-
-//
-// TODO : umbauen auf 'observation_time_rfc822'
-//
-function getObservationTimeFormated(i18n, epoch) {
-
-    /*
-    "observation_time":"Last Updated on Januar 31, 22:13 CET",
-    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
-    "observation_epoch":"1359666789",
-    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
-    "local_epoch":"1359667327",
-    "local_tz_short":"CET",
-    "local_tz_long":"Europe/Berlin",
-    "local_tz_offset":"+0100",
-    */
-
-    var d = new Date(epoch),
-        ts = d.toTimeString().split(' '),
-        time = ts[0].split(':');
-    return utils.fillTemplates(locale.timeFormat.observationTime, {
-        day: d.getDate(),
-        month: locale.months[d.getMonth()].abbr,
-        hour: time[0],
-        min: time[1],
-        timezone: ts[1]
-    });
+    return {
+        today : today,
+        date : date,
+        doy : doy
+    };
 
 }
 
 //
 //
 //
-function i18n_getWeekdays() {
-
-    moment().lang('ru');
+function i18n_getWeekdays(weather) {
 
     var duration = moment.duration({'days' : 1}),
         tomorrow = i18n.__('tomorrow'),
@@ -131,11 +118,11 @@ function i18n_getWeekdays() {
         day_after_tomorrow_plusOne;
 
     if ((tomorrow === '') || (tomorrow === null)) {
-        tomorrow = moment().add(duration).format('dddd');
+        tomorrow = moment(weather.date).add(duration).format('dddd');
     }
 
-    day_after_tomorrow = moment().add(duration).add(duration);
-    day_after_tomorrow_plusOne = moment().add(duration).add(duration).add(duration);
+    day_after_tomorrow = moment(weather.date).add(duration).add(duration);
+    day_after_tomorrow_plusOne = moment(weather.date).add(duration).add(duration).add(duration);
 
     return {
         tomorrow : tomorrow,
@@ -148,33 +135,32 @@ function i18n_getWeekdays() {
 //
 //
 //
-function i18n_getHeader() {
+function i18n_getFooter(weather) {
 
-    var today = i18n.__('today'),
-        dateFormatStr = utils.fillTemplates(i18n.__('currDate'), {
+    /*
+    "observation_time":"Last Updated on Januar 31, 22:13 CET",
+    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
+    "observation_epoch":"1359666789",
+    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
+    "local_epoch":"1359667327",
+    "local_tz_short":"CET",
+    "local_tz_long":"Europe/Berlin",
+    "local_tz_offset":"+0100",
+    */
+
+    var dateFormatStr = utils.fillTemplates(i18n.__('observationTime'), {
             day: 'MM',
-            month: 'MMM'
+            month: 'MMM',
+            hour: 'HH',
+            min: 'mm',
+            timezone: 'Z'
         }),
-        date,
-        doy;
+        date = moment(weather.lastObservation).format(dateFormatStr);
 
-    if ((today === '') || (today === null)) {
-        today = moment().format('dddd');
-    }
-
-    date = moment().format(dateFormatStr);
-
-    doy = utils.fillTemplates('{{doy}}-й день года', {
-        doy: moment().dayOfYear()
-    });
-
-    return {
-        today : today,
-        date : date,
-        doy : doy
-    };
+    return date;
 
 }
+
 
 //
 //
@@ -191,8 +177,8 @@ function populateSvgTemplate(params, weather, callback) {
         countryISO,
         tempUnit,
         tempUnitToDisplay,
-        header = i18n_getHeader(),
-        weekDays = i18n_getWeekdays(),
+        header,
+        weekDays,
         today,
         date,
         doy,
@@ -202,17 +188,21 @@ function populateSvgTemplate(params, weather, callback) {
         dayLenght,
         dayLenghtDiff,
         tomorrow,
+        day_after_tomorrow,
+        day_after_tomorrow_plusOne,
         min,
         max,
         update,
         str;
 
-    console.log(svgTemplateFilename);
-
-    countryISO = weather.countryISO.toLowerCase();
+    countryISO = 'de';//weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
     var iso = moment().lang(countryISO);
+
+    header = i18n_getHeader(weather);
+    weekDays = i18n_getWeekdays(weather);
+
 
     // function i18n()
 
@@ -230,13 +220,9 @@ function populateSvgTemplate(params, weather, callback) {
 
     max = i18n.__('maximal');
 
-    today = i18n.__('today');
-
-    date = getLocalDate(i18n, weather.date);
-
-    doy = utils.fillTemplates(i18n.__('dayOfYear'), {
-        doy: moment(weather.date).dayOfYear()
-    });
+    today = header.today;
+    date = header.date;
+    doy = header.doy;
 
     // TODO : !Zusammenfassen!
     hhmm = astro.sec2HhMm(weather.sr);
@@ -261,7 +247,11 @@ function populateSvgTemplate(params, weather, callback) {
 
     tomorrow = weekDays.tomorrow;
 
-    update = getObservationTimeFormated(i18n, weather.lastObservation);
+    day_after_tomorrow = weekDays.day_after_tomorrow;
+
+    day_after_tomorrow_plusOne = weekDays.day_after_tomorrow_plusOne;
+
+    update = i18n_getFooter(weather); //getObservationTimeFormated(i18n, weather.lastObservation);
 
     // 
 
@@ -278,7 +268,7 @@ function populateSvgTemplate(params, weather, callback) {
             // headline
             dow0 : today,
             date : date,
-            doy : header.doy,
+            doy : doy,
 
             // sun
             sr : sr,
@@ -296,13 +286,13 @@ function populateSvgTemplate(params, weather, callback) {
             ic1 : weather.ic1,
 
             // day after tommorow
-            dow2 : weekDays.day_after_tomorrow,
+            dow2 : day_after_tomorrow,
             h2 : weather.temp2.high[tempUnit],
             l2 : weather.temp2.low[tempUnit],
             ic2 : weather.ic2,
 
             // // day after tommorow + 1
-            dow3 : weekDays.day_after_tomorrow_plusOne,
+            dow3 : day_after_tomorrow_plusOne,
             h3 : weather.temp3.high[tempUnit],
             l3 : weather.temp3.low[tempUnit],
             ic3 : weather.ic3,
