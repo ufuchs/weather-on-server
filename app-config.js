@@ -4,6 +4,17 @@
 
 module.exports = {
 
+    locales: ['cs', 'de', 'en', 'pl', 'ru', 'tr'],
+
+    iso3166ToLocales: {
+        "CZ" : "cs",
+        "DE" : "de",
+        "EN" : "en",
+        "PL" : "pl",
+        "RU" : "ru",
+        "TR" : "tr"
+    },
+
     weatherPool : {
         dir : './weather',
         fileNames : {
