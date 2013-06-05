@@ -1,13 +1,14 @@
 {
+    "tempUnit": "celsius_°C",
+    "minimal": "Min",
+    "maximal": "Max",
     "today": "Today",
     "currDate": "{{day}}.{{month}}/",
     "dayOfYear": "{{doy}}. day in the year",
-    "sunrise": "SR",
-    "sunset": "SS",
-    "hour": "h",
-    "min": "min",
+    "sunrise": "SR {{hour}}.{{min}}",
+    "sunset": "SS {{hour}}.{{min}}",
+    "dayLenght": "{{hours}}:{{min}}h",
+    "dayLenghtDiff": "{{min}}min",
     "tomorrow": "Tomorrow",
-    "minimal": "Min",
-    "maximal": "Max",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }
