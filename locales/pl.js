@@ -1,11 +1,14 @@
 {
-    "dayOfYear": "{{doy}}.dzień w roku",
-    "today": "dzisiaj",
-    "tomorrow": "jutro",
-    "sunrise": "WS",
-    "sunset": "ZS",
+    "tempUnit": "celsius_°C",
     "minimal": "Min",
     "maximal": "Maks",
-    "hour": "godz.",
-    "min": "min"
+    "today": "dzisiaj",
+    "currDate": "{{day}}.{{month}}/",
+    "dayOfYear": "{{doy}}.dzień w roku",
+    "sunrise": "WS {{hour}}.{{min}}",
+    "sunset": "ZS {{hour}}.{{min}}",
+    "dayLenght": "{{hours}}:{{min}}godz.",
+    "dayLenghtDiff": "{{min}}min",
+    "tomorrow": "jutro",
+    "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }

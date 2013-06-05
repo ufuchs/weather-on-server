@@ -1,11 +1,14 @@
 {
-    "dayOfYear": "{{doy}}-й день года",
-    "today": "cегодня",
-    "tomorrow": "завтра",
-    "sunrise": "вс",
-    "sunset": "зт",
+    "tempUnit": "celsius_°Ц",
     "minimal": "мин",
     "maximal": "макс",
-    "hour": "ч",
-    "min": "мин"
+    "today": "cегодня",
+    "currDate": "{{day}}.{{month}}/",
+    "dayOfYear": "{{doy}}-й день года",
+    "sunrise": "вс {{hour}}.{{min}}",
+    "sunset": "зт {{hour}}.{{min}}",
+    "dayLenght": "{{hours}}:{{min}}ч",
+    "dayLenghtDiff": "{{min}}мин",
+    "tomorrow": "завтра",
+    "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }

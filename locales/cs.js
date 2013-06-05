@@ -1,13 +1,14 @@
 {
-    "currDate": "{{day}}.{{month}}/",
-    "dayOfYear": "{{doy}}.den v roce",
-    "sunrise": "vs",
-    "sunset": "zs",
-    "hour": "hod",
-    "min": "min",
-    "today": "dnes",
-    "tomorrow": "zítra",
+    "tempUnit": "celsius_°C",
     "minimal": "min",
     "maximal": "max",
+    "today": "dnes",
+    "currDate": "{{day}}.{{month}}/",
+    "dayOfYear": "{{doy}}.den v roce",
+    "sunrise": "vs {{hour}}.{{min}}",
+    "sunset": "zs {{hour}}.{{min}}",
+    "dayLenght": "{{hours}}:{{min}}hod",
+    "dayLenghtDiff": "{{min}}min",
+    "tomorrow": "zítra",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
 }
