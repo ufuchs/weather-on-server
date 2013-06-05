@@ -37,6 +37,45 @@ function Weather(provider) {
 
 }
 
+// Gets the css-file name for a given `device` and `lang`.
+// Returns the css-file name which is related to the `lang',
+// otherwise the default css-file name
+//
+// @param {device} String
+// @param {lang} String
+// @return String
+function i18n_getCssFileName(device, lang, callback) {
+
+    var deviceCssPath = CFG.svgPool.dir + '/' + device,
+        file,
+        fileLang,
+        i;
+
+    fs.readdir(deviceCssPath, function (err, files) {
+
+        i = files.indexOf('app-dir');
+
+        files.splice(i, 1);
+
+        for (i = 0; i < files.length; i += 1) {
+
+            file = files[i];
+
+            fileLang = files[i].substr(0, file.indexOf('-'));
+
+            if (fileLang === lang) {
+                callback(file);
+                return;
+            }
+
+        }
+
+        callback(device + '.css');
+
+    });
+
+}
+
 //
 // 
 //
