@@ -10,32 +10,21 @@ var fs = require('fs.extra'),
 
     moment = require('moment'),
 
-    mkdirp = require('mkdirp'),
-
     I18n = require('i18n-2'),
     i18n = new I18n({locales: ['en', 'de', 'ru', 'tr', 'cs', 'pl']}),
 
 
     CFG = require('./app-config.js'),
-//    locale = require('./i18n/de_DE.json'),
+
     utils = require('./lib/utils.js'),
 
     provider = require('./provider/wunderGround/index.js'),
 
     demoWeather = require('./test/2013-03-29.json'),
 
-//    locale = require('./i18n/de_DE.json'),
-
     renderService = require('./lib/svg2png-renderer.js'),
 
     locations = require('./locations.json').locations;
-
-function Weather(provider) {
-
-    this.provider = provider;
-    this.config = CFG;
-
-}
 
 // Gets the css-file name for a given `device` and `lang`.
 // Returns the css-file name which is related to the `lang',
@@ -161,7 +150,6 @@ function i18n_getFooter(weather) {
 
 }
 
-
 //
 //
 //
@@ -198,15 +186,14 @@ function populateSvgTemplate(params, weather, callback) {
     countryISO = 'de';//weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
-    var iso = moment().lang(countryISO);
+    moment().lang(countryISO);
 
     header = i18n_getHeader(weather);
     weekDays = i18n_getWeekdays(weather);
 
+    ///////////////////////////////////////////////////////////////////////////
 
-    // function i18n()
-
-    ///////////////////////////////////////////////////////////////
+    // i18n_getCommons()
 
     str = i18n.__('tempUnit').split('_');
 
@@ -214,17 +201,20 @@ function populateSvgTemplate(params, weather, callback) {
 
     tempUnitToDisplay = str[1];
 
-    ///////////////////////////////////////////////////////////////
-
     min = i18n.__('minimal');
 
     max = i18n.__('maximal');
+
+    ///////////////////////////////////////////////////////////////////////////
 
     today = header.today;
     date = header.date;
     doy = header.doy;
 
-    // TODO : !Zusammenfassen!
+    ///////////////////////////////////////////////////////////////////////////
+
+    // i18n_getSun()
+
     hhmm = astro.sec2HhMm(weather.sr);
     sr = utils.fillTemplates(i18n.__('sunrise'), {
         hour : hhmm.hour,
@@ -245,15 +235,19 @@ function populateSvgTemplate(params, weather, callback) {
 
     dayLenghtDiff = '';
 
+    ///////////////////////////////////////////////////////////////////////////
+
     tomorrow = weekDays.tomorrow;
 
     day_after_tomorrow = weekDays.day_after_tomorrow;
 
     day_after_tomorrow_plusOne = weekDays.day_after_tomorrow_plusOne;
 
-    update = i18n_getFooter(weather); //getObservationTimeFormated(i18n, weather.lastObservation);
+    ///////////////////////////////////////////////////////////////////////////    
 
-    // 
+    update = i18n_getFooter(weather);
+
+    ///////////////////////////////////////////////////////////////////////////
 
     utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
 
@@ -297,7 +291,7 @@ function populateSvgTemplate(params, weather, callback) {
             l3 : weather.temp3.low[tempUnit],
             ic3 : weather.ic3,
 
-            // observation time line
+            // footer
             update : update
 
         }));
@@ -540,11 +534,10 @@ var main = function (params, callback) {
 
 module.exports = main;
 
-
+///////////////////////////////////////////////////////////////////////////////
 
 // THIS IS FOR TESTS ONLY.
 // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
-
 var test = function (params, callback) {
 
     prepare(params, function () {
@@ -558,6 +551,7 @@ var test = function (params, callback) {
 var params = { id : 1, device : 'kindle4nt', lang : null };
 
 test(params, function (filename, err) {
-    console.log('test mode: ' + filename);
+    console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
 });
 
+///////////////////////////////////////////////////////////////////////////////
