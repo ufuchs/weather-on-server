@@ -14,7 +14,13 @@ var fs = require('fs.extra'),
     i18n = new I18n({locales: ['en', 'de', 'ru', 'tr', 'cs', 'pl']}),
 
 
+
+
     CFG = require('./app-config.js'),
+
+    I18n_ng = require('./lib/i18n.js'),
+    i18n_ng = new I18n_ng(CFG.locales, CFG.iso3166ToLocale),
+
 
     utils = require('./lib/utils.js'),
 
@@ -25,130 +31,6 @@ var fs = require('fs.extra'),
     renderService = require('./lib/svg2png-renderer.js'),
 
     locations = require('./locations.json').locations;
-
-// Gets the css-file name for a given `device` and `lang`.
-// Returns the css-file name which is related to the `lang',
-// otherwise the default css-file name
-//
-// @param {device} String
-// @param {lang} String
-// @return String
-function i18n_getCssFileName(device, lang, callback) {
-
-    var deviceCssPath = CFG.svgPool.dir + '/' + device,
-        file,
-        fileLang,
-        i;
-
-    fs.readdir(deviceCssPath, function (err, files) {
-
-        i = files.indexOf('app-dir');
-
-        files.splice(i, 1);
-
-        for (i = 0; i < files.length; i += 1) {
-
-            file = files[i];
-
-            fileLang = files[i].substr(0, file.indexOf('-'));
-
-            if (fileLang === lang) {
-                callback(file);
-                return;
-            }
-
-        }
-
-        callback(device + '.css');
-
-    });
-
-}
-
-//
-//
-//
-function i18n_getHeader(weather) {
-
-    var today = i18n.__('today'),
-        dateFormatStr = utils.fillTemplates(i18n.__('currDate'), {
-            day: 'DD',
-            month: 'MMM'
-        }),
-        date,
-        doy;
-
-    if ((today === '') || (today === null)) {
-        today = moment(weather.date).format('dddd');
-    }
-
-    date = moment(weather.date).format(dateFormatStr);
-
-    doy = utils.fillTemplates(i18n.__('dayOfYear'), {
-        doy: moment(weather.date).dayOfYear()
-    });
-
-    return {
-        today : today,
-        date : date,
-        doy : doy
-    };
-
-}
-
-//
-//
-//
-function i18n_getWeekdays(weather) {
-
-    var duration = moment.duration({'days' : 1}),
-        tomorrow = i18n.__('tomorrow'),
-        day_after_tomorrow,
-        day_after_tomorrow_plusOne;
-
-    if ((tomorrow === '') || (tomorrow === null)) {
-        tomorrow = moment(weather.date).add(duration).format('dddd');
-    }
-
-    day_after_tomorrow = moment(weather.date).add(duration).add(duration);
-    day_after_tomorrow_plusOne = moment(weather.date).add(duration).add(duration).add(duration);
-
-    return {
-        tomorrow : tomorrow,
-        day_after_tomorrow : day_after_tomorrow.format('dddd'),
-        day_after_tomorrow_plusOne : day_after_tomorrow_plusOne.format('dddd')
-    };
-
-}
-
-//
-//
-//
-function i18n_getFooter(weather) {
-
-    /*
-    "observation_time":"Last Updated on Januar 31, 22:13 CET",
-    "observation_time_rfc822":"Thu, 31 Jan 2013 22:13:09 +0100",
-    "observation_epoch":"1359666789",
-    "local_time_rfc822":"Thu, 31 Jan 2013 22:22:07 +0100",
-    "local_epoch":"1359667327",
-    "local_tz_short":"CET",
-    "local_tz_long":"Europe/Berlin",
-    "local_tz_offset":"+0100",
-    */
-
-    var dateFormatStr = utils.fillTemplates(i18n.__('observationTime'), {
-            day: 'DD',
-            month: 'MMM',
-            hour: 'HH',
-            min: 'mm',
-            timezone: 'Z'
-        }),
-        date = moment(weather.lastObservation).format(dateFormatStr);
-
-    return date;
-
-}
 
 //
 //
@@ -165,8 +47,10 @@ function populateSvgTemplate(params, weather, callback) {
         countryISO,
         tempUnit,
         tempUnitToDisplay,
+        commons,
         header,
         weekDays,
+        sun,
         today,
         date,
         doy,
@@ -180,38 +64,35 @@ function populateSvgTemplate(params, weather, callback) {
         day_after_tomorrow_plusOne,
         min,
         max,
-        update,
+        footer,
         str;
 
     countryISO = 'ru';//weather.countryISO.toLowerCase();
 
-    i18n.setLocale(countryISO);
-    moment().lang(countryISO);
-
     if (moment.lang() === 'de') {
+        // http://www.duden.de/suchen/dudenonline/Monat
         moment().lang()._monthsShort = "Jan._Febr._März_Apr._Mai_Juni_Juli_Aug._Sept._Okt._Nov._Dez.".split('_');
     }
 
-    header = i18n_getHeader(weather);
-    weekDays = i18n_getWeekdays(weather);
+    i18n_ng.setLocale('RU');
 
-    i18n_getCssFileName(device, countryISO, function (cssfn) {
+    ///////////////////////////////////////////////////////////////////////////
+
+    commons = i18n_ng.getCommons(weather);
+    header = i18n_ng.getHeader(weather);
+    sun = i18n_ng.getSun(weather);
+    weekDays = i18n_ng.getWeekdays(weather);
+
+    i18n_ng.getCssFileName(device, countryISO, function (cssfn) {
         cssFilename = cssfn;
     });
 
     ///////////////////////////////////////////////////////////////////////////
 
-    // i18n_getCommons()
-
-    str = i18n.__('tempUnit').split('_');
-
-    tempUnit = str[0];
-
-    tempUnitToDisplay = str[1];
-
-    min = i18n.__('minimal');
-
-    max = i18n.__('maximal');
+    tempUnit = commons.tempUnit;
+    tempUnitToDisplay = commons.tempUnitToDisplay;
+    min = commons.min;
+    max = commons.max;
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -221,39 +102,20 @@ function populateSvgTemplate(params, weather, callback) {
 
     ///////////////////////////////////////////////////////////////////////////
 
-    // i18n_getSun()
-
-    hhmm = astro.sec2HhMm(weather.sr);
-    sr = utils.fillTemplates(i18n.__('sunrise'), {
-        hour : hhmm.hour,
-        min : hhmm.min
-    });
-
-    hhmm = astro.sec2HhMm(weather.ss);
-    ss = utils.fillTemplates(i18n.__('sunset'), {
-        hour : hhmm.hour,
-        min : hhmm.min
-    });
-
-    hhmm = astro.sec2HhMm(weather.dl);
-    dayLenght = utils.fillTemplates(i18n.__('dayLenght'), {
-        hours : hhmm.hour,
-        min : hhmm.min
-    });
-
-    dayLenghtDiff = '';
+    sr = sun.sr;
+    ss = sun.ss;
+    dayLenght = sun.dayLenght;
+    dayLenghtDiff = sun.dayLenghtDiff;
 
     ///////////////////////////////////////////////////////////////////////////
 
     tomorrow = weekDays.tomorrow;
-
     day_after_tomorrow = weekDays.day_after_tomorrow;
-
     day_after_tomorrow_plusOne = weekDays.day_after_tomorrow_plusOne;
 
     ///////////////////////////////////////////////////////////////////////////    
 
-    update = i18n_getFooter(weather);
+    footer = i18n_ng.getFooter(weather);
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -300,7 +162,7 @@ function populateSvgTemplate(params, weather, callback) {
             ic3 : weather.ic3,
 
             // footer
-            update : update
+            update : footer
 
         }));
 
