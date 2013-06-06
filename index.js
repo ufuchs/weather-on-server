@@ -72,7 +72,7 @@ function i18n_getHeader(weather) {
 
     var today = i18n.__('today'),
         dateFormatStr = utils.fillTemplates(i18n.__('currDate'), {
-            day: 'MM',
+            day: 'DD',
             month: 'MMM'
         }),
         date,
@@ -82,7 +82,7 @@ function i18n_getHeader(weather) {
         today = moment(weather.date).format('dddd');
     }
 
-    date = moment().format(dateFormatStr);
+    date = moment(weather.date).format(dateFormatStr);
 
     doy = utils.fillTemplates(i18n.__('dayOfYear'), {
         doy: moment(weather.date).dayOfYear()
@@ -138,7 +138,7 @@ function i18n_getFooter(weather) {
     */
 
     var dateFormatStr = utils.fillTemplates(i18n.__('observationTime'), {
-            day: 'MM',
+            day: 'DD',
             month: 'MMM',
             hour: 'HH',
             min: 'mm',
@@ -183,10 +183,14 @@ function populateSvgTemplate(params, weather, callback) {
         update,
         str;
 
-    countryISO = 'de';//weather.countryISO.toLowerCase();
+    countryISO = 'ru';//weather.countryISO.toLowerCase();
 
     i18n.setLocale(countryISO);
     moment().lang(countryISO);
+
+    if (moment.lang() === 'de') {
+        moment().lang()._monthsShort = "Jan._Febr._März_Apr._Mai_Juni_Juli_Aug._Sept._Okt._Nov._Dez.".split('_');
+    }
 
     header = i18n_getHeader(weather);
     weekDays = i18n_getWeekdays(weather);
