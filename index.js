@@ -195,6 +195,10 @@ function populateSvgTemplate(params, weather, callback) {
     header = i18n_getHeader(weather);
     weekDays = i18n_getWeekdays(weather);
 
+    i18n_getCssFileName(device, countryISO, function (cssfn) {
+        cssFilename = cssfn;
+    });
+
     ///////////////////////////////////////////////////////////////////////////
 
     // i18n_getCommons()
