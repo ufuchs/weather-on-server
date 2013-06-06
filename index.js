@@ -6,21 +6,13 @@
 var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
-    astro = require('./astronomy/utils.js'),
 
     moment = require('moment'),
-
-    I18n = require('i18n-2'),
-    i18n = new I18n({locales: ['en', 'de', 'ru', 'tr', 'cs', 'pl']}),
-
-
-
 
     CFG = require('./app-config.js'),
 
     I18n_ng = require('./lib/i18n.js'),
     i18n_ng = new I18n_ng(CFG.locales, CFG.iso3166ToLocale),
-
 
     utils = require('./lib/utils.js'),
 
