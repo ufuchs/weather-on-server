@@ -7,14 +7,13 @@ var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
 
-    moment = require('moment'),
-
     localizer = require('./lib/localizer.js'),
 
     CFG = require('./app-config.js'),
 
+    filenames = require('./lib/filenames.js'),
+
     I18n = require('i18n-2'),
-    i18n = new I18n(CFG.locales),
 
     utils = require('./lib/utils.js'),
 
@@ -29,22 +28,17 @@ var fs = require('fs.extra'),
 //
 //
 //
-function populateSvgTemplate(params, weather, localized, callback) {
+function populateSvgTemplate(weather, localized, filenames, callback) {
 
-    var device = params.device,
-        svgTemplateFilename = CFG.svgPool.dir
-            + '/'
-            + device
-            + '/app-dir/'
-            + CFG.svgPool.devices[device],
+    var svgTemplate = filenames['in'].svgTemplate,
         tempUnit = localized.common.tempUnit;
 
-    utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
+    utils.readTextFile(filenames['in'].svgTemplate,  function (svgTemplate) {
 
         callback(utils.fillTemplates(svgTemplate, {
 
             // common 
-            css : localized.cssFile,
+            css : filenames['in'].cssFile,
             tempUnit : localized.common.tempUnitToDisplay,
             min : localized.common.min,
             max : localized.common.max,
@@ -163,42 +157,21 @@ function getWeatherByLocationId(id, callback) {
 }
 
 //
-//
-//
-function getWeatherFilenames(params, callback) {
-
-    var fn = CFG.weatherPool.fileNames,
-        dir = CFG.weatherPool.dir + '/' + params.device + '/' + params.id + '/';
-
-    callback({
-        weatherSvg   : path.resolve(dir + fn.weatherSvg),
-        unweatherPng : path.resolve(dir + fn.unweatherPng),
-        weatherPng   : path.resolve(dir + fn.weatherPng)
-    });
-
-}
-
-//
 // 
 //
-function writeResults(svg, params, callback) {
+function writeResults(svg, params, filenames, callback) {
 
     // 1
-    getWeatherFilenames(params, function (out) {
+    fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
+
+        if (err) {
+            callback(null, err);
+            return;
+        }
 
         // 2
-        fs.writeFile(out.weatherSvg, svg, function (err) {
-
-            if (err) {
-                callback(null, err);
-                return;
-            }
-
-            // 3
-            renderService.render(params.device, out, function (weatherPng, err) {
-                callback(out.weatherPng, err);
-            });
-
+        renderService.render(params.device, filenames.out, function (outPng, err) {
+            callback(outPng, err);
         });
 
     });
@@ -210,27 +183,31 @@ function writeResults(svg, params, callback) {
 //
 function core(params, jsonData, callback) {
 
-    var isoLocale = 'ru',
-        l = localizer(i18n, CFG.iso3166ToLocale);
+    var l = localizer(new I18n(CFG.locales), CFG.iso3166ToLocale);
 
     provider.extractWeatherFromProviderData(jsonData, function (weather) {
 
-        l.localize(weather, isoLocale, params.device, function (localized) {
+        filenames(CFG).getFilenames(params, function (filenames) {
 
-            populateSvgTemplate(params, weather, localized, function (svg) {
+            l.localize(weather, params, function (localized) {
 
-                writeResults(svg, params, function (weatherPng, err) {
+                populateSvgTemplate(weather, localized, filenames, function (svg) {
 
-                    if (err !== null) {
-                        console.log(err);
-                    }
+                    writeResults(svg, params, filenames, function (weatherPng, err) {
 
-                    callback(path.resolve(weatherPng), err);
+                        if (err !== null) {
+                            console.log(err);
+                        }
+
+                        callback(path.resolve(weatherPng), err);
+
+                    });
 
                 });
-
             });
+
         });
+
     });
 
 }
@@ -343,7 +320,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'kindle4nt', lang : null };
+var params = { id : 1, device : 'kindle4nt', lang : 'ru' };
 
 test(params, function (filename, err) {
     console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
