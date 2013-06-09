@@ -1,0 +1,9 @@
+index.js
+--------
+
+- 'getWeatherFilenames' should be separated and include the 'cssFileName' function.
+
+lib/localizer.js
+----------------
+
+- 'cssFileName' is in the wrong place.
