@@ -1,9 +1,17 @@
 index.js
 --------
 
+[2013-06-09 fixed]
 - 'getWeatherFilenames' should be separated and include the 'cssFileName' function.
 
 lib/localizer.js
 ----------------
 
+[2013-06-09 fixed]
 - 'cssFileName' is in the wrong place.
+
+app-config
+----------
+
+- reducing 'iso3166ToLocale' 
+
