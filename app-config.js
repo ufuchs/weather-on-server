@@ -9,12 +9,7 @@ module.exports = {
     },
 
     iso3166ToLocale: {
-        "cz" : "cs",
-        "de" : "de",
-        "en" : "en",
-        "pl" : "pl",
-        "ru" : "ru",
-        "tr" : "tr"
+        "cz" : "cs"
     },
 
     weatherPool : {
