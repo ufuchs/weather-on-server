@@ -5,7 +5,7 @@
 module.exports = {
 
     locales: {
-        locales: ['en', 'de', 'ru', 'tr', 'cs', 'pl']
+        locales: ['cs', 'de', 'en', 'pl', 'ru', 'tr']
     },
 
     iso3166ToLocale: {
