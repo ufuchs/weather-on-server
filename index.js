@@ -9,10 +9,12 @@ var fs = require('fs.extra'),
 
     moment = require('moment'),
 
+    localizer = require('./lib/localizer.js'),
+
     CFG = require('./app-config.js'),
 
-    I18n_ng = require('./lib/i18n.js'),
-    i18n_ng = new I18n_ng(CFG.locales, CFG.iso3166ToLocale),
+    I18n = require('i18n-2'),
+    i18n = new I18n(CFG.locales),
 
     utils = require('./lib/utils.js'),
 
@@ -27,7 +29,7 @@ var fs = require('fs.extra'),
 //
 //
 //
-function populateSvgTemplate(params, weather, callback) {
+function populateSvgTemplate(params, weather, localized, callback) {
 
     var device = params.device,
         svgTemplateFilename = CFG.svgPool.dir
@@ -35,126 +37,52 @@ function populateSvgTemplate(params, weather, callback) {
             + device
             + '/app-dir/'
             + CFG.svgPool.devices[device],
-        cssFilename = device + '.css',
-        countryISO,
-        tempUnit,
-        tempUnitToDisplay,
-        commons,
-        header,
-        weekDays,
-        sun,
-        today,
-        date,
-        doy,
-        hhmm,
-        sr,
-        ss,
-        dayLenght,
-        dayLenghtDiff,
-        tomorrow,
-        day_after_tomorrow,
-        day_after_tomorrow_plusOne,
-        min,
-        max,
-        footer,
-        str;
-
-    countryISO = 'ru';//weather.countryISO.toLowerCase();
-
-    if (moment.lang() === 'de') {
-        // http://www.duden.de/suchen/dudenonline/Monat
-        moment().lang()._monthsShort = "Jan._Febr._März_Apr._Mai_Juni_Juli_Aug._Sept._Okt._Nov._Dez.".split('_');
-    }
-
-    i18n_ng.setLocale('RU');
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    commons = i18n_ng.getCommons(weather);
-    header = i18n_ng.getHeader(weather);
-    sun = i18n_ng.getSun(weather);
-    weekDays = i18n_ng.getWeekdays(weather);
-
-    i18n_ng.getCssFileName(device, countryISO, function (cssfn) {
-        cssFilename = cssfn;
-    });
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    tempUnit = commons.tempUnit;
-    tempUnitToDisplay = commons.tempUnitToDisplay;
-    min = commons.min;
-    max = commons.max;
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    today = header.today;
-    date = header.date;
-    doy = header.doy;
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    sr = sun.sr;
-    ss = sun.ss;
-    dayLenght = sun.dayLenght;
-    dayLenghtDiff = sun.dayLenghtDiff;
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    tomorrow = weekDays.tomorrow;
-    day_after_tomorrow = weekDays.day_after_tomorrow;
-    day_after_tomorrow_plusOne = weekDays.day_after_tomorrow_plusOne;
-
-    ///////////////////////////////////////////////////////////////////////////    
-
-    footer = i18n_ng.getFooter(weather);
-
-    ///////////////////////////////////////////////////////////////////////////
+        tempUnit = localized.common.tempUnit;
 
     utils.readTextFile(svgTemplateFilename,  function (svgTemplate) {
 
         callback(utils.fillTemplates(svgTemplate, {
 
             // common 
-            css : cssFilename,
-            tempUnit : tempUnitToDisplay,
-            min : min,
-            max : max,
+            css : localized.cssFile,
+            tempUnit : localized.common.tempUnitToDisplay,
+            min : localized.common.min,
+            max : localized.common.max,
 
             // headline
-            dow0 : today,
-            date : date,
-            doy : doy,
+            dow0 : localized.header.today,
+            date : localized.header.date,
+            doy : localized.header.doy,
 
             // sun
-            sr : sr,
-            ss : ss,
-            dl : dayLenght,
+            sr : localized.sun.sr,
+            ss : localized.sun.ss,
+            dl : localized.sun.dayLenght,
 
             h0 : weather.temp0.high[tempUnit],
             l0 : weather.temp0.low[tempUnit],
             ic0 : weather.ic0,
 
             // tommorow
-            dow1 : tomorrow,
+            dow1 : localized.weekdays.tomorrow,
             h1 : weather.temp1.high[tempUnit],
             l1 : weather.temp1.low[tempUnit],
             ic1 : weather.ic1,
 
             // day after tommorow
-            dow2 : day_after_tomorrow,
+            dow2 : localized.weekdays.day_after_tomorrow,
             h2 : weather.temp2.high[tempUnit],
             l2 : weather.temp2.low[tempUnit],
             ic2 : weather.ic2,
 
             // // day after tommorow + 1
-            dow3 : day_after_tomorrow_plusOne,
+            dow3 : localized.weekdays.day_after_tomorrow_plusOne,
             h3 : weather.temp3.high[tempUnit],
             l3 : weather.temp3.low[tempUnit],
             ic3 : weather.ic3,
 
             // footer
-            update : footer
+            update : localized.footer
 
         }));
 
@@ -282,22 +210,27 @@ function writeResults(svg, params, callback) {
 //
 function core(params, jsonData, callback) {
 
+    var isoLocale = 'ru',
+        l = localizer(i18n, CFG.iso3166ToLocale);
+
     provider.extractWeatherFromProviderData(jsonData, function (weather) {
 
-        populateSvgTemplate(params, weather, function (svg) {
+        l.localize(weather, isoLocale, params.device, function (localized) {
 
-            writeResults(svg, params, function (weatherPng, err) {
+            populateSvgTemplate(params, weather, localized, function (svg) {
 
-                if (err !== null) {
-                    console.log(err);
-                }
+                writeResults(svg, params, function (weatherPng, err) {
 
-                callback(path.resolve(weatherPng), err);
+                    if (err !== null) {
+                        console.log(err);
+                    }
+
+                    callback(path.resolve(weatherPng), err);
+
+                });
 
             });
-
         });
-
     });
 
 }
