@@ -4,6 +4,8 @@
 
 module.exports = {
 
+    cachesProviderdataFor : 3600 * 1000,
+
     locales: {
         locales: ['cs', 'de', 'en', 'pl', 'ru', 'tr']
     },

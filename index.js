@@ -139,20 +139,34 @@ function detectLocationById(id, callback) {
 //
 function getWeatherByLocationId(id, callback) {
 
+    var cached;
 
     detectLocationById(id, function (location) {
 
+//        cache.debug(true);
 
-        downloadDataFromProvider(location, function (err, jsonData) {
+        cached = cache.get(id);
 
-            if (err) {
-                console.log("Error while downloading weather data\n" + err);
-                throw err;
-            }
+//        console.log(cache.hits());
 
-            callback(jsonData);
+        if (cached === null) {
 
-        });
+            downloadDataFromProvider(location, function (err, jsonData) {
+
+                if (err) {
+                    console.log("Error while downloading weather data\n" + err);
+                    throw err;
+                }
+
+                cache.put(id, jsonData, CFG.cachesProviderdataFor);
+
+                callback(jsonData);
+
+            });
+
+        } else {
+            callback(cached);
+        }
 
     });
 
