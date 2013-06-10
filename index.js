@@ -19,7 +19,7 @@ var fs = require('fs.extra'),
 
     utils = require('./lib/utils.js'),
 
-    provider = require('./provider/wunderGround/index.js'),
+    provider = require('./lib/provider/index.js'),
 
     demoWeather = require('./test/2013-03-29.json'),
 
