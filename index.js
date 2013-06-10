@@ -13,6 +13,8 @@ var fs = require('fs.extra'),
 
     filenames = require('./lib/filenames.js'),
 
+    cache = require('memory-cache'),
+
     I18n = require('i18n-2'),
 
     utils = require('./lib/utils.js'),
@@ -33,7 +35,7 @@ function populateSvgTemplate(weather, localized, filenames, callback) {
     var svgTemplate = filenames['in'].svgTemplate,
         tempUnit = localized.common.tempUnit;
 
-    utils.readTextFile(filenames['in'].svgTemplate,  function (svgTemplate) {
+    utils.readTextFile(svgTemplate,  function (svgTemplate) {
 
         callback(utils.fillTemplates(svgTemplate, {
 
@@ -87,7 +89,12 @@ function populateSvgTemplate(weather, localized, filenames, callback) {
 //
 // http://api.wunderground.com/api/496fa9023d2c0170/geolookup/conditions/forecast/q/Germany/Bad%20Elster.json nn
 //
-function downloadDataFromProvider(params, callback) {
+function downloadDataFromProvider(location, callback) {
+
+    var params = {
+            uri : provider.serviceUrl.populateWith(location),
+            proxy : process.env.HTTP_PROXY
+        };
 
     request(params, function (err, res, body) {
 
@@ -132,19 +139,14 @@ function detectLocationById(id, callback) {
 //
 function getWeatherByLocationId(id, callback) {
 
-    var params;
 
-    detectLocationById(id, function (loc) {
+    detectLocationById(id, function (location) {
 
-        params = {
-            uri : provider.serviceUrl.populateWith(loc),
-            proxy : process.env.HTTP_PROXY
-        };
 
-        downloadDataFromProvider(params, function (err, jsonData) {
+        downloadDataFromProvider(location, function (err, jsonData) {
 
             if (err) {
-                console.log("Error while downloading weather data\n" + params);
+                console.log("Error while downloading weather data\n" + err);
                 throw err;
             }
 

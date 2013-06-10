@@ -23,7 +23,7 @@ app.get('/weather/:device/:id', function (req, res) {
         device = req.params.device;
     }
 
-    params = { id : id, device : device, lang : null };
+    params = { id : id, device : device, lang : 'ru' };
 
     console.log(params);
 
