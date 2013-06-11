@@ -1,3 +1,5 @@
+(maybe a better FAQ)
+
 next release
 ============
 
@@ -13,3 +15,11 @@ or
 
 The sun relevant date will be vanished completely and leave an empty place in the PNG.
 
+2.Http proxy
+============
+
+Please remember :
+
+The 'process.env.HTTP_PROXY' is case sensitive.
+
+Your proxy won't be found if the env variable was named 'http_proxy'.
