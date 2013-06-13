@@ -5,7 +5,20 @@
 
 var wundergroundAstro = require('./lib/provider/wundergroundAstro.js'),
     demoWeather = require('./test/2013-03-29.json'),
-    wgA = wundergroundAstro(),
+
+    astro = wundergroundAstro(null),
+
+
+
+    weatherProvider = require('./lib/provider/wunderground.js'),
+    provider = weatherProvider(), 
+    WeatherEngine = require('./lib/provider/providers.js').WeatherEngine,
+
+    AstroProvider = require('./lib/provider/providers.js').AstroProvider,
+    ap = new AstroProvider(),
+
+    we = new WeatherEngine(astro, provider),
+    x,
     location = {
         "id": 1,
         "name": "Germany/Berlin",
@@ -13,34 +26,19 @@ var wundergroundAstro = require('./lib/provider/wundergroundAstro.js'),
     };
 
 
-wgA.update(demoWeather);
-
-console.log('[getOwnPropertyNames]');
-console.log(Object.getOwnPropertyNames(wgA));
-
-
-console.log('[property chain]');
-
-    for (var i in wgA) {
-
-        if(wgA.hasOwnProperty(i)) {
-            console.log('\townProperty : ' + i);    
-        } else {
-            console.log('\tinheritedProperty : ' + i);    
-        }
-
-        
-    }
-
-
-
-console.log(wgA.sun(demoWeather));
+//console.log(Object.getOwnPropertyNames(ap));
 
 /*
-wgR.get(location, function (data) {
-    console.log('X');
-});
+for (var i in astro) {
+//    if (provider.hasOwnProperty(i))
+
+    console.log(i);
+}
 */
 
+
+we.extractWeatherFromProviderData(demoWeather, function (weather) {
+    console.log(weather);
+})
 
 

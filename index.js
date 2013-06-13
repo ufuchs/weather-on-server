@@ -336,7 +336,7 @@ var test = function (params, callback) {
 
 };
 
-var params = { id : 1, device : 'kindle4nt', lang : 'de' };
+var params = { id : 1, device : 'df3120', lang : 'ru' };
 
 test(params, function (filename, err) {
     console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
