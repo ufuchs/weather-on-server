@@ -135,13 +135,11 @@ function writeResults(svg, params, filenames, callback) {
 function core(params, weather, callback) {
 
     var l = localizer(new I18n(CFG.locales), CFG.iso3166ToLocale),
-        localized;
+        localized = l.localize(weather, params);
 
     console.log(weather);
 
     filenames(CFG).getFilenames(params, function (filenames) {
-
-        localized = l.localize(weather, params);
 
         populateSvgTemplate(weather, localized, filenames, function (svg) {
 
