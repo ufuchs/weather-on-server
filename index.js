@@ -9,17 +9,16 @@ var fs = require('fs.extra'),
 
     localizer = require('./lib/localizer.js'),
 
+    wunderground = require('./lib/provider/wunderground.js'),
+    wg = wunderground(process.env.HTTP_PROXY, process.env.WONDERGROUND_KEY, 0),
+
     CFG = require('./app-config.js'),
 
     filenames = require('./lib/filenames.js'),
 
-    cache = require('memory-cache'),
-
     I18n = require('i18n-2'),
 
     utils = require('./lib/utils.js'),
-
-    provider = require('./lib/provider/index.js'),
 
     demoWeather = require('./test/2013-03-29.json'),
 
@@ -87,33 +86,6 @@ function populateSvgTemplate(weather, localized, filenames, callback) {
 }
 
 //
-// http://api.wunderground.com/api/496fa9023d2c0170/geolookup/conditions/forecast/q/Germany/Bad%20Elster.json nn
-//
-function downloadDataFromProvider(location, callback) {
-
-    var params = {
-            uri : provider.serviceUrl.populateWith(location),
-            proxy : process.env.HTTP_PROXY
-        };
-
-    request(params, function (err, res, body) {
-
-        if (err) {
-            callback(err, null);
-        }
-
-        try {
-            var jsonData = JSON.parse(body);
-            callback(null, jsonData);
-        } catch (jsonError) {
-            callback(jsonError, null);
-        }
-
-    });
-
-}
-
-//
 //
 //
 function detectLocationById(id, callback) {
@@ -126,49 +98,12 @@ function detectLocationById(id, callback) {
         loc = locations[i];
 
         if (loc.id === id) {
-            callback(loc);
-            break;
+            return loc;
         }
 
     }
 
-}
-
-//
-// ! ANSEHEN !
-//
-function getWeatherByLocationId(id, callback) {
-
-    var cached;
-
-    detectLocationById(id, function (location) {
-
-//        cache.debug(true);
-
-        cached = cache.get(id);
-
-//        console.log(cache.hits());
-
-        if (cached === null) {
-
-            downloadDataFromProvider(location, function (err, jsonData) {
-
-                if (err) {
-                    console.log("Error while downloading weather data\n" + err);
-                    throw err;
-                }
-
-                cache.put(id, jsonData, CFG.cachesProviderdataFor);
-
-                callback(jsonData);
-
-            });
-
-        } else {
-            callback(cached);
-        }
-
-    });
+    return null;
 
 }
 
@@ -197,29 +132,27 @@ function writeResults(svg, params, filenames, callback) {
 //
 // 
 //
-function core(params, jsonData, callback) {
+function core(params, weather, callback) {
 
-    var l = localizer(new I18n(CFG.locales), CFG.iso3166ToLocale);
+    var l = localizer(new I18n(CFG.locales), CFG.iso3166ToLocale),
+        localized;
 
-    provider.extractWeatherFromProviderData(jsonData, function (weather) {
+    console.log(weather);
 
-        filenames(CFG).getFilenames(params, function (filenames) {
+    filenames(CFG).getFilenames(params, function (filenames) {
 
-            l.localize(weather, params, function (localized) {
+        localized = l.localize(weather, params);
 
-                populateSvgTemplate(weather, localized, filenames, function (svg) {
+        populateSvgTemplate(weather, localized, filenames, function (svg) {
 
-                    writeResults(svg, params, filenames, function (weatherPng, err) {
+            writeResults(svg, params, filenames, function (weatherPng, err) {
 
-                        if (err !== null) {
-                            console.log(err);
-                        }
+                if (err !== null) {
+                    console.log(err);
+                }
 
-                        callback(path.resolve(weatherPng), err);
+                callback(path.resolve(weatherPng), err);
 
-                    });
-
-                });
             });
 
         });
@@ -308,11 +241,13 @@ function prepare(params, callback) {
 //
 var main = function (params, callback) {
 
+    var location = detectLocationById(params.id);
+
     prepare(params, function () {
 
-        getWeatherByLocationId(params.id, function (jsonData) {
+        wunderground.getWeather(location, function (weather) {
 
-            core(params, jsonData, callback);
+            core(params, weather, callback);
 
         });
 
@@ -326,6 +261,7 @@ module.exports = main;
 
 // THIS IS FOR TESTS ONLY.
 // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
+/*
 var test = function (params, callback) {
 
     prepare(params, function () {
@@ -341,5 +277,5 @@ var params = { id : 1, device : 'df3120', lang : 'ru' };
 test(params, function (filename, err) {
     console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
 });
-
+*/
 ///////////////////////////////////////////////////////////////////////////////
