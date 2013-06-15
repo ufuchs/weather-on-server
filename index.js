@@ -18,7 +18,7 @@ var fs = require('fs.extra'),
 
     wunderground = require('./lib/provider/wunderground.js'),
 
-    wg = wunderground(process.env.HTTP_PROXY, process.env.WONDERGROUND_KEY, 0),
+    wg = wunderground(process.env.HTTP_PROXY, process.env.WUNDERGROUND_KEY, 0),
 
     CFG = require('./app-config.js'),
 
