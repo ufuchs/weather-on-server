@@ -1,6 +1,16 @@
 /*jslint node:true*/
 'use strict';
 
+/*!
+ * index
+ * Copyright(c) 2013 Uli Fuchs <ufuchs@gmx.com>
+ * MIT Licensed
+ *
+ * [ Our greatest weakness lies in giving up. The most certain way to ]
+ * [ succeed is always to try just one more time.                     ]
+ * [                                             - Thomas A. Edison - ]
+ */
+
 var express = require('express');
 var weather = require('./index.js');
 var app = express();

@@ -3,6 +3,15 @@
 
 'use strict';
 
+/*!
+ * index
+ * Copyright(c) 2013 Uli Fuchs <ufuchs@gmx.com>
+ * MIT Licensed
+ *
+ * [ The true sign of intelligence is not knowledge but imagination. ]
+ * [                                             - Albert Einstein - ]
+ */
+
 var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
