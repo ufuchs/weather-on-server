@@ -144,26 +144,24 @@ function writeResults(svg, params, filenames, callback) {
 //
 function core(params, weather, callback) {
 
-    var localized = l.localize(weather, params);
-
-    console.log(weather);
-
     filenames(CFG).getFilenames(params, function (filenames) {
 
-        populateSvgTemplate(weather, localized, filenames, function (svg) {
+        l.localize(weather, params, function (localized) {
 
-            writeResults(svg, params, filenames, function (weatherPng, err) {
+            populateSvgTemplate(weather, localized, filenames, function (svg) {
 
-                if (err !== null) {
-                    console.log(err);
-                }
+                writeResults(svg, params, filenames, function (weatherPng, err) {
 
-                callback(path.resolve(weatherPng), err);
+                    if (err !== null) {
+                        console.log(err);
+                    }
+
+                    callback(path.resolve(weatherPng), err);
+
+                });
 
             });
-
         });
-
     });
 
 }
