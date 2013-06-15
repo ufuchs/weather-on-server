@@ -16,16 +16,17 @@ var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
 
-    localizer = require('./lib/localizer.js'),
-
     wunderground = require('./lib/provider/wunderground.js'),
+
     wg = wunderground(process.env.HTTP_PROXY, process.env.WONDERGROUND_KEY, 0),
 
     CFG = require('./app-config.js'),
 
-    filenames = require('./lib/filenames.js'),
+    localizer = require('./lib/localizer.js'),
 
-    I18n = require('i18n-2'),
+    l = localizer(CFG),
+
+    filenames = require('./lib/filenames.js'),
 
     utils = require('./lib/utils.js'),
 
@@ -143,8 +144,7 @@ function writeResults(svg, params, filenames, callback) {
 //
 function core(params, weather, callback) {
 
-    var l = localizer(new I18n(CFG.locales), CFG.iso3166ToLocale),
-        localized = l.localize(weather, params);
+    var localized = l.localize(weather, params);
 
     console.log(weather);
 
