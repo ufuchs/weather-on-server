@@ -6,14 +6,6 @@ module.exports = {
 
     cachesProviderdataFor : 3600 * 1000,
 
-    locales: {
-        locales: ['cs', 'de', 'en', 'pl', 'ru', 'tr']
-    },
-
-    iso3166ToLocale: {
-        "cz" : "cs"
-    },
-
     weatherPool : {
         dir : './weather',
         fileNames : {
