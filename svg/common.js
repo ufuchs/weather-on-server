@@ -1,6 +1,6 @@
 
-var SVGDocument = null,
-    SVGRoot = null;
+var svgDocument = null,
+    svgRoot = null;
 
 //
 // Hides the `sun-group` in case of 'sun-rise' 
@@ -8,14 +8,15 @@ var SVGDocument = null,
 //  - is null 
 //  - '{{sr}}' (default value)
 //
-function HideSunGroup() {
-
-    var sunRise = SVGDocument.getElementById('sun-rise'),
-        sunGroup = SVGDocument.getElementById('sun-group'),
+function hideSunGroup() {
+    'use strict';
+    var sunRise = svgDocument.getElementById('sun-rise'),
+        sunGroup,
         value = sunRise.textContent,
-        placeHolder = '\{\{sr\}\}';
+        placeHolder = "\\{\\{sr\\}\\}";
 
-    if (value === 'null' || value === '' || value === placeHolder ) {
+    if (value === 'null' || value === '' || value === placeHolder) {
+        sunGroup = svgDocument.getElementById('sun-group');
         sunGroup.setAttributeNS(null, 'visibility', 'hidden');
     }
 
@@ -24,9 +25,10 @@ function HideSunGroup() {
 //
 //
 //
-function Init(evt) {
-    SVGDocument = evt.target.ownerDocument;
-    SVGRoot = SVGDocument.documentElement;
-    HideSunGroup();
+function init(evt) {
+    'use strict';
+    svgDocument = evt.target.ownerDocument;
+    svgRoot = svgDocument.documentElement;
+    hideSunGroup();
 }
 

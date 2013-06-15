@@ -7,7 +7,7 @@
   width="320"
   height="240"
   version="1.1"
-  onload='Init(evt)'
+  onload='init(evt)'
   >
 
   <title>DF3120-320x240</title>
