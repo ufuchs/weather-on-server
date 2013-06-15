@@ -39,57 +39,63 @@ var fs = require('fs.extra'),
 //
 //
 //
-function populateSvgTemplate(weather, localized, filenames, callback) {
+function populateSvgTemplate(weather, params, filenames, callback) {
 
     var svgTemplate = filenames['in'].svgTemplate,
+        tempUnit;
+
+    l.localize(weather, params, function (localized) {
+
         tempUnit = localized.common.tempUnit;
 
-    utils.readTextFile(svgTemplate,  function (svgTemplate) {
+        utils.readTextFile(svgTemplate,  function (svgTemplate) {
 
-        callback(utils.fillTemplates(svgTemplate, {
+            callback(utils.fillTemplates(svgTemplate, {
 
-            // common 
-            css : filenames['in'].cssFile,
-            tempUnit : localized.common.tempUnitToDisplay,
-            min : localized.common.min,
-            max : localized.common.max,
+                // common 
+                css : filenames['in'].cssFile,
+                tempUnit : localized.common.tempUnitToDisplay,
+                min : localized.common.min,
+                max : localized.common.max,
 
-            // headline
-            dow0 : localized.header.today,
-            date : localized.header.date,
-            doy : localized.header.doy,
+                // headline
+                dow0 : localized.header.today,
+                date : localized.header.date,
+                doy : localized.header.doy,
 
-            // sun
-            sr : localized.sun.sr,
-            ss : localized.sun.ss,
-            dl : localized.sun.dayLenght,
+                // sun
+                sr : localized.sun.sr,
+                ss : localized.sun.ss,
+                dl : localized.sun.dayLenght,
 
-            h0 : weather.temp0.high[tempUnit],
-            l0 : weather.temp0.low[tempUnit],
-            ic0 : weather.ic0,
+                h0 : weather.temp0.high[tempUnit],
+                l0 : weather.temp0.low[tempUnit],
+                ic0 : weather.ic0,
 
-            // tommorow
-            dow1 : localized.weekdays.tomorrow,
-            h1 : weather.temp1.high[tempUnit],
-            l1 : weather.temp1.low[tempUnit],
-            ic1 : weather.ic1,
+                // tommorow
+                dow1 : localized.weekdays.tomorrow,
+                h1 : weather.temp1.high[tempUnit],
+                l1 : weather.temp1.low[tempUnit],
+                ic1 : weather.ic1,
 
-            // day after tommorow
-            dow2 : localized.weekdays.day_after_tomorrow,
-            h2 : weather.temp2.high[tempUnit],
-            l2 : weather.temp2.low[tempUnit],
-            ic2 : weather.ic2,
+                // day after tommorow
+                dow2 : localized.weekdays.day_after_tomorrow,
+                h2 : weather.temp2.high[tempUnit],
+                l2 : weather.temp2.low[tempUnit],
+                ic2 : weather.ic2,
 
-            // // day after tommorow + 1
-            dow3 : localized.weekdays.day_after_tomorrow_plusOne,
-            h3 : weather.temp3.high[tempUnit],
-            l3 : weather.temp3.low[tempUnit],
-            ic3 : weather.ic3,
+                // // day after tommorow + 1
+                dow3 : localized.weekdays.day_after_tomorrow_plusOne,
+                h3 : weather.temp3.high[tempUnit],
+                l3 : weather.temp3.low[tempUnit],
+                ic3 : weather.ic3,
 
-            // footer
-            update : localized.footer
+                // footer
+                update : localized.footer
 
-        }));
+            }));
+
+        });
 
     });
 
@@ -144,24 +150,22 @@ function writeResults(svg, params, filenames, callback) {
 //
 function core(params, weather, callback) {
 
-    filenames(CFG).getFilenames(params, function (filenames) {
+    filenames(CFG).get(params, function (filenames) {
 
-        l.localize(weather, params, function (localized) {
+        populateSvgTemplate(weather, params, filenames, function (svg) {
 
-            populateSvgTemplate(weather, localized, filenames, function (svg) {
+            writeResults(svg, params, filenames, function (weatherPng, err) {
 
-                writeResults(svg, params, filenames, function (weatherPng, err) {
+                if (err !== null) {
+                    console.log(err);
+                }
 
-                    if (err !== null) {
-                        console.log(err);
-                    }
-
-                    callback(path.resolve(weatherPng), err);
-
-                });
+                callback(path.resolve(weatherPng), err);
 
             });
+
         });
+
     });
 
 }
@@ -266,21 +270,25 @@ module.exports = main;
 
 // THIS IS FOR TESTS ONLY.
 // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
-/*
+
 var test = function (params, callback) {
 
     prepare(params, function () {
 
-        core(params, demoWeather, callback);
+        wunderground.extractWeather(demoWeather, function (weather) {
+
+            core(params, weather, callback);
+
+        });
 
     });
 
 };
 
-var params = { id : 1, device : 'df3120', lang : 'ru' };
+var params = { id : 1, device : 'kindle4nt', lang : 'ru' };
 
 test(params, function (filename, err) {
     console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
 });
-*/
+
 ///////////////////////////////////////////////////////////////////////////////
