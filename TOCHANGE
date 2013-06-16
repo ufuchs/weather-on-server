@@ -1,4 +1,5 @@
-common
-======
+wundergound.js
+==============
 
-df3120 verbeult 'update'-Datum
+handle first request after midnight if cache is still valid
+

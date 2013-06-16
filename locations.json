@@ -3,17 +3,17 @@
 		{
 			"id": 1,
 			"name": "Germany/Berlin",
-			"language": "DL"
+			"language": "de"
 		},
 		{
 			"id": 2,
 			"name": "Germany/Bad Elster",
-			"language": "DL"
+			"language": "de"
 		},
 		{
 			"id": 3,
 			"name": "Denmark/Copenhagen",
-			"language": "DK"
+			"language": "dk"
 		}
 
 	]	

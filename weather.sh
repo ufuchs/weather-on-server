@@ -6,5 +6,5 @@
 
 export NODE_ENV=production
 
-node weather.js
+node app.js
 
