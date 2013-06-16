@@ -193,6 +193,8 @@ var main = function (params, callback) {
 
     var location = detectLocationById(params.id);
 
+    params.lang = location.language;
+
     wunderground.getWeather(location, function (weather) {
 
         core(params, weather, callback);

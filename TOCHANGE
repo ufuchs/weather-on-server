@@ -3,3 +3,4 @@ wundergound.js
 
 handle first request after midnight if cache is still valid
 
+!re-insert the former DAYLENGTH!
