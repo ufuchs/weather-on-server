@@ -17,14 +17,8 @@ var fs = require('fs.extra'),
     request = require('request'),
 
     wunderground = require('./lib/provider/wunderground.js'),
-
-    wg = wunderground(process.env.HTTP_PROXY, process.env.WUNDERGROUND_KEY, 0),
-
     CFG = require('./app-config.js'),
-
     localizer = require('./lib/localizer.js'),
-
-    l = localizer(CFG),
 
     filenames = require('./lib/filenames.js'),
 
@@ -39,61 +33,130 @@ var fs = require('fs.extra'),
 //
 //
 //
+function makeTargetDir(params, callback) {
+
+    var weatherPool = CFG.weatherPool.dir,
+        targetDir = weatherPool + '/' + params.device + '/' + params.id;
+
+    fs.exists(targetDir, function (exists) {
+
+        if (!exists) {
+            fs.mkdir(targetDir, function (err) {
+                callback(err);
+            });
+        }
+
+        callback(null);
+
+    });
+
+}
+
+//
+//
+//
 function populateSvgTemplate(weather, params, filenames, callback) {
 
     var svgTemplate = filenames['in'].svgTemplate,
         tempUnit;
 
-    l.localize(weather, params, function (localized) {
+    makeTargetDir(params, function (err) {
 
-        tempUnit = localized.common.tempUnit;
+        localizer.localize(weather, params, function (localized) {
 
-        utils.readTextFile(svgTemplate,  function (svgTemplate) {
+            tempUnit = localized.common.tempUnit;
 
-            callback(utils.fillTemplates(svgTemplate, {
+            utils.readTextFile(svgTemplate,  function (svgTemplate) {
 
-                // common 
-                css : filenames['in'].cssFile,
-                tempUnit : localized.common.tempUnitToDisplay,
-                min : localized.common.min,
-                max : localized.common.max,
+                callback(utils.fillTemplates(svgTemplate, {
 
-                // headline
-                dow0 : localized.header.today,
-                date : localized.header.date,
-                doy : localized.header.doy,
+                    // common 
+                    css : filenames['in'].cssFile,
+                    tempUnit : localized.common.tempUnitToDisplay,
+                    min : localized.common.min,
+                    max : localized.common.max,
 
-                // sun
-                sr : localized.sun.sr,
-                ss : localized.sun.ss,
-                dl : localized.sun.dayLenght,
+                    // headline
+                    dow0 : localized.header.today,
+                    date : localized.header.date,
+                    doy : localized.header.doy,
 
-                h0 : weather.temp0.high[tempUnit],
-                l0 : weather.temp0.low[tempUnit],
-                ic0 : weather.ic0,
+                    // sun
+                    sr : localized.sun.sr,
+                    ss : localized.sun.ss,
+                    dl : localized.sun.dayLenght,
 
-                // tommorow
-                dow1 : localized.weekdays.tomorrow,
-                h1 : weather.temp1.high[tempUnit],
-                l1 : weather.temp1.low[tempUnit],
-                ic1 : weather.ic1,
+                    h0 : weather.temp0.high[tempUnit],
+                    l0 : weather.temp0.low[tempUnit],
+                    ic0 : weather.ic0,
 
-                // day after tommorow
-                dow2 : localized.weekdays.day_after_tomorrow,
-                h2 : weather.temp2.high[tempUnit],
-                l2 : weather.temp2.low[tempUnit],
-                ic2 : weather.ic2,
+                    // tommorow
+                    dow1 : localized.weekdays.tomorrow,
+                    h1 : weather.temp1.high[tempUnit],
+                    l1 : weather.temp1.low[tempUnit],
+                    ic1 : weather.ic1,
 
-                // // day after tommorow + 1
-                dow3 : localized.weekdays.day_after_tomorrow_plusOne,
-                h3 : weather.temp3.high[tempUnit],
-                l3 : weather.temp3.low[tempUnit],
-                ic3 : weather.ic3,
+                    // day after tommorow
+                    dow2 : localized.weekdays.day_after_tomorrow,
+                    h2 : weather.temp2.high[tempUnit],
+                    l2 : weather.temp2.low[tempUnit],
+                    ic2 : weather.ic2,
 
-                // footer
-                update : localized.footer
+                    // // day after tommorow + 1
+                    dow3 : localized.weekdays.day_after_tomorrow_plusOne,
+                    h3 : weather.temp3.high[tempUnit],
+                    l3 : weather.temp3.low[tempUnit],
+                    ic3 : weather.ic3,
 
-            }));
+                    // footer
+                    update : localized.footer
+
+                }));
+
+            });
+
+        });
+    });
+}
+
+//
+// 
+//
+function writeResults(svg, params, filenames, callback) {
+
+    fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
+
+        if (err) {
+            callback(null, err);
+            return;
+        }
+
+        renderService.render(params.device, filenames.out, function (outPng, err) {
+            callback(outPng, err);
+        });
+
+    });
+
+}
+
+//
+// 
+//
+function core(params, weather, callback) {
+
+    filenames.get(params, function (filenames) {
+
+        populateSvgTemplate(weather, params, filenames, function (svg) {
+
+            writeResults(svg, params, filenames, function (weatherPng, err) {
+
+                if (err !== null) {
+                    console.log(err);
+                }
+
+                callback(path.resolve(weatherPng), err);
+
+            });
 
         });
 
@@ -126,143 +189,21 @@ function detectLocationById(id, callback) {
 //
 // 
 //
-function writeResults(svg, params, filenames, callback) {
-
-    // 1
-    fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
-
-        if (err) {
-            callback(null, err);
-            return;
-        }
-
-        // 2
-        renderService.render(params.device, filenames.out, function (outPng, err) {
-            callback(outPng, err);
-        });
-
-    });
-
-}
-
-//
-// 
-//
-function core(params, weather, callback) {
-
-    filenames(CFG).get(params, function (filenames) {
-
-        populateSvgTemplate(weather, params, filenames, function (svg) {
-
-            writeResults(svg, params, filenames, function (weatherPng, err) {
-
-                if (err !== null) {
-                    console.log(err);
-                }
-
-                callback(path.resolve(weatherPng), err);
-
-            });
-
-        });
-
-    });
-
-}
-
-//
-//
-//
-function makeTargetDir(params, callback) {
-
-    var svgPool = CFG.svgPool.dir,
-        weatherPool = CFG.weatherPool.dir,
-        targetDir = weatherPool + '/' + params.device + '/' + params.id;
-
-    fs.exists(targetDir, function (exists) {
-
-        if (!exists) {
-            fs.mkdir(targetDir, function (err) {
-                callback(err);
-            });
-        }
-
-        callback(null);
-
-    });
-
-}
-
-//
-//
-//
-function prepare(params, callback) {
-
-    var svgPool = CFG.svgPool.dir,
-        weatherPool = CFG.weatherPool.dir;
-
-    fs.exists(weatherPool, function (exists) {
-
-        if (!exists) {
-
-            fs.copyRecursive(svgPool, weatherPool, function (err) {
-
-                if (err) {
-                    callback(err);
-                }
-
-                fs.rmrf(weatherPool + '/df3120/app-dir', function (err) {
-
-                    if (err) {
-                        callback(err);
-                    }
-
-                    fs.rmrf(weatherPool + '/kindle4nt/app-dir', function (err) {
-
-                        if (err) {
-                            callback(err);
-                        }
-
-                        makeTargetDir(params, function (err) {
-                            callback(err);
-                        });
-
-                    });
-
-                });
-
-            });
-
-        } else {
-
-            makeTargetDir(params, function (err) {
-                callback(err);
-            });
-
-        }
-
-    });
-
-}
-
-//
-// 
-//
 var main = function (params, callback) {
 
     var location = detectLocationById(params.id);
 
-    prepare(params, function () {
+    wunderground.getWeather(location, function (weather) {
 
-        wunderground.getWeather(location, function (weather) {
-
-            core(params, weather, callback);
-
-        });
+        core(params, weather, callback);
 
     });
 
 };
+
+wunderground(process.env.HTTP_PROXY || process.env.http_proxy, process.env.WUNDERGROUND_KEY, CFG.cachesProviderdataFor);
+localizer(CFG);
+filenames(CFG);
 
 module.exports = main;
 
@@ -273,13 +214,9 @@ module.exports = main;
 
 var test = function (params, callback) {
 
-    prepare(params, function () {
+    wunderground.extractWeather(demoWeather, function (weather) {
 
-        wunderground.extractWeather(demoWeather, function (weather) {
-
-            core(params, weather, callback);
-
-        });
+        core(params, weather, callback);
 
     });
 

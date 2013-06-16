@@ -11,12 +11,14 @@
  * [                                             - Thomas A. Edison - ]
  */
 
-var express = require('express');
-var weather = require('./index.js');
-var app = express();
+var express = require('express'),
+//    fs = require('fs.extra'),
+    weather = require('./index.js'),
+    app = express();
 
 app.configure(function () {
     app.use(app.router);
+    app.use(express.static(__dirname + '/public'));
 });
 
 app.get('/weather/:device/:id', function (req, res) {

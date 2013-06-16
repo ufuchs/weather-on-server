@@ -4,10 +4,10 @@
 
 module.exports = {
 
-    cachesProviderdataFor : 3600 * 1000,
+    cachesProviderdataFor : 3600,
 
     weatherPool : {
-        dir : './weather',
+        dir : './public/weather',
         fileNames : {
             weatherSvg : 'weather.svg',
             unweatherPng : 'unweather.png',
@@ -15,9 +15,8 @@ module.exports = {
         }
     },
 
-    svgPool : {
-        dir : './svg',
-        commons : [ 'common.js', 'icons.svg' ],
+    templatesPool : {
+        dir : './templates',
         devices : {
             kindle4nt : '600x800.svg',
             df3120 : '320x240.svg'
