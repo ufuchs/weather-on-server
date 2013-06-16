@@ -6,15 +6,17 @@
 .idea
 .env
 wunderground.sh
-#repl*.js
 
 pids
 logs
 results
 
+# exclude weather artefacts
+public/weather/*/*/*.png
+public/weather/*/*/*.svg
+
 node_modules
 npm-debug.log
-weather
 vendor
 tmp
 
