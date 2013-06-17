@@ -12,13 +12,19 @@
  */
 
 var express = require('express'),
-//    fs = require('fs.extra'),
     weather = require('./weather.js'),
+    cfg = require('./weather-config.js'),
     app = express();
 
 app.configure(function () {
+
+    var proxy = process.env.HTTP_PROXY || process.env.http_proxy,
+        apikey = process.env.WUNDERGROUND_KEY,
+        cachettl = cfg.cachesProviderdataFor;
+
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
+    weather(proxy, apikey, cachettl);
 });
 
 app.get('/weather/:device/:id', function (req, res) {
@@ -39,7 +45,7 @@ app.get('/weather/:device/:id', function (req, res) {
 
     console.log(params);
 
-    weather(params, function (filename, err) {
+    weather.main(params, function (filename, err) {
         console.log(filename);
         res.sendfile(filename);
     });

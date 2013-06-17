@@ -4,7 +4,7 @@
 'use strict';
 
 /*!
- * index
+ * weather
  * Copyright(c) 2013 Uli Fuchs <ufuchs@gmx.com>
  * MIT Licensed
  *
@@ -12,222 +12,262 @@
  * [                                             - Albert Einstein - ]
  */
 
+/**
+ * Dependencies
+ */
+
 var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
 
     wunderground = require('./lib/provider/wunderground.js'),
-    CFG = require('./weather-config.js'),
+    cfg = require('./weather-config.js'),
     localizer = require('./lib/localizer.js'),
-
     filenames = require('./lib/filenames.js'),
-
     utils = require('./lib/utils.js'),
-
-    demoWeather = require('./test/2013-03-29.json'),
-
     renderService = require('./lib/svg2png-renderer.js'),
+    locations = require('./locations.json').locations,
 
-    locations = require('./locations.json').locations;
+    demoWeather = require('./test/2013-03-29.json');
 
-//
-//
-//
-function makeTargetDir(params, callback) {
+(function (undefined) {
 
-    var weatherPool = CFG.weatherPool.dir,
-        targetDir = weatherPool + '/' + params.device + '/' + params.id;
+    var weather,
 
-    fs.exists(targetDir, function (exists) {
+        VERSION = "0.1.0",
 
-        if (!exists) {
-            fs.mkdir(targetDir, function (err) {
-                callback(err);
-            });
-        }
+        // check for nodeJS
+        hasModule = (module !== 'undefined' && module.exports);
 
-        callback(null);
+    //
+    //
+    //
+    function makeTargetDir(params, callback) {
 
-    });
+        var weatherPool = cfg.weatherPool.dir,
+            targetDir = weatherPool + '/' + params.device + '/' + params.id;
 
-}
+        fs.exists(targetDir, function (exists) {
 
-//
-//
-//
-function populateSvgTemplate(weather, params, filenames, callback) {
+            if (!exists) {
+                fs.mkdir(targetDir, function (err) {
+                    callback(err);
+                    return;
+                });
+            }
 
-    var svgTemplate = filenames['in'].svgTemplate,
-        tempUnit;
-
-    makeTargetDir(params, function (err) {
-
-        localizer.localize(weather, params, function (localized) {
-
-            tempUnit = localized.common.tempUnit;
-
-            utils.readTextFile(svgTemplate,  function (svgTemplate) {
-
-                callback(utils.fillTemplates(svgTemplate, {
-
-                    // common 
-                    css : filenames['in'].cssFile,
-                    tempUnit : localized.common.tempUnitToDisplay,
-                    min : localized.common.min,
-                    max : localized.common.max,
-
-                    // headline
-                    dow0 : localized.header.today,
-                    date : localized.header.date,
-                    doy : localized.header.doy,
-
-                    // sun
-                    sr : localized.sun.sr,
-                    ss : localized.sun.ss,
-                    dl : localized.sun.dayLenght,
-
-                    h0 : weather.temp0.high[tempUnit],
-                    l0 : weather.temp0.low[tempUnit],
-                    ic0 : weather.ic0,
-
-                    // tommorow
-                    dow1 : localized.weekdays.tomorrow,
-                    h1 : weather.temp1.high[tempUnit],
-                    l1 : weather.temp1.low[tempUnit],
-                    ic1 : weather.ic1,
-
-                    // day after tommorow
-                    dow2 : localized.weekdays.day_after_tomorrow,
-                    h2 : weather.temp2.high[tempUnit],
-                    l2 : weather.temp2.low[tempUnit],
-                    ic2 : weather.ic2,
-
-                    // // day after tommorow + 1
-                    dow3 : localized.weekdays.day_after_tomorrow_plusOne,
-                    h3 : weather.temp3.high[tempUnit],
-                    l3 : weather.temp3.low[tempUnit],
-                    ic3 : weather.ic3,
-
-                    // footer
-                    update : localized.footer
-
-                }));
-
-            });
+            callback(null);
 
         });
-    });
-}
-
-//
-// 
-//
-function writeResults(svg, params, filenames, callback) {
-
-    fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
-
-        if (err) {
-            callback(null, err);
-            return;
-        }
-
-        renderService.render(params.device, filenames.out, function (outPng, err) {
-            callback(outPng, err);
-        });
-
-    });
-
-}
-
-//
-// 
-//
-function core(params, weather, callback) {
-
-    filenames.get(params, function (filenames) {
-
-        populateSvgTemplate(weather, params, filenames, function (svg) {
-
-            writeResults(svg, params, filenames, function (weatherPng, err) {
-
-                if (err !== null) {
-                    console.log(err);
-                }
-
-                callback(path.resolve(weatherPng), err);
-
-            });
-
-        });
-
-    });
-
-}
-
-//
-//
-//
-function detectLocationById(id, callback) {
-
-    var i,
-        loc;
-
-    for (i = 0; i < locations.length; i += 1) {
-
-        loc = locations[i];
-
-        if (loc.id === id) {
-            return loc;
-        }
 
     }
 
-    return null;
+    //
+    //
+    //
+    function populateSvgTemplate(weather, params, filenames, callback) {
 
-}
+        var svgTemplate = filenames['in'].svgTemplate,
+            tempUnit;
 
-//
-// 
-//
-var main = function (params, callback) {
+        makeTargetDir(params, function (err) {
 
-    var location = detectLocationById(params.id);
+            localizer.localize(weather, params, function (localized) {
 
-    params.lang = location.language;
+                tempUnit = localized.common.tempUnit;
 
-    wunderground.getWeather(location, function (weather) {
+                utils.readTextFile(svgTemplate,  function (svgTemplate) {
 
-        core(params, weather, callback);
+                    callback(utils.fillTemplates(svgTemplate, {
 
-    });
+                        // common 
+                        css : filenames['in'].cssFile,
+                        tempUnit : localized.common.tempUnitToDisplay,
+                        min : localized.common.min,
+                        max : localized.common.max,
 
-};
+                        // headline
+                        dow0 : localized.header.today,
+                        date : localized.header.date,
+                        doy : localized.header.doy,
 
-wunderground(process.env.HTTP_PROXY || process.env.http_proxy, process.env.WUNDERGROUND_KEY, CFG.cachesProviderdataFor);
-localizer(CFG);
-filenames(CFG);
+                        // sun
+                        sr : localized.sun.sr,
+                        ss : localized.sun.ss,
+                        dl : localized.sun.dayLenght,
 
-module.exports = main;
+                        h0 : weather.temp0.high[tempUnit],
+                        l0 : weather.temp0.low[tempUnit],
+                        ic0 : weather.ic0,
+
+                        // tommorow
+                        dow1 : localized.weekdays.tomorrow,
+                        h1 : weather.temp1.high[tempUnit],
+                        l1 : weather.temp1.low[tempUnit],
+                        ic1 : weather.ic1,
+
+                        // day after tommorow
+                        dow2 : localized.weekdays.day_after_tomorrow,
+                        h2 : weather.temp2.high[tempUnit],
+                        l2 : weather.temp2.low[tempUnit],
+                        ic2 : weather.ic2,
+
+                        // // day after tommorow + 1
+                        dow3 : localized.weekdays.day_after_tomorrow_plusOne,
+                        h3 : weather.temp3.high[tempUnit],
+                        l3 : weather.temp3.low[tempUnit],
+                        ic3 : weather.ic3,
+
+                        // footer
+                        update : localized.footer
+
+                    }));
+
+                });
+
+            });
+        });
+    }
+
+    //
+    // 
+    //
+    function writeResults(svg, params, filenames, callback) {
+
+        fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
+
+            if (err) {
+                callback(null, err);
+                return;
+            }
+
+            renderService.render(params.device, filenames.out, function (outPng, err) {
+                callback(outPng, err);
+            });
+
+        });
+
+    }
+
+
+    //
+    // 
+    //
+    function core(params, weather, callback) {
+
+        filenames.get(params, function (filenames) {
+
+            populateSvgTemplate(weather, params, filenames, function (svg) {
+
+                writeResults(svg, params, filenames, function (weatherPng, err) {
+
+                    if (err !== null) {
+                        console.log(err);
+                    }
+
+                    callback(path.resolve(weatherPng), err);
+
+                });
+
+            });
+
+        });
+
+    }
+
+    //
+    //
+    //
+    function detectLocationById(id, callback) {
+
+        var i,
+            loc;
+
+        for (i = 0; i < locations.length; i += 1) {
+
+            loc = locations[i];
+
+            if (loc.id === id) {
+                return loc;
+            }
+
+        }
+
+        return null;
+
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    /** 
+     * Download weather data from provider and transforms it into a PNG file
+     *
+     * @param {proxy} String
+     * @param {apikey} String
+     * @param {cachettl} Integer
+     *
+     * @api public
+     */
+
+    weather = function (proxy, apikey, cachettl) {
+
+        wunderground(proxy, apikey, cachettl);
+        localizer(cfg);
+        filenames(cfg);
+
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    //
+    // 
+    //
+    weather.main = function (params, callback) {
+
+        var location = detectLocationById(params.id);
+
+        params.lang = location.language;
+
+        wunderground.getWeather(location, function (weather) {
+
+            core(params, weather, callback);
+
+        });
+
+    };
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// THIS IS FOR TESTS ONLY.
-// PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
+    // THIS IS FOR TESTS ONLY.
+    // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
 
-var test = function (params, callback) {
+    weather.test = function (callback) {
 
-    wunderground.extractWeather(demoWeather, function (weather) {
+        var params = { id : 1, device : 'kindle4nt', lang : null };
 
-        core(params, weather, callback);
+        wunderground.extractWeather(demoWeather, function (weather) {
 
+            core(params, weather, callback);
+
+        });
+
+    };
+
+    /*
+    test(function (filename, err) {
+        console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
     });
-
-};
-
-var params = { id : 1, device : 'kindle4nt', lang : 'ru' };
-
-test(params, function (filename, err) {
-    console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
-});
+    */
 
 ///////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Expose `filenames`.
+     */
+
+    // CommonJS module is defined
+    if (hasModule) {
+        module.exports = weather;
+    }
+
+}).call(this);
