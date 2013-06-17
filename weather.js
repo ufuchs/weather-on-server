@@ -52,11 +52,10 @@ var fs = require('fs.extra'),
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
                     callback(err);
-                    return;
                 });
+            } else {
+                callback(null);
             }
-
-            callback(null);
 
         });
 
