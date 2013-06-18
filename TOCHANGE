@@ -3,4 +3,7 @@ wundergound.js
 
 handle first request after midnight if cache is still valid
 
-!re-insert the former DAYLENGTH!
+[re-insert the former DAYLENGTH]
+	Jahreswechsel berücksichtigen...
+
+reverse day of year after 21.Jun.
