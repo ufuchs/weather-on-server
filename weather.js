@@ -27,6 +27,7 @@ var fs = require('fs.extra'),
     utils = require('./lib/utils.js'),
     renderService = require('./lib/svg2png-renderer.js'),
     locations = require('./locations.json').locations,
+    astro = require('./lib/astronomy/utils.js'),
 
     demoWeather = require('./test/2013-03-29.json');
 
@@ -37,7 +38,9 @@ var fs = require('fs.extra'),
         VERSION = "0.1.0",
 
         // check for nodeJS
-        hasModule = (module !== 'undefined' && module.exports);
+        hasModule = (module !== 'undefined' && module.exports),
+
+        sun;
 
     //
     //
@@ -67,11 +70,15 @@ var fs = require('fs.extra'),
     function populateSvgTemplate(weather, params, filenames, callback) {
 
         var svgTemplate = filenames['in'].svgTemplate,
-            tempUnit;
+            tempUnit,
+            localSun = params.id === 1 ? sun : null;
+
+console.log(params);
+
 
         makeTargetDir(params, function (err) {
 
-            localizer.localize(weather, params, function (localized) {
+            localizer.localize(weather, params, localSun, function (localized) {
 
                 tempUnit = localized.common.tempUnit;
 
@@ -79,7 +86,7 @@ var fs = require('fs.extra'),
 
                     callback(utils.fillTemplates(svgTemplate, {
 
-                        // common 
+                        // common
                         css : filenames['in'].cssFile,
                         tempUnit : localized.common.tempUnitToDisplay,
                         min : localized.common.min,
@@ -93,7 +100,8 @@ var fs = require('fs.extra'),
                         // sun
                         sr : localized.sun.sr,
                         ss : localized.sun.ss,
-                        dl : localized.sun.dayLenght,
+                        dl : localized.sun.dayLenght + '   ' + localized.sun.dayLenghtDiff,
+
 
                         h0 : weather.temp0.high[tempUnit],
                         l0 : weather.temp0.low[tempUnit],
@@ -129,7 +137,7 @@ var fs = require('fs.extra'),
     }
 
     //
-    // 
+    //
     //
     function writeResults(svg, params, filenames, callback) {
 
@@ -150,7 +158,7 @@ var fs = require('fs.extra'),
 
 
     //
-    // 
+    //
     //
     function core(params, weather, callback) {
 
@@ -196,9 +204,23 @@ var fs = require('fs.extra'),
 
     }
 
+
+    //
+    //
+    //
+    function prepare(cb) {
+
+        var sunFileName = path.resolve(astro.getSunFilename(1));
+
+        utils.readTextToArray(sunFileName, function (err, lines) {
+            cb(err, lines);
+        });
+
+    }
+
     ///////////////////////////////////////////////////////////////////////////
 
-    /** 
+    /**
      * Download weather data from provider and transforms it into a PNG file
      *
      * @param {proxy} String
@@ -210,16 +232,27 @@ var fs = require('fs.extra'),
 
     weather = function (proxy, apikey, cachettl) {
 
-        wunderground(proxy, apikey, cachettl);
-        localizer(cfg);
-        filenames(cfg);
+        prepare(function (err, lines) {
+
+            if (err) {
+                throw err;
+            }
+
+            sun = lines;
+
+            wunderground(proxy, apikey, cachettl);
+            localizer(cfg);
+            filenames(cfg);
+
+        });
+
 
     };
 
     ///////////////////////////////////////////////////////////////////////////
 
     //
-    // 
+    //
     //
     weather.main = function (params, callback) {
 
