@@ -5,10 +5,11 @@
 module.exports = {
 
     locales: {
-        locales: ['cs', 'de', 'en', 'pl', 'ru', 'tr']
+        locales: ['cs', 'da', 'de', 'en', 'pl', 'ru', 'tr']
     },
 
     iso3166ToLocale: {
-        "cz" : "cs"
+        "cz" : "cs",
+        "dk" : "da"
     }
 };
