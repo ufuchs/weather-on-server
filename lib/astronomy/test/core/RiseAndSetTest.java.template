@@ -1,0 +1,78 @@
+package de.z35.posas.test.core;
+
+import de.z35.posas.core.TimeBase;
+import de.z35.posas.test.util.J4METestCase;
+import j2meunit.framework.Test;
+import j2meunit.framework.TestCase;
+import j2meunit.framework.TestMethod;
+import j2meunit.framework.TestSuite;
+
+/**
+ * 
+ * @author Uli Fuchs
+ *
+ */
+public class RiseAndSetTest extends J4METestCase{
+
+	////////////////////////////////////////////////////////////////////////////
+	//  constructors
+	////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * 
+	 * @param arg0
+	 * @param arg1
+	 */
+	public RiseAndSetTest(String arg0, TestMethod arg1) {
+		super(arg0, arg1);
+	}
+
+	/**
+	 * 
+	 *
+	 */
+	public RiseAndSetTest() {
+		super();
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	//  suite
+	////////////////////////////////////////////////////////////////////////////
+	
+	public Test suite() {
+
+		TestSuite ts = new TestSuite();
+		
+		//  Julian Day Number
+		ts.addTest(new TimeBaseTest("testJd()", new TestMethod() {
+			public void run(TestCase tc) {
+				((TimeBaseTest) tc).testJd();
+			}
+		}));
+
+		
+		return ts;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////
+	//  test methodes
+	////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * 
+	 */
+	protected void testJd() {
+
+		TimeBase tb = new TimeBase();
+		
+		tb.setParams(1987, 4, 10, 19, 21, 00);
+		
+		String expected = "2446896.30625"; 
+		
+		String s = Double.toString(tb.getJD());
+		
+		assertEquals("Julian Day Number :", expected, s);
+		
+	}
+	
+}
