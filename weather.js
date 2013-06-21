@@ -100,7 +100,7 @@ console.log(params);
                         // sun
                         sr : localized.sun.sr,
                         ss : localized.sun.ss,
-                        dl : localized.sun.dayLenght + '   ' + localized.sun.dayLenghtDiff,
+                        dl : localized.sun.dl + '   ' + localized.sun.dld,
 
 
                         h0 : weather.temp0.high[tempUnit],
@@ -275,7 +275,7 @@ console.log(params);
 
     weather.test = function (callback) {
 
-        var params = { id : 1, device : 'kindle4nt', lang : null };
+        var params = { id : 1, device : 'kindle4nt', lang : 'ru' };
 
         wunderground.extractWeather(demoWeather, function (weather) {
 
@@ -285,12 +285,28 @@ console.log(params);
 
     };
 
-    /*
-    test(function (filename, err) {
-        console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
-    });
-    */
 
+    (function test() {
+
+        prepare(function (err, lines) {
+
+            if (err) {
+                throw err;
+            }
+
+            sun = lines;
+
+            localizer(cfg);
+            filenames(cfg);
+
+            weather.test(function (filename, err) {
+                console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
+            });
+
+        });
+
+
+    })();
 ///////////////////////////////////////////////////////////////////////////////
 
     /**
