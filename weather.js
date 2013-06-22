@@ -73,9 +73,6 @@ var fs = require('fs.extra'),
             tempUnit,
             localSun = params.id === 1 ? sun : null;
 
-console.log(params);
-
-
         makeTargetDir(params, function (err) {
 
             localizer.localize(weather, params, localSun, function (localized) {
