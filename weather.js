@@ -272,7 +272,7 @@ var fs = require('fs.extra'),
 
     weather.test = function (callback) {
 
-        var params = { id : 1, device : 'kindle4nt', lang : 'ru' };
+        var params = { id : 1, device : 'kindle4nt', lang : 'de' };
 
         wunderground.extractWeather(demoWeather, function (weather) {
 
