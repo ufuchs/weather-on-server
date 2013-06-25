@@ -45,7 +45,7 @@ app.get('/weather/:device/:id', function (req, res) {
 
     console.log(params);
 
-    weather.main(params, function (filename, err) {
+    weather.main(params, function (err, filename) {
         console.log(filename);
         res.sendfile(filename);
     });

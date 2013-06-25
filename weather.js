@@ -40,15 +40,17 @@ var fs = require('fs.extra'),
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
+        reqParams,
+
         sun;
 
     //
     //
     //
-    function makeTargetDir(params, callback) {
+    function makeTargetDir(callback) {
 
         var weatherPool = cfg.weatherPool.dir,
-            targetDir = weatherPool + '/' + params.device + '/' + params.id;
+            targetDir = weatherPool + '/' + reqParams.device + '/' + reqParams.id;
 
         fs.exists(targetDir, function (exists) {
 
@@ -67,15 +69,15 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function populateSvgTemplate(weather, params, filenames, callback) {
+    function populateSvgTemplate(weather, filenames, callback) {
 
         var svgTemplate = filenames['in'].svgTemplate,
             tempUnit,
-            localSun = params.id === 1 ? sun : null;
+            localSun = reqParams.id === 1 ? sun : null;
 
-        makeTargetDir(params, function (err) {
+        makeTargetDir(function (err) {
 
-            localizer.localize(weather, params, localSun, function (localized) {
+            localizer.localize(weather, reqParams, localSun, function (localized) {
 
                 tempUnit = localized.common.tempUnit;
 
@@ -136,7 +138,7 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function writeResults(svg, params, filenames, callback) {
+    function writeResults(svg, filenames, callback) {
 
         fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
 
@@ -145,8 +147,8 @@ var fs = require('fs.extra'),
                 return;
             }
 
-            renderService.render(params.device, filenames.out, function (outPng, err) {
-                callback(outPng, err);
+            renderService.render(reqParams.device, filenames.out, function (err, outPng) {
+                callback(err, outPng);
             });
 
         });
@@ -157,19 +159,19 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function core(params, weather, callback) {
+    function core(weather, callback) {
 
-        filenames.get(params, function (filenames) {
+        filenames.get(reqParams, function (filenames) {
 
-            populateSvgTemplate(weather, params, filenames, function (svg) {
+            populateSvgTemplate(weather, filenames, function (svg) {
 
-                writeResults(svg, params, filenames, function (weatherPng, err) {
+                writeResults(svg, filenames, function (err, weatherPng) {
 
                     if (err !== null) {
                         console.log(err);
                     }
 
-                    callback(path.resolve(weatherPng), err);
+                    callback(err, weatherPng);
 
                 });
 
@@ -182,7 +184,7 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function detectLocationById(id, callback) {
+    function detectLocationById(id) {
 
         var i,
             loc;
@@ -253,13 +255,17 @@ var fs = require('fs.extra'),
     //
     weather.main = function (params, callback) {
 
-        var location = detectLocationById(params.id);
+        var location;
 
-        params.lang = location.language;
+        reqParams = params;
+
+        location = detectLocationById(reqParams.id);
+
+        reqParams.lang = location.language;
 
         wunderground.getWeather(location, function (weather) {
 
-            core(params, weather, callback);
+            core(weather, callback);
 
         });
 
@@ -272,11 +278,11 @@ var fs = require('fs.extra'),
 
     weather.test = function (callback) {
 
-        var params = { id : 1, device : 'kindle4nt', lang : 'de' };
+        reqParams = { id : 1, device : 'kindle4nt', lang : 'de' };
 
         wunderground.extractWeather(demoWeather, function (weather) {
 
-            core(params, weather, callback);
+            core(weather, callback);
 
         });
 
@@ -296,14 +302,14 @@ var fs = require('fs.extra'),
             localizer(cfg);
             filenames(cfg);
 
-            weather.test(function (filename, err) {
+            weather.test(function (err, filename) {
                 console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
             });
 
         });
 
 
-    })();
+    }());
 ///////////////////////////////////////////////////////////////////////////////
 
     /**
