@@ -42,140 +42,30 @@ var fs = require('fs.extra'),
 
         reqParams,
 
+        reqFilenames,
+
         sun;
 
     //
     //
     //
-    function makeTargetDir(callback) {
+    function makeTargetDir(fileNames, callback) {
 
-        var weatherPool = cfg.weatherPool.dir,
-            targetDir = weatherPool + '/' + reqParams.device + '/' + reqParams.id;
+        var targetDir = fileNames.out.targetDir;
 
         fs.exists(targetDir, function (exists) {
 
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
-                    callback(err);
+                    if (err) {
+                        callback(err, null);
+                    } else {
+                        callback(null, fileNames);
+                    }
                 });
             } else {
-                callback(null);
+                callback(null, fileNames);
             }
-
-        });
-
-    }
-
-    //
-    //
-    //
-    function populateSvgTemplate(weather, filenames, callback) {
-
-        var svgTemplate = filenames['in'].svgTemplate,
-            tempUnit,
-            localSun = reqParams.id === 1 ? sun : null;
-
-        makeTargetDir(function (err) {
-
-            localizer.localize(weather, reqParams, localSun, function (localized) {
-
-                tempUnit = localized.common.tempUnit;
-
-                utils.readTextFile(svgTemplate,  function (svgTemplate) {
-
-                    callback(utils.fillTemplates(svgTemplate, {
-
-                        // common
-                        css : filenames['in'].cssFile,
-                        tempUnit : localized.common.tempUnitToDisplay,
-                        min : localized.common.min,
-                        max : localized.common.max,
-
-                        // headline
-                        dow0 : localized.header.today,
-                        date : localized.header.date,
-                        doy : localized.header.doy,
-
-                        // sun
-                        sr : localized.sun.sr,
-                        ss : localized.sun.ss,
-                        dl : localized.sun.dl + '   ' + localized.sun.dld,
-
-
-                        h0 : weather.temp0.high[tempUnit],
-                        l0 : weather.temp0.low[tempUnit],
-                        ic0 : weather.ic0,
-
-                        // tommorow
-                        dow1 : localized.weekdays.tomorrow,
-                        h1 : weather.temp1.high[tempUnit],
-                        l1 : weather.temp1.low[tempUnit],
-                        ic1 : weather.ic1,
-
-                        // day after tommorow
-                        dow2 : localized.weekdays.day_after_tomorrow,
-                        h2 : weather.temp2.high[tempUnit],
-                        l2 : weather.temp2.low[tempUnit],
-                        ic2 : weather.ic2,
-
-                        // // day after tommorow + 1
-                        dow3 : localized.weekdays.day_after_tomorrow_plusOne,
-                        h3 : weather.temp3.high[tempUnit],
-                        l3 : weather.temp3.low[tempUnit],
-                        ic3 : weather.ic3,
-
-                        // footer
-                        update : localized.footer
-
-                    }));
-
-                });
-
-            });
-        });
-    }
-
-    //
-    //
-    //
-    function writeResults(svg, filenames, callback) {
-
-        fs.writeFile(filenames.out.weatherSvg, svg, function (err) {
-
-            if (err) {
-                callback(null, err);
-                return;
-            }
-
-            renderService.render(reqParams.device, filenames.out, function (err, outPng) {
-                callback(err, outPng);
-            });
-
-        });
-
-    }
-
-
-    //
-    //
-    //
-    function core(weather, callback) {
-
-        filenames.get(reqParams, function (filenames) {
-
-            populateSvgTemplate(weather, filenames, function (svg) {
-
-                writeResults(svg, filenames, function (err, weatherPng) {
-
-                    if (err !== null) {
-                        console.log(err);
-                    }
-
-                    callback(err, weatherPng);
-
-                });
-
-            });
 
         });
 
@@ -203,6 +93,115 @@ var fs = require('fs.extra'),
 
     }
 
+    //
+    //
+    //
+    function populateSvgTemplate(weather, callback) {
+
+        var svgTemplate = reqFilenames['in'].svgTemplate,
+            tempUnit;
+
+        localizer.localize(weather, reqParams, sun, function (localized) {
+
+            tempUnit = localized.common.tempUnit;
+
+            utils.readTextFile(svgTemplate,  function (svgTemplate) {
+
+                callback(utils.fillTemplates(svgTemplate, {
+
+                    // common
+                    css : reqFilenames['in'].cssFile,
+                    tempUnit : localized.common.tempUnitToDisplay,
+                    min : localized.common.min,
+                    max : localized.common.max,
+
+                    // headline
+                    dow0 : localized.header.today,
+                    date : localized.header.date,
+                    doy : localized.header.doy,
+
+                    // sun
+                    sr : localized.sun.sr,
+                    ss : localized.sun.ss,
+                    dl : localized.sun.dl + '   ' + localized.sun.dld,
+
+
+                    h0 : weather.temp0.high[tempUnit],
+                    l0 : weather.temp0.low[tempUnit],
+                    ic0 : weather.ic0,
+
+                    // tommorow
+                    dow1 : localized.weekdays.tomorrow,
+                    h1 : weather.temp1.high[tempUnit],
+                    l1 : weather.temp1.low[tempUnit],
+                    ic1 : weather.ic1,
+
+                    // day after tommorow
+                    dow2 : localized.weekdays.day_after_tomorrow,
+                    h2 : weather.temp2.high[tempUnit],
+                    l2 : weather.temp2.low[tempUnit],
+                    ic2 : weather.ic2,
+
+                    // // day after tommorow + 1
+                    dow3 : localized.weekdays.day_after_tomorrow_plusOne,
+                    h3 : weather.temp3.high[tempUnit],
+                    l3 : weather.temp3.low[tempUnit],
+                    ic3 : weather.ic3,
+
+                    // footer
+                    update : localized.footer
+
+                }));
+
+            });
+
+        });
+    }
+
+    //
+    //
+    //
+    function writeResults(svg, callback) {
+
+        fs.writeFile(reqFilenames.out.weatherSvg, svg, function (err) {
+
+            if (err) {
+                callback(null, err);
+                return;
+            }
+
+            renderService.render(reqParams.device, reqFilenames.out, function (err, outPng) {
+                callback(err, outPng);
+            });
+
+        });
+
+    }
+
+    //
+    //
+    //
+    function core(location, callback) {
+
+        wunderground.getWeather(location, function (weather) {
+
+            populateSvgTemplate(weather, function (svg) {
+
+                writeResults(svg, function (err, weatherPng) {
+
+                    if (err !== null) {
+                        console.log(err);
+                    }
+
+                    callback(err, weatherPng);
+
+                });
+
+            });
+
+        });
+
+    }
 
     //
     //
@@ -211,7 +210,7 @@ var fs = require('fs.extra'),
 
         var sunFileName = path.resolve(astro.getSunFilename(1));
 
-        utils.readTextToArray(sunFileName, function (err, lines) {
+        utils.readTextToArray(astro.getSunFilename(1), function (err, lines) {
             cb(err, lines);
         });
 
@@ -231,20 +230,9 @@ var fs = require('fs.extra'),
 
     weather = function (proxy, apikey, cachettl) {
 
-        prepare(function (err, lines) {
-
-            if (err) {
-                throw err;
-            }
-
-            sun = lines;
-
-            wunderground(proxy, apikey, cachettl);
-            localizer(cfg);
-            filenames(cfg);
-
-        });
-
+        wunderground(proxy, apikey, cachettl);
+        localizer(cfg);
+        filenames(cfg);
 
     };
 
@@ -263,9 +251,26 @@ var fs = require('fs.extra'),
 
         reqParams.lang = location.language;
 
-        wunderground.getWeather(location, function (weather) {
+        filenames.get(reqParams, function (fileNames) {
 
-            core(weather, callback);
+            reqFilenames = fileNames;
+
+            // former 'prepare'
+            makeTargetDir(fileNames, function (err, fileNames) {
+
+                utils.readTextToArray(fileNames['in'].sunFile, function (err, lines) {
+
+                    if (!err) {
+                        sun = lines;
+                    } else {
+                        sun = null;
+                    }
+
+                    core(location, callback);
+
+                });
+
+            });
 
         });
 
@@ -289,6 +294,7 @@ var fs = require('fs.extra'),
     };
 
 
+    /*
     (function test() {
 
         prepare(function (err, lines) {
@@ -310,6 +316,8 @@ var fs = require('fs.extra'),
 
 
     }());
+    */
+
 ///////////////////////////////////////////////////////////////////////////////
 
     /**
