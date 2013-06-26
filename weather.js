@@ -20,6 +20,8 @@ var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
     when = require('when'),
+    nodefn = require("when/node/function"),
+    fn   = require("when/function"),
 
     wunderground = require('./lib/provider/wunderground.js'),
     cfg = require('./weather-config.js'),
@@ -47,30 +49,6 @@ var fs = require('fs.extra'),
 
         sunTable;
 
-    //
-    //
-    //
-    function makeTargetDir(fileNames, cb) {
-
-        var targetDir = fileNames.out.targetDir;
-
-        fs.exists(targetDir, function (exists) {
-
-            if (!exists) {
-                fs.mkdir(targetDir, function (err) {
-                    if (err) {
-                        cb(err, null);
-                    } else {
-                        cb(null, fileNames);
-                    }
-                });
-            } else {
-                cb(null, fileNames);
-            }
-
-        });
-
-    }
 
     //
     //
@@ -212,18 +190,87 @@ var fs = require('fs.extra'),
     //
     //
     //
+    function makeTargetDir(fileNames, cb) {
+
+        var targetDir = fileNames.out.targetDir;
+
+        fs.exists(targetDir, function (exists) {
+
+            if (!exists) {
+                fs.mkdir(targetDir, function (err) {
+                    if (err) {
+                        cb(err, null);
+                    } else {
+                        cb(null, fileNames);
+                    }
+                });
+            } else {
+                cb(null, fileNames);
+            }
+
+        });
+
+    }
+
+    //
+    //
+    //
     function readSunTable(fileNames, cb) {
+
+        sunTable = null;
 
         utils.readTextToArray(fileNames['in'].sunFile, function (err, lines) {
 
             if (!err) {
                 sunTable = lines;
-            } else {
-                sunTable = null;
             }
 
-            cb(fileNames);
+            cb(null, fileNames);
+
         });
+
+    }
+
+    //
+    //
+    //
+    function getFilenames(params, cb) {
+
+        reqFilenames = null;
+
+        filenames.get(params, function (fileNames) {
+
+            if (fileNames === null) {
+                cb(new Error('missing filenames'), null);
+            } else {
+                reqFilenames = fileNames;
+                cb(null, fileNames);
+            }
+        });
+
+    }
+
+    //
+    //
+    //
+    function prepare(params, cb) {
+
+        var targetDir = nodefn.lift(makeTargetDir),
+            sunTable = nodefn.lift(readSunTable),
+            theFileNames = nodefn.lift(getFilenames);
+
+        reqParams = params;
+
+        theFileNames(params)
+            .then(sunTable)
+            .then(targetDir)
+            .then(function (fileNames) {
+                return params;
+            })
+            .then(detectLocationById)
+            .then(function (location) {
+                cb(null, location);
+            });
 
     }
 
@@ -247,56 +294,19 @@ var fs = require('fs.extra'),
 
     };
 
-
-    function getFilenames(params) {
-
-        var deferred = when.defer();
-
-        filenames.get(params, function (fileNames) {
-            if (fileNames === null) {
-                deferred.reject(new Error('missing filenames'));
-            } else {
-                deferred.resolve(fileNames);
-            }
-        });
-        return deferred.promise;
-    }
-
     ///////////////////////////////////////////////////////////////////////////
 
     //
     //
     //
-    function prepare(params, cb) {
+    weather.main = function (params, cb) {
 
-        reqParams = params;
+        var doPrepare = nodefn.lift(prepare);
 
-        filenames.get(params, function (fileNames) {
-
-            reqFilenames = fileNames;
-
-            readSunTable(fileNames, function (fileNames) {
-
-                makeTargetDir(fileNames, function (err, fileNames) {
-
-                    cb(detectLocationById(reqParams));
-
-                });
-
+        doPrepare(params)
+            .then(function (location) {
+                core(location, cb);
             });
-
-        });
-
-    }
-
-    //
-    //
-    //
-    weather.main = function (params, callback) {
-
-        prepare(params, function (location) {
-            core(location, callback);
-        });
 
     };
 
@@ -311,7 +321,7 @@ var fs = require('fs.extra'),
 
         wunderground.extractWeather(demoWeather, function (weather) {
 
-            core(weather, callback);
+//            core(weather, callback);
 
         });
 
