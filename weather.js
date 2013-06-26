@@ -19,6 +19,7 @@
 var fs = require('fs.extra'),
     path = require('path'),
     request = require('request'),
+    when = require('when'),
 
     wunderground = require('./lib/provider/wunderground.js'),
     cfg = require('./weather-config.js'),
@@ -44,12 +45,12 @@ var fs = require('fs.extra'),
 
         reqFilenames,
 
-        sun;
+        sunTable;
 
     //
     //
     //
-    function makeTargetDir(fileNames, callback) {
+    function makeTargetDir(fileNames, cb) {
 
         var targetDir = fileNames.out.targetDir;
 
@@ -58,13 +59,13 @@ var fs = require('fs.extra'),
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
                     if (err) {
-                        callback(err, null);
+                        cb(err, null);
                     } else {
-                        callback(null, fileNames);
+                        cb(null, fileNames);
                     }
                 });
             } else {
-                callback(null, fileNames);
+                cb(null, fileNames);
             }
 
         });
@@ -74,7 +75,7 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function detectLocationById(id) {
+    function detectLocationById(params) {
 
         var i,
             loc;
@@ -83,7 +84,12 @@ var fs = require('fs.extra'),
 
             loc = locations[i];
 
-            if (loc.id === id) {
+            if (loc.id === params.id) {
+
+                if (params.lang === null) {
+                    params.lang = loc.language;
+                }
+
                 return loc;
             }
 
@@ -101,7 +107,7 @@ var fs = require('fs.extra'),
         var svgTemplate = reqFilenames['in'].svgTemplate,
             tempUnit;
 
-        localizer.localize(weather, reqParams, sun, function (localized) {
+        localizer.localize(weather, reqParams, sunTable, function (localized) {
 
             tempUnit = localized.common.tempUnit;
 
@@ -206,12 +212,17 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function prepare(cb) {
+    function readSunTable(fileNames, cb) {
 
-        var sunFileName = path.resolve(astro.getSunFilename(1));
+        utils.readTextToArray(fileNames['in'].sunFile, function (err, lines) {
 
-        utils.readTextToArray(astro.getSunFilename(1), function (err, lines) {
-            cb(err, lines);
+            if (!err) {
+                sunTable = lines;
+            } else {
+                sunTable = null;
+            }
+
+            cb(fileNames);
         });
 
     }
@@ -236,42 +247,55 @@ var fs = require('fs.extra'),
 
     };
 
+
+    function getFilenames(params) {
+
+        var deferred = when.defer();
+
+        filenames.get(params, function (fileNames) {
+            if (fileNames === null) {
+                deferred.reject(new Error('missing filenames'));
+            } else {
+                deferred.resolve(fileNames);
+            }
+        });
+        return deferred.promise;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
+
+    //
+    //
+    //
+    function prepare(params, cb) {
+
+        reqParams = params;
+
+        filenames.get(params, function (fileNames) {
+
+            reqFilenames = fileNames;
+
+            readSunTable(fileNames, function (fileNames) {
+
+                makeTargetDir(fileNames, function (err, fileNames) {
+
+                    cb(detectLocationById(reqParams));
+
+                });
+
+            });
+
+        });
+
+    }
 
     //
     //
     //
     weather.main = function (params, callback) {
 
-        var location;
-
-        reqParams = params;
-
-        location = detectLocationById(reqParams.id);
-
-        reqParams.lang = location.language;
-
-        filenames.get(reqParams, function (fileNames) {
-
-            reqFilenames = fileNames;
-
-            // former 'prepare'
-            makeTargetDir(fileNames, function (err, fileNames) {
-
-                utils.readTextToArray(fileNames['in'].sunFile, function (err, lines) {
-
-                    if (!err) {
-                        sun = lines;
-                    } else {
-                        sun = null;
-                    }
-
-                    core(location, callback);
-
-                });
-
-            });
-
+        prepare(params, function (location) {
+            core(location, callback);
         });
 
     };
