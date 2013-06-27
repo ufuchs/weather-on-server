@@ -85,7 +85,7 @@ var fs = require('fs.extra'),
         var svgTemplate = reqFilenames['in'].svgTemplate,
             tempUnit;
 
-        localizer.localize(weather, reqParams, sunTable, function (localized) {
+        localizer.localize(weather, reqParams, function (localized) {
 
             tempUnit = localized.common.tempUnit;
 
@@ -167,7 +167,7 @@ var fs = require('fs.extra'),
     //
     function core(location, callback) {
 
-        wunderground.getWeather(location, function (weather) {
+        wunderground.getWeather(location, sunTable, function (weather) {
 
             populateSvgTemplate(weather, function (svg) {
 

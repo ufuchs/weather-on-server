@@ -7,7 +7,7 @@
     "dayOfYear": "{{doy}}-й день года",
     "sunrise": "вх {{hour}}.{{min}}",
     "sunset": "зх {{hour}}.{{min}}",
-    "dayLenght": "{{hours}}:{{min}}ч",
+    "dayLenght": "{{hour}}:{{min}}ч",
     "dayLenghtDiff": "{{min}}мин",
     "tomorrow": "завтра",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"

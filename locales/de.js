@@ -7,7 +7,7 @@
     "dayOfYear": "{{doy}}.Tag im Jahr",
     "sunrise": "SA {{hour}}.{{min}}",
     "sunset": "SU {{hour}}.{{min}}",
-    "dayLenght": "{{hours}}:{{min}}h",
+    "dayLenght": "{{hour}}:{{min}}h",
     "dayLenghtDiff": "{{min}}min",
     "tomorrow": "Morgen",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"

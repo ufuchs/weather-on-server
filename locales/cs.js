@@ -7,7 +7,7 @@
     "dayOfYear": "{{doy}}.den v roce",
     "sunrise": "vs {{hour}}.{{min}}",
     "sunset": "zs {{hour}}.{{min}}",
-    "dayLenght": "{{hours}}:{{min}}hod",
+    "dayLenght": "{{hour}}:{{min}}hod",
     "dayLenghtDiff": "{{min}}min",
     "tomorrow": "zítra",
     "observationTime": "{{day}}.{{month}} {{hour}}.{{min}} {{timezone}}"
