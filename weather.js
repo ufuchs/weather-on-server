@@ -30,7 +30,7 @@ var fs = require('fs.extra'),
     utils = require('./lib/utils.js'),
     renderService = require('./lib/svg2png-renderer.js'),
     locations = require('./locations.json').locations,
-    astro = require('./lib/astronomy/utils.js'),
+
 
     demoWeather = require('./test/2013-03-29.json');
 
@@ -45,37 +45,8 @@ var fs = require('fs.extra'),
 
         reqParams,
 
-        reqFilenames,
+        reqFilenames;
 
-        sunTable;
-
-
-    //
-    //
-    //
-    function detectLocationById(params) {
-
-        var i,
-            loc;
-
-        for (i = 0; i < locations.length; i += 1) {
-
-            loc = locations[i];
-
-            if (loc.id === params.id) {
-
-                if (params.lang === null) {
-                    params.lang = loc.language;
-                }
-
-                return loc;
-            }
-
-        }
-
-        return null;
-
-    }
 
     //
     //
@@ -167,7 +138,7 @@ var fs = require('fs.extra'),
     //
     function core(location, callback) {
 
-        wunderground.getWeather(location, sunTable, function (weather) {
+        wunderground.getWeather(location, function (weather) {
 
             populateSvgTemplate(weather, function (svg) {
 
@@ -184,6 +155,33 @@ var fs = require('fs.extra'),
             });
 
         });
+
+    }
+
+    //
+    //
+    //
+    function detectLocationById(params) {
+
+        var i,
+            loc;
+
+        for (i = 0; i < locations.length; i += 1) {
+
+            loc = locations[i];
+
+            if (loc.id === params.id) {
+
+                if (params.lang === null) {
+                    params.lang = loc.language;
+                }
+
+                return loc;
+            }
+
+        }
+
+        return null;
 
     }
 
@@ -215,25 +213,6 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function readSunTable(fileNames, cb) {
-
-        sunTable = null;
-
-        utils.readTextToArray(fileNames['in'].sunFile, function (err, lines) {
-
-            if (!err) {
-                sunTable = lines;
-            }
-
-            cb(null, fileNames);
-
-        });
-
-    }
-
-    //
-    //
-    //
     function getFilenames(params, cb) {
 
         reqFilenames = null;
@@ -256,19 +235,15 @@ var fs = require('fs.extra'),
     function prepare(params, cb) {
 
         var targetDir = nodefn.lift(makeTargetDir),
-            sunTable = nodefn.lift(readSunTable),
-            theFileNames = nodefn.lift(getFilenames);
+            theFileNames = nodefn.lift(getFilenames),
+            location = detectLocationById(params);
 
         reqParams = params;
 
         theFileNames(params)
-            .then(sunTable)
             .then(targetDir)
             .then(function (fileNames) {
-                return params;
-            })
-            .then(detectLocationById)
-            .then(function (location) {
+                console.log(location);
                 cb(null, location);
             });
 
