@@ -14,8 +14,35 @@
 var express = require('express'),
     weather = require('./weather.js'),
     cfg = require('./weather-config.js'),
-    app = express();
+    app = express(),
+    locations = require('./locations.json').locations,
+    port = process.env.PORT || 5000;
 
+//
+//
+//
+function detectLocationById(id) {
+
+    var i,
+        loc;
+
+    for (i = 0; i < locations.length; i += 1) {
+
+        loc = locations[i];
+
+        if (loc.id === id) {
+            return loc;
+        }
+
+    }
+
+    return null;
+
+}
+
+//
+//
+//
 app.configure(function () {
 
     var proxy = process.env.HTTP_PROXY || process.env.http_proxy,
@@ -27,10 +54,14 @@ app.configure(function () {
     weather(proxy, apikey, cachettl);
 });
 
+//
+//
+//
 app.get('/weather/:device/:id', function (req, res) {
 
     var id = 0,
         device = req.params.device,
+        location,
         params;
 
     if (req.params.id !== 'undefined') {
@@ -41,19 +72,19 @@ app.get('/weather/:device/:id', function (req, res) {
         device = req.params.device;
     }
 
-    params = { id : id, device : device, lang : null };
+    location = detectLocationById(id);
+    location.device = device;
 
-    console.log(params);
-
-    weather.main(params, function (err, filename) {
+    weather.main(location, function (err, filename) {
         console.log(filename);
         res.sendfile(filename);
     });
 
 });
 
-var port = process.env.PORT || 5000;
-
+//
+//
+//
 app.listen(port, function () {
     console.log("Listening on " + port);
 });

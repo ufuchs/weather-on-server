@@ -29,8 +29,6 @@ var fs = require('fs.extra'),
     filenames = require('./lib/filenames.js'),
     utils = require('./lib/utils.js'),
     renderService = require('./lib/svg2png-renderer.js'),
-    locations = require('./locations.json').locations,
-
 
     demoWeather = require('./test/2013-03-29.json');
 
@@ -38,15 +36,14 @@ var fs = require('fs.extra'),
 
     var weather,
 
-        VERSION = "0.1.0",
+        VERSION = "0.2.0",
 
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
-        reqParams,
+        reqLocation,
 
         reqFilenames;
-
 
     //
     //
@@ -56,7 +53,7 @@ var fs = require('fs.extra'),
         var svgTemplate = reqFilenames['in'].svgTemplate,
             tempUnit;
 
-        localizer.localize(weather, reqParams, function (localized) {
+        localizer.localize(weather, reqLocation, function (localized) {
 
             tempUnit = localized.common.tempUnit;
 
@@ -125,7 +122,7 @@ var fs = require('fs.extra'),
                 return;
             }
 
-            renderService.render(reqParams.device, reqFilenames.out, function (err, outPng) {
+            renderService.render(reqLocation.device, reqFilenames.out, function (err, outPng) {
                 callback(err, outPng);
             });
 
@@ -161,33 +158,6 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function detectLocationById(params) {
-
-        var i,
-            loc;
-
-        for (i = 0; i < locations.length; i += 1) {
-
-            loc = locations[i];
-
-            if (loc.id === params.id) {
-
-                if (params.lang === null) {
-                    params.lang = loc.language;
-                }
-
-                return loc;
-            }
-
-        }
-
-        return null;
-
-    }
-
-    //
-    //
-    //
     function makeTargetDir(fileNames, cb) {
 
         var targetDir = fileNames.out.targetDir;
@@ -213,11 +183,11 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function getFilenames(params, cb) {
+    function getFilenames(location, cb) {
 
         reqFilenames = null;
 
-        filenames.get(params, function (fileNames) {
+        filenames.get(location, function (fileNames) {
 
             if (fileNames === null) {
                 cb(new Error('missing filenames'), null);
@@ -232,19 +202,17 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function prepare(params, cb) {
+    function prepare(location, cb) {
 
         var targetDir = nodefn.lift(makeTargetDir),
-            theFileNames = nodefn.lift(getFilenames),
-            location = detectLocationById(params);
+            theFileNames = nodefn.lift(getFilenames);
 
-        reqParams = params;
+        reqLocation = location;
 
-        theFileNames(params)
+        theFileNames(reqLocation)
             .then(targetDir)
             .then(function (fileNames) {
-                console.log(location);
-                cb(null, location);
+                cb(null, reqLocation);
             });
 
     }
@@ -274,13 +242,13 @@ var fs = require('fs.extra'),
     //
     //
     //
-    weather.main = function (params, cb) {
+    weather.main = function (location, cb) {
 
         var doPrepare = nodefn.lift(prepare);
 
-        doPrepare(params)
-            .then(function (location) {
-                core(location, cb);
+        doPrepare(location)
+            .then(function (l) {
+                core(l, cb);
             });
 
     };
