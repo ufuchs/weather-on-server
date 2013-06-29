@@ -135,12 +135,7 @@ var fs = require('fs.extra'),
                 return;
             }
 
-            var params = {
-                device : reqLocation.device,
-                out : reqFilenames.out
-            };
-
-            renderService.render(params, function (err, outPng) {
+            renderService.render({device : reqLocation.device, out : reqFilenames.out}, function (err, outPng) {
                 cb(err, outPng);
             });
 
@@ -151,88 +146,23 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function core(location) {
+    function prepareTargetDir(fileNames, cb) {
 
-        var writeRes = nodefn.lift(writeResults),
-            deferred = when.defer();
-
-        callbacks.call(wunderground.getWeather, location)
-            .then(populateSvgTemplate)
-            .then(writeRes)
-            .then(function (weatherPng) {
-                deferred.resolve(weatherPng);
-            }, function (err) {
-                deferred.reject(new Error(err));
-            });
-
-        return deferred.promise;
-
-    }
-
-    //
-    //
-    //
-    function makeTargetDir(fileNames) {
-
-        var targetDir = fileNames.out.targetDir,
-            deferred = when.defer();
+        var targetDir = fileNames.out.targetDir;
 
         fs.exists(targetDir, function (exists) {
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
                     if (err) {
-                        deferred.reject(new Error(err));
+                        cb(err, null);
                     } else {
-                        deferred.resolve(fileNames);
+                        cb(null, fileNames);
                     }
                 });
             } else {
-                deferred.resolve(fileNames);
+                cb(null, fileNames);
             }
         });
-        return deferred.promise;
-
-    }
-
-    //
-    //
-    //
-    function getFilenames(location) {
-
-        var deferred = when.defer();
-
-        filenames.get(location, function (fileNames) {
-
-            if (fileNames === null) {
-                deferred.reject(new Error('missing filenames'));
-            } else {
-                deferred.resolve(fileNames);
-            }
-
-        });
-
-        return deferred.promise;
-
-    }
-
-    //
-    //
-    //
-    function prepare(location) {
-
-        var deferred = when.defer();
-
-        getFilenames(location)
-            .then(makeTargetDir)
-            .then(function (fileNames) {
-                reqFilenames = fileNames;
-                reqLocation = location;
-                deferred.resolve(reqLocation);
-            }, function (err) {
-                deferred.reject(new Error(err));
-            });
-
-        return deferred.promise;
 
     }
 
@@ -263,57 +193,26 @@ var fs = require('fs.extra'),
     //
     weather.main = function (location, cb) {
 
-        prepare(location)
-            .then(core)
+        var writeRes = nodefn.lift(writeResults),
+            getWeather = nodefn.lift(wunderground.getWeather),
+            getFilenamesFor = nodefn.lift(filenames.get),
+            makeTargetDir = nodefn.lift(prepareTargetDir);
+
+        getFilenamesFor(location)
+            .then(makeTargetDir)
+            .then(function (fileNames) {
+                reqFilenames = fileNames;
+                reqLocation = location;
+                return reqLocation;
+            })
+            .then(getWeather)
+            .then(populateSvgTemplate)
+            .then(writeRes)
             .then(function (l) {
                 cb(null, l);
             });
 
     };
-
-///////////////////////////////////////////////////////////////////////////////
-
-    // THIS IS FOR TESTS ONLY.
-    // PREVENTING PERMANENTLY DOWNLOADS FROM THE PROVIDER
-
-    weather.test = function (callback) {
-
-        reqParams = { id : 1, device : 'kindle4nt', lang : 'de' };
-
-        wunderground.extractWeather(demoWeather, function (weather) {
-
-//            core(weather, callback);
-
-        });
-
-    };
-
-
-    /*
-    (function test() {
-
-        prepare(function (err, lines) {
-
-            if (err) {
-                throw err;
-            }
-
-            sun = lines;
-
-            localizer(cfg);
-            filenames(cfg);
-
-            weather.test(function (err, filename) {
-                console.log('[Test Mode]\n' + '  WeatherFile = ' + filename);
-            });
-
-        });
-
-
-    }());
-    */
-
-///////////////////////////////////////////////////////////////////////////////
 
     /**
      * Expose `filenames`.
