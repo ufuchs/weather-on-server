@@ -56,8 +56,6 @@ var fs = require('fs.extra'),
             localize = nodefn.lift(localizer.localize),
             deferred = when.defer();
 
-        console.log(reqFilenames);
-
         callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
             .then(function (template) {
                 svgTemplate = template;
@@ -86,28 +84,50 @@ var fs = require('fs.extra'),
                     ss : localized.sun.ss,
                     dl : localized.sun.dl + '   ' + localized.sun.dld,
 
-
+                    /*
                     h0 : weather.temp0.high[tempUnit],
                     l0 : weather.temp0.low[tempUnit],
                     ic0 : weather.ic0,
+                    */
+                    h0 : weather.forecastday[0].temp.high[tempUnit],
+                    l0: weather.forecastday[0].temp.low[tempUnit],
+                    ic0 : weather.forecastday[0].ic,
+
 
                     // tommorow
                     dow1 : localized.weekdays.tomorrow,
+                    /*
                     h1 : weather.temp1.high[tempUnit],
                     l1 : weather.temp1.low[tempUnit],
                     ic1 : weather.ic1,
+                    */
+                    h1 : weather.forecastday[1].temp.high[tempUnit],
+                    l1 : weather.forecastday[1].temp.low[tempUnit],
+                    ic1 : weather.forecastday[1].ic,
 
                     // day after tommorow
                     dow2 : localized.weekdays.day_after_tomorrow,
+                    /*
                     h2 : weather.temp2.high[tempUnit],
                     l2 : weather.temp2.low[tempUnit],
                     ic2 : weather.ic2,
+                    */
+                    h2 : weather.forecastday[2].temp.high[tempUnit],
+                    l2 : weather.forecastday[2].temp.low[tempUnit],
+                    ic2 : weather.forecastday[2].ic,
 
                     // // day after tommorow + 1
                     dow3 : localized.weekdays.day_after_tomorrow_plusOne,
+                    /*
                     h3 : weather.temp3.high[tempUnit],
                     l3 : weather.temp3.low[tempUnit],
                     ic3 : weather.ic3,
+                    */
+                    h3 : weather.forecastday[3].temp.high[tempUnit],
+                    l3 : weather.forecastday[3].temp.low[tempUnit],
+                    ic3 : weather.forecastday[3].ic,
+
+
 
                     // footer
                     update : localized.footer
