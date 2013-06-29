@@ -22,6 +22,7 @@ var fs = require('fs.extra'),
     when = require('when'),
     nodefn = require("when/node/function"),
     fn   = require("when/function"),
+    callbacks   = require("when/callbacks"),
 
     wunderground = require('./lib/provider/wunderground.js'),
     cfg = require('./weather-config.js'),
@@ -48,18 +49,26 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function populateSvgTemplate(weather, callback) {
+    function populateSvgTemplate(weather) {
 
-        var svgTemplate = reqFilenames['in'].svgTemplate,
-            tempUnit;
+        var tempUnit,
+            svgTemplate,
+            localize = nodefn.lift(localizer.localize),
+            deferred = when.defer();
 
-        localizer.localize(weather, reqLocation, function (localized) {
+        console.log(reqFilenames);
 
-            tempUnit = localized.common.tempUnit;
+        callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
+            .then(function (template) {
+                svgTemplate = template;
+                return {updatedWeather : weather, location : reqLocation};
+            })
+            .then(localize)
+            .then(function (localized) {
 
-            utils.readTextFile(svgTemplate,  function (svgTemplate) {
+                tempUnit = localized.common.tempUnit;
 
-                callback(utils.fillTemplates(svgTemplate, {
+                deferred.resolve(utils.fillTemplates(svgTemplate, {
 
                     // common
                     css : reqFilenames['in'].cssFile,
@@ -105,25 +114,34 @@ var fs = require('fs.extra'),
 
                 }));
 
+
+            }, function (err) {
+                deferred.reject(new Error(err));
             });
 
-        });
+        return deferred.promise;
+
     }
 
     //
     //
     //
-    function writeResults(svg, callback) {
+    function writeResults(svg, cb) {
 
         fs.writeFile(reqFilenames.out.weatherSvg, svg, function (err) {
 
             if (err) {
-                callback(null, err);
+                cb(null, err);
                 return;
             }
 
-            renderService.render(reqLocation.device, reqFilenames.out, function (err, outPng) {
-                callback(err, outPng);
+            var params = {
+                device : reqLocation.device,
+                out : reqFilenames.out
+            };
+
+            renderService.render(params, function (err, outPng) {
+                cb(err, outPng);
             });
 
         });
@@ -133,87 +151,88 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function core(location, callback) {
+    function core(location) {
 
-        wunderground.getWeather(location, function (weather) {
+        var writeRes = nodefn.lift(writeResults),
+            deferred = when.defer();
 
-            populateSvgTemplate(weather, function (svg) {
-
-                writeResults(svg, function (err, weatherPng) {
-
-                    if (err !== null) {
-                        console.log(err);
-                    }
-
-                    callback(err, weatherPng);
-
-                });
-
+        callbacks.call(wunderground.getWeather, location)
+            .then(populateSvgTemplate)
+            .then(writeRes)
+            .then(function (weatherPng) {
+                deferred.resolve(weatherPng);
+            }, function (err) {
+                deferred.reject(new Error(err));
             });
 
-        });
+        return deferred.promise;
 
     }
 
     //
     //
     //
-    function makeTargetDir(fileNames, cb) {
+    function makeTargetDir(fileNames) {
 
-        var targetDir = fileNames.out.targetDir;
+        var targetDir = fileNames.out.targetDir,
+            deferred = when.defer();
 
         fs.exists(targetDir, function (exists) {
-
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
                     if (err) {
-                        cb(err, null);
+                        deferred.reject(new Error(err));
                     } else {
-                        cb(null, fileNames);
+                        deferred.resolve(fileNames);
                     }
                 });
             } else {
-                cb(null, fileNames);
+                deferred.resolve(fileNames);
             }
-
         });
+        return deferred.promise;
 
     }
 
     //
     //
     //
-    function getFilenames(location, cb) {
+    function getFilenames(location) {
 
-        reqFilenames = null;
+        var deferred = when.defer();
 
         filenames.get(location, function (fileNames) {
 
             if (fileNames === null) {
-                cb(new Error('missing filenames'), null);
+                deferred.reject(new Error('missing filenames'));
             } else {
-                reqFilenames = fileNames;
-                cb(null, fileNames);
+                deferred.resolve(fileNames);
             }
+
         });
+
+        return deferred.promise;
 
     }
 
     //
     //
     //
-    function prepare(location, cb) {
+    function prepare(location) {
 
-        var targetDir = nodefn.lift(makeTargetDir),
-            theFileNames = nodefn.lift(getFilenames);
+        var deferred = when.defer();
 
-        reqLocation = location;
-
-        theFileNames(reqLocation)
-            .then(targetDir)
+        getFilenames(location)
+            .then(makeTargetDir)
             .then(function (fileNames) {
-                cb(null, reqLocation);
+                reqFilenames = fileNames;
+                reqLocation = location;
+                deferred.resolve(reqLocation);
+            }, function (err) {
+                deferred.reject(new Error(err));
             });
+
+        return deferred.promise;
 
     }
 
@@ -244,11 +263,10 @@ var fs = require('fs.extra'),
     //
     weather.main = function (location, cb) {
 
-        var doPrepare = nodefn.lift(prepare);
-
-        doPrepare(location)
+        prepare(location)
+            .then(core)
             .then(function (l) {
-                core(l, cb);
+                cb(null, l);
             });
 
     };
