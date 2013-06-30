@@ -42,6 +42,8 @@ var fs = require('fs.extra'),
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
+        period = 0,
+
         reqLocation,
 
         reqFilenames;
@@ -51,25 +53,18 @@ var fs = require('fs.extra'),
     //
     function populateSvgTemplate(weather) {
 
-        var tempUnit,
+        var // tempUnit,
             svgTemplate,
             localize = nodefn.lift(localizer.localize),
-            nullGroup,
             deferred = when.defer();
 
         callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
             .then(function (template) {
                 svgTemplate = template;
-                return {updatedWeather : weather, location : reqLocation};
+                return {otherWeather : weather, location : reqLocation, otherPeriod : period};
             })
             .then(localize)
             .then(function (localized) {
-
-                console.log(localized);
-
-                tempUnit = localized.common.tempUnit;
-
-                nullGroup = weather.forecastday[1];
 
                 deferred.resolve(utils.fillTemplates(svgTemplate, {
 
@@ -79,37 +74,35 @@ var fs = require('fs.extra'),
                     min : localized.common.min,
                     max : localized.common.max,
 
-                    // headline
-                    dow0 : localized.forecastday[0].name,
+                    // header
                     date : localized.header.date,
                     doy : localized.header.doy,
+                    dow0 : localized.header.forecast.name,
+                    // header/sun
+                    sr : localized.header.sun.sr,
+                    ss : localized.header.sun.ss,
+                    dl : localized.header.sun.dl + '   ' + localized.header.sun.dld,
+                    // header/forecast
+                    h0 : localized.header.forecast.temp.high,
+                    l0: localized.header.forecast.temp.low,
+                    ic0 : localized.header.forecast.ic,
 
-                    // sun
-                    sr : localized.sun.sr,
-                    ss : localized.sun.ss,
-                    dl : localized.sun.dl + '   ' + localized.sun.dld,
-
-                    h0 : nullGroup.temp.high[tempUnit],
-                    l0: nullGroup.temp.low[tempUnit],
-                    ic0 : nullGroup.ic,
-
-                    // tommorow
+                    // tomorrow
                     dow1 : localized.forecastday[1].name,
-                    h1 : localized.forecastday[1].temp.high[tempUnit],
-                    l1 : localized.forecastday[1].temp.low[tempUnit],
+                    h1 : localized.forecastday[1].temp.high,
+                    l1 : localized.forecastday[1].temp.low,
                     ic1 : localized.forecastday[1].ic,
 
-
-                    // day after tommorow
+                    // day after tomorrow
                     dow2 : localized.forecastday[2].name,
-                    h2 : localized.forecastday[2].temp.high[tempUnit],
-                    l2 : localized.forecastday[2].temp.low[tempUnit],
+                    h2 : localized.forecastday[2].temp.high,
+                    l2 : localized.forecastday[2].temp.low,
                     ic2 : localized.forecastday[2].ic,
 
                     // // day after tommorow + 1
                     dow3 : localized.forecastday[3].name,
-                    h3 : localized.forecastday[3].temp.high[tempUnit],
-                    l3 : localized.forecastday[3].temp.low[tempUnit],
+                    h3 : localized.forecastday[3].temp.high,
+                    l3 : localized.forecastday[3].temp.low,
                     ic3 : localized.forecastday[3].ic,
 
                     // footer
