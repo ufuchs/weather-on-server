@@ -61,8 +61,7 @@ app.get('/weather/:device/:id', function (req, res) {
 
     var id = 0,
         device = req.params.device,
-        location,
-        params;
+        location;
 
     if (req.params.id !== 'undefined') {
         id = parseInt(req.params.id, 10);
@@ -74,6 +73,8 @@ app.get('/weather/:device/:id', function (req, res) {
 
     location = detectLocationById(id);
     location.device = device;
+
+    console.log(location);
 
     weather.main(location, function (err, filename) {
         console.log(filename);

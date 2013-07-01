@@ -42,7 +42,7 @@ var fs = require('fs.extra'),
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
-        period = 0,
+        period = 2,
 
         reqLocation,
 
@@ -57,6 +57,8 @@ var fs = require('fs.extra'),
             svgTemplate,
             localize = nodefn.lift(localizer.localize),
             deferred = when.defer();
+
+        console.log(reqLocation);
 
         callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
             .then(function (template) {
