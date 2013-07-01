@@ -42,7 +42,7 @@ var fs = require('fs.extra'),
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
-        period = 2,
+        period = 0,
 
         reqLocation,
 
