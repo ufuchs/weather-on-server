@@ -42,8 +42,6 @@ var fs = require('fs.extra'),
         // check for nodeJS
         hasModule = (module !== 'undefined' && module.exports),
 
-        period = 0,
-
         reqLocation,
 
         reqFilenames;
@@ -51,25 +49,29 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function populateSvgTemplate(weather) {
+    function populateSvgTemplate(params) {
 
-        var // tempUnit,
-            svgTemplate,
+        var svgTemplate,
+            svg,
             localize = nodefn.lift(localizer.localize),
             deferred = when.defer();
 
-        callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
+//        console.log(params);
+
+        callbacks.call(utils.readTextFile, params.filenames['in'].svgTemplate)
             .then(function (template) {
                 svgTemplate = template;
-                return {otherWeather : weather, location : reqLocation};
+                return params;
             })
             .then(localize)
-            .then(function (localized) {
+            .then(function (localized, cb) {
+
+                console.log(localized);
 
                 deferred.resolve(utils.fillTemplates(svgTemplate, {
 
                     // common
-                    css : reqFilenames['in'].cssFile,
+                    css : params.filenames['in'].cssFile,
                     tempUnit : localized.common.tempUnitToDisplay,
                     min : localized.common.min,
                     max : localized.common.max,
@@ -110,9 +112,6 @@ var fs = require('fs.extra'),
 
                 }));
 
-
-            }, function (err) {
-                deferred.reject(new Error(err));
             });
 
         return deferred.promise;
@@ -182,6 +181,20 @@ var fs = require('fs.extra'),
 
     };
 
+    //
+    //
+    //
+    function processWeatherdata(params, cb) {
+
+        var writeRes = nodefn.lift(writeResults);
+
+        populateSvgTemplate(params)
+            .then(writeRes)
+            .then(function (filename, err) {
+                cb(err, filename);
+            });
+    }
+
     ///////////////////////////////////////////////////////////////////////////
 
     //
@@ -191,19 +204,22 @@ var fs = require('fs.extra'),
 
         var writeRes = nodefn.lift(writeResults),
             getWeather = nodefn.lift(wunderground.getWeather),
+            processWeather = nodefn.lift(processWeatherdata),
+
             getFilenamesFor = nodefn.lift(filenames.get),
             makeTargetDir = nodefn.lift(prepareTargetDir);
 
         getFilenamesFor(location)
             .then(makeTargetDir)
-            .then(function (fileNames) {
-                reqFilenames = fileNames;
+            .then(function (filenames) {
+                reqFilenames = filenames;
                 reqLocation = location;
-                return reqLocation;
+                return {location : location, filenames : filenames};
             })
             .then(getWeather)
-            .then(populateSvgTemplate)
-            .then(writeRes)
+//            .then(populateSvgTemplate)
+//            .then(writeRes)
+            .then(processWeather)
             .then(function (l) {
                 cb(null, l);
             });
