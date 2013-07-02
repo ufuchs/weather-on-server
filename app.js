@@ -57,22 +57,56 @@ app.configure(function () {
 //
 //
 //
+function validateLocation(location) {
+
+    if (location.device !== 'df3120') {
+        location.period = 0;
+    }
+
+    if ((location.period > 3) || (location.period < 0)) {
+        location.period = 0;
+    }
+
+    return location;
+
+}
+
+//
+//
+//
 app.get('/weather/:device/:id', function (req, res) {
 
     var id = 0,
         device = req.params.device,
-        location;
+        location,
+        period = 0;
 
-    if (req.params.id !== 'undefined') {
-        id = parseInt(req.params.id, 10);
+    if (req.params.id !== undefined) {
+        try {
+            id = parseInt(req.params.id, 10);
+        } catch (e1) {
+            id = 1;
+        }
     }
 
-    if (req.params.device !== 'undefined') {
-        device = req.params.device;
+    if (req.params.device !== undefined) {
+        device = req.params.device.toLowerCase();
+    }
+
+    if (req.query.period !== undefined) {
+        try {
+            period = parseInt(req.query.period, 10);
+        } catch (e2) {
+            period = 0;
+        }
     }
 
     location = detectLocationById(id);
     location.device = device;
+    location.period = period;
+
+    console.log(location);
+    location = validateLocation(location);
 
     console.log(location);
 

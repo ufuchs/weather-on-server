@@ -58,12 +58,10 @@ var fs = require('fs.extra'),
             localize = nodefn.lift(localizer.localize),
             deferred = when.defer();
 
-        console.log(reqLocation);
-
         callbacks.call(utils.readTextFile, reqFilenames['in'].svgTemplate)
             .then(function (template) {
                 svgTemplate = template;
-                return {otherWeather : weather, location : reqLocation, otherPeriod : period};
+                return {otherWeather : weather, location : reqLocation};
             })
             .then(localize)
             .then(function (localized) {
