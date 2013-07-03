@@ -15,6 +15,13 @@ module.exports = {
         }
     },
 
+    weatherfiles : {
+        quantity : {
+            kindle4nt : 1,
+            df3120 : 4
+        }
+    },
+
     templatesPool : {
         dir : './templates',
         devices : {

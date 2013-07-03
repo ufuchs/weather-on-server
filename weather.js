@@ -29,9 +29,9 @@ var fs = require('fs.extra'),
     localizer = require('./lib/localizer.js'),
     filenames = require('./lib/filenames.js'),
     utils = require('./lib/utils.js'),
-    renderService = require('./lib/svg2png-renderer.js'),
+    renderService = require('./lib/svg2png-renderer.js');
 
-    demoWeather = require('./test/2013-03-29.json');
+
 
 (function (undefined) {
 
@@ -40,11 +40,7 @@ var fs = require('fs.extra'),
         VERSION = "0.2.0",
 
         // check for nodeJS
-        hasModule = (module !== 'undefined' && module.exports),
-
-        reqLocation,
-
-        reqFilenames;
+        hasModule = (module !== 'undefined' && module.exports);
 
     //
     //
@@ -66,51 +62,56 @@ var fs = require('fs.extra'),
             .then(localize)
             .then(function (localized, cb) {
 
-                console.log(localized);
+//                console.log(localized);
 
-                deferred.resolve(utils.fillTemplates(svgTemplate, {
+                deferred.resolve({
+                    filenames : params.filenames,
+                    location : params.location,
+                    svg : utils.fillTemplates(svgTemplate, {
 
-                    // common
-                    css : params.filenames['in'].cssFile,
-                    tempUnit : localized.common.tempUnitToDisplay,
-                    min : localized.common.min,
-                    max : localized.common.max,
+                        // common
+                        css : params.filenames['in'].cssFile,
+                        tempUnit : localized.common.tempUnitToDisplay,
+                        min : localized.common.min,
+                        max : localized.common.max,
 
-                    // header
-                    date : localized.header.date,
-                    doy : localized.header.doy,
-                    dow0 : localized.header.forecast.name,
-                    // header/sun
-                    sr : localized.header.sun.sr,
-                    ss : localized.header.sun.ss,
-                    dl : localized.header.sun.dl + '   ' + localized.header.sun.dld,
-                    // header/forecast
-                    h0 : localized.header.forecast.temp.high,
-                    l0: localized.header.forecast.temp.low,
-                    ic0 : localized.header.forecast.ic,
+                        // header
+                        date : localized.header.date,
+                        doy : localized.header.doy,
+                        dow0 : localized.header.forecast.name,
+                        // header/sun
+                        sr : localized.header.sun.sr,
+                        ss : localized.header.sun.ss,
+                        dl : localized.header.sun.dl + '   ' + localized.header.sun.dld,
+                        // header/forecast
+                        h0 : localized.header.forecast.temp.high,
+                        l0: localized.header.forecast.temp.low,
+                        ic0 : localized.header.forecast.ic,
 
-                    // tomorrow
-                    dow1 : localized.forecastday[1].name,
-                    h1 : localized.forecastday[1].temp.high,
-                    l1 : localized.forecastday[1].temp.low,
-                    ic1 : localized.forecastday[1].ic,
+                        // tomorrow
+                        dow1 : localized.forecastday[1].name,
+                        h1 : localized.forecastday[1].temp.high,
+                        l1 : localized.forecastday[1].temp.low,
+                        ic1 : localized.forecastday[1].ic,
 
-                    // day after tomorrow
-                    dow2 : localized.forecastday[2].name,
-                    h2 : localized.forecastday[2].temp.high,
-                    l2 : localized.forecastday[2].temp.low,
-                    ic2 : localized.forecastday[2].ic,
+                        // day after tomorrow
+                        dow2 : localized.forecastday[2].name,
+                        h2 : localized.forecastday[2].temp.high,
+                        l2 : localized.forecastday[2].temp.low,
+                        ic2 : localized.forecastday[2].ic,
 
-                    // // day after tommorow + 1
-                    dow3 : localized.forecastday[3].name,
-                    h3 : localized.forecastday[3].temp.high,
-                    l3 : localized.forecastday[3].temp.low,
-                    ic3 : localized.forecastday[3].ic,
+                        // // day after tommorow + 1
+                        dow3 : localized.forecastday[3].name,
+                        h3 : localized.forecastday[3].temp.high,
+                        l3 : localized.forecastday[3].temp.low,
+                        ic3 : localized.forecastday[3].ic,
 
-                    // footer
-                    update : localized.footer
+                        // footer
+                        update : localized.footer
 
-                }));
+                    })
+
+                });
 
             });
 
@@ -121,16 +122,16 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function writeResults(svg, cb) {
+    function writeResults(params, cb) {
 
-        fs.writeFile(reqFilenames.out.weatherSvg, svg, function (err) {
+        fs.writeFile(params.filenames.out.weatherSvg, params.svg, function (err) {
 
             if (err) {
                 cb(null, err);
                 return;
             }
 
-            renderService.render({device : reqLocation.device, out : reqFilenames.out}, function (err, outPng) {
+            renderService.render({device : params.location.device, out : params.filenames.out}, function (err, outPng) {
                 cb(err, outPng);
             });
 
@@ -141,9 +142,9 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function prepareTargetDir(fileNames, cb) {
+    function prepareTargetDir(params, cb) {
 
-        var targetDir = fileNames.out.targetDir;
+        var targetDir = params.filenames.out.targetDir;
 
         fs.exists(targetDir, function (exists) {
             if (!exists) {
@@ -151,11 +152,11 @@ var fs = require('fs.extra'),
                     if (err) {
                         cb(err, null);
                     } else {
-                        cb(null, fileNames);
+                        cb(null, params);
                     }
                 });
             } else {
-                cb(null, fileNames);
+                cb(null, params);
             }
         });
 
@@ -184,15 +185,51 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function processWeatherdata(params, cb) {
+    function processWeather4Device(params, cb) {
 
         var writeRes = nodefn.lift(writeResults);
 
         populateSvgTemplate(params)
             .then(writeRes)
             .then(function (filename, err) {
+                console.log('calling');
                 cb(err, filename);
             });
+
+    }
+
+    //
+    //
+    //
+    function processWeatherdata(params, cb) {
+
+        var period = 0,
+            maxFiles = cfg.weatherfiles.quantity[params.location.device],
+            files = [];
+
+        function process(period) {
+
+            if (period < maxFiles) {
+
+                processWeather4Device(params, function (err, filename) {
+
+                    if (err) {
+                        cb(err, null);
+                    } else {
+                        files.push(filename);
+                        process(period + 1);
+                    }
+
+                });
+
+            } else {
+                cb(null, files);
+                return;
+            }
+        }
+
+        process(0);
+
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -202,25 +239,17 @@ var fs = require('fs.extra'),
     //
     weather.main = function (location, cb) {
 
-        var writeRes = nodefn.lift(writeResults),
-            getWeather = nodefn.lift(wunderground.getWeather),
+        var getWeather = nodefn.lift(wunderground.getWeather),
             processWeather = nodefn.lift(processWeatherdata),
-
             getFilenamesFor = nodefn.lift(filenames.get),
             makeTargetDir = nodefn.lift(prepareTargetDir);
 
         getFilenamesFor(location)
             .then(makeTargetDir)
-            .then(function (filenames) {
-                reqFilenames = filenames;
-                reqLocation = location;
-                return {location : location, filenames : filenames};
-            })
             .then(getWeather)
-//            .then(populateSvgTemplate)
-//            .then(writeRes)
             .then(processWeather)
             .then(function (l) {
+                console.log(l);
                 cb(null, l);
             });
 

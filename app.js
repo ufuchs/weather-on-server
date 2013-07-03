@@ -105,7 +105,6 @@ app.get('/weather/:device/:id', function (req, res) {
     location.device = device;
     location.period = period;
 
-    console.log(location);
     location = validateLocation(location);
 
     console.log(location);
