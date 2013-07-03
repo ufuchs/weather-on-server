@@ -201,15 +201,42 @@ var fs = require('fs.extra'),
     //
     //
     //
+    function adjustFileNames(params, period) {
+
+        var weatherSvg = params.filenames.out.weatherSvg.split('.'),
+            unweatherPng = params.filenames.out.unweatherPng.split('.'),
+            weatherPng = params.filenames.out.weatherPng.split('.');
+
+
+//        file.substr(0, file.indexOf('-'))
+
+        weatherSvg = weatherSvg[0].substr(0, weatherSvg[0].indexOf('-')) + '-' + period + '.' + weatherSvg[1];
+        unweatherPng = unweatherPng[0] + '-' + period + '.' + unweatherPng[1];
+        weatherPng = weatherPng[0] + '-' + period + '.' + weatherPng[1];
+
+        params.filenames.out.weatherSvg = weatherSvg;
+        params.filenames.out.unweatherPng = unweatherPng;
+        params.filenames.out.weatherPng = weatherPng;
+
+        return params;
+
+    }
+
+    //
+    //
+    //
     function processWeatherdata(params, cb) {
 
         var period = 0,
             maxFiles = cfg.weatherfiles.quantity[params.location.device],
-            files = [];
+            files = [],
+            orgParams = params;
 
         function process(period) {
 
             if (period < maxFiles) {
+
+                adjustFileNames(orgParams, period);
 
                 processWeather4Device(params, function (err, filename) {
 
