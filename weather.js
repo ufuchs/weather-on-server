@@ -210,6 +210,7 @@ var fs = require('fs.extra'),
 
 //        file.substr(0, file.indexOf('-'))
 
+        SEE : heroku dir!
         weatherSvg = weatherSvg[0].substr(0, weatherSvg[0].indexOf('-')) + '-' + period + '.' + weatherSvg[1];
         unweatherPng = unweatherPng[0] + '-' + period + '.' + unweatherPng[1];
         weatherPng = weatherPng[0] + '-' + period + '.' + weatherPng[1];
