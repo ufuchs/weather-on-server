@@ -46,12 +46,11 @@ function detectLocationById(id) {
 app.configure(function () {
 
     var proxy = process.env.HTTP_PROXY || process.env.http_proxy,
-        apikey = process.env.WUNDERGROUND_KEY,
-        cachettl = cfg.cachesProviderdataFor;
+        apikey = process.env.WUNDERGROUND_KEY;
 
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
-    weather(proxy, apikey, cachettl);
+    weather(proxy, apikey);
 });
 
 //
@@ -109,9 +108,9 @@ app.get('/weather/:device/:id', function (req, res) {
 
     console.log(location);
 
-    weather.main(location, function (err, filename) {
-        console.log(filename);
-        res.sendfile(filename);
+    weather.main(location, function (err, filenames) {
+        console.log(filenames);
+        res.sendfile(filenames[period]);
     });
 
 });

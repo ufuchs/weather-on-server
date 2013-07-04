@@ -4,22 +4,28 @@
 
 module.exports = {
 
-    cachesProviderdataFor : 3600,
+    production : {
 
-    weatherPool : {
         dir : './public/weather',
-        fileNames : {
-            weatherSvg : 'weather.svg',
-            unweatherPng : 'unweather.png',
-            weatherPng : 'weather.png'
-        }
-    },
 
-    weatherfiles : {
-        quantity : {
-            kindle4nt : 1,
-            df3120 : 4
-        }
+        files : {
+
+            names : {
+                weatherSvg : 'weather.svg',
+                unweatherPng : 'unweather.png',
+                weatherPng : 'weather.png'
+            },
+
+            quantity : {
+                kindle4nt : 1,
+                df3120 : 4
+            }
+
+        },
+
+        /* expire time in seconds of the output files*/
+        expires : 3600
+
     },
 
     templatesPool : {

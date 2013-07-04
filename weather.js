@@ -18,6 +18,7 @@
 
 var fs = require('fs.extra'),
     path = require('path'),
+    moment = require('moment'),
     request = require('request'),
     when = require('when'),
     nodefn = require("when/node/function"),
@@ -40,7 +41,21 @@ var fs = require('fs.extra'),
         VERSION = "0.2.0",
 
         // check for nodeJS
-        hasModule = (module !== 'undefined' && module.exports);
+        hasModule = (module !== 'undefined' && module.exports),
+
+        production = {
+            df3120 : {
+                /* example of the structure of property
+                '1' : {
+                    expires : undefined,
+                    filenames : undefined
+
+                }
+                */
+            },
+            kindle4nt : {
+            }
+        };
 
     //
     //
@@ -192,7 +207,6 @@ var fs = require('fs.extra'),
         populateSvgTemplate(params)
             .then(writeRes)
             .then(function (filename, err) {
-                console.log('calling');
                 cb(err, filename);
             });
 
@@ -201,23 +215,26 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function adjustFileNames(params, period) {
+    function adjustParams(params, period) {
 
-        var weatherSvg = params.filenames.out.weatherSvg.split('.'),
-            unweatherPng = params.filenames.out.unweatherPng.split('.'),
-            weatherPng = params.filenames.out.weatherPng.split('.');
+        var filenames = params.filenames.out,
+            weatherSvg,
+            unweatherPng,
+            weatherPng;
 
+        if (params.location.device !== 'kindle4nt') {
 
-//        file.substr(0, file.indexOf('-'))
+            params.location.period = period;
 
-        SEE : heroku dir!
-        weatherSvg = weatherSvg[0].substr(0, weatherSvg[0].indexOf('-')) + '-' + period + '.' + weatherSvg[1];
-        unweatherPng = unweatherPng[0] + '-' + period + '.' + unweatherPng[1];
-        weatherPng = weatherPng[0] + '-' + period + '.' + weatherPng[1];
+            weatherSvg = utils.numberedFilename(filenames.weatherSvg, period);
+            unweatherPng = utils.numberedFilename(filenames.unweatherPng, period);
+            weatherPng = utils.numberedFilename(filenames.weatherPng, period);
 
-        params.filenames.out.weatherSvg = weatherSvg;
-        params.filenames.out.unweatherPng = unweatherPng;
-        params.filenames.out.weatherPng = weatherPng;
+            params.filenames.out.weatherSvg = weatherSvg;
+            params.filenames.out.unweatherPng = unweatherPng;
+            params.filenames.out.weatherPng = weatherPng;
+
+        }
 
         return params;
 
@@ -229,30 +246,49 @@ var fs = require('fs.extra'),
     function processWeatherdata(params, cb) {
 
         var period = 0,
-            maxFiles = cfg.weatherfiles.quantity[params.location.device],
+            maxFiles = cfg.production.files.quantity[params.location.device],
             files = [],
-            orgParams = params;
+            orgPeriod = params.location.period;
 
         function process(period) {
 
             if (period < maxFiles) {
 
-                adjustFileNames(orgParams, period);
+                adjustParams(params, period);
 
                 processWeather4Device(params, function (err, filename) {
 
                     if (err) {
                         cb(err, null);
                     } else {
+
                         files.push(filename);
-                        process(period + 1);
+
+                        if (period === 0) {
+
+                            fs.stat(filename, function (err, stats) {
+                                production[params.location.device][String(params.location.id)] = {
+                                    expires : stats.mtime.getTime() + cfg.production.expires * 1000
+                                };
+                                process(period + 1);
+                            });
+
+                        } else {
+                            process(period + 1);
+                        }
+
                     }
 
                 });
 
             } else {
+
+                params.location.period = orgPeriod;
+                production[params.location.device][String(params.location.id)].filenames = files;
                 cb(null, files);
+
                 return;
+
             }
         }
 
@@ -270,16 +306,41 @@ var fs = require('fs.extra'),
         var getWeather = nodefn.lift(wunderground.getWeather),
             processWeather = nodefn.lift(processWeatherdata),
             getFilenamesFor = nodefn.lift(filenames.get),
-            makeTargetDir = nodefn.lift(prepareTargetDir);
+            makeTargetDir = nodefn.lift(prepareTargetDir),
 
-        getFilenamesFor(location)
-            .then(makeTargetDir)
-            .then(getWeather)
-            .then(processWeather)
-            .then(function (l) {
-                console.log(l);
-                cb(null, l);
-            });
+            prodLocation = production[location.device][String(location.id)],
+            expireTime,
+            epoch;
+
+        if (prodLocation !== undefined) {
+
+            expireTime = prodLocation.expires;
+            epoch = new Date().getTime();
+
+            // TODO : handle first request after midnight if cache is still valid
+            // Simple approach, doesn't handle timezones yet.
+            // if (moment().hour() === 23) { ...
+
+            if (epoch < expireTime) {
+
+                console.log('USING PRODUCTION');
+                cb(null, prodLocation.filenames);
+
+            }
+
+        } else {
+
+            getFilenamesFor(location)
+                .then(makeTargetDir)
+                .then(getWeather)
+                .then(processWeather)
+                .then(function (l) {
+                    console.log(l);
+                    console.log(production);
+                    cb(null, l);
+                });
+
+        }
 
     };
 

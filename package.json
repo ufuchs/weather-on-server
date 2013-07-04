@@ -26,7 +26,6 @@
     "moment": ">=2.0.0",
     "i18n-2": ">=0.4.5",
     "fs.extra": "~1.2.1",
-    "memory-cache": "0.0.5",
     "buffered-reader": "~1.0.1",
     "when": "~2.1.1"
   },
