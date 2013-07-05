@@ -329,21 +329,22 @@ var fs = require('fs.extra'),
                 console.log('USING PRODUCTION');
                 console.log(production);
                 cb(null, prodLocation.filenames);
+                return;
 
             }
 
-        } else {
-
-            getFilenamesFor(location)
-                .then(makeTargetDir)
-                .then(getWeather)
-                .then(processWeather)
-                .then(function (filenames) {
-                    console.log(production);
-                    cb(null, filenames);
-                });
-
         }
+
+        console.log('USING NEW DATA');
+
+        getFilenamesFor(location)
+            .then(makeTargetDir)
+            .then(getWeather)
+            .then(processWeather)
+            .then(function (filenames) {
+                console.log(production);
+                cb(null, filenames);
+            });
 
     };
 
