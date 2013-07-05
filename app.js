@@ -106,6 +106,8 @@ app.get('/weather/:device/:id', function (req, res) {
 
     location = validateLocation(location);
 
+    period = location.period;
+
     console.log(location);
 
     weather.main(location, function (err, filenames) {

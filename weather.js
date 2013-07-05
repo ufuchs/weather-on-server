@@ -270,7 +270,9 @@ var fs = require('fs.extra'),
                                 production[params.location.device][String(params.location.id)] = {
                                     expires : stats.mtime.getTime() + cfg.production.expires * 1000
                                 };
+
                                 process(period + 1);
+
                             });
 
                         } else {
@@ -285,6 +287,7 @@ var fs = require('fs.extra'),
 
                 params.location.period = orgPeriod;
                 production[params.location.device][String(params.location.id)].filenames = files;
+
                 cb(null, files);
 
                 return;
@@ -324,6 +327,7 @@ var fs = require('fs.extra'),
             if (epoch < expireTime) {
 
                 console.log('USING PRODUCTION');
+                console.log(production);
                 cb(null, prodLocation.filenames);
 
             }
@@ -334,10 +338,9 @@ var fs = require('fs.extra'),
                 .then(makeTargetDir)
                 .then(getWeather)
                 .then(processWeather)
-                .then(function (l) {
-                    console.log(l);
+                .then(function (filenames) {
                     console.log(production);
-                    cb(null, l);
+                    cb(null, filenames);
                 });
 
         }
