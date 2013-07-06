@@ -78,7 +78,7 @@ app.get('/weather/:device/:id', function (req, res) {
     var id = 0,
         device = req.params.device,
         location,
-        period = 0;
+        forecastDay = 0;
 
     if (req.params.id !== undefined) {
         try {
@@ -92,27 +92,27 @@ app.get('/weather/:device/:id', function (req, res) {
         device = req.params.device.toLowerCase();
     }
 
-    if (req.query.period !== undefined) {
+    if (req.query.forecastDay !== undefined) {
         try {
-            period = parseInt(req.query.period, 10);
+            forecastDay = parseInt(req.query.forecastDay, 10);
         } catch (e2) {
-            period = 0;
+            forecastDay = 0;
         }
     }
 
     location = detectLocationById(id);
     location.device = device;
-    location.period = period;
+    location.period = forecastDay;
 
     location = validateLocation(location);
 
-    period = location.period;
+    forecastDay = location.period;
 
     console.log(location);
 
     weather.main(location, function (err, filenames) {
         console.log(filenames);
-        res.sendfile(filenames[period]);
+        res.sendfile(filenames[forecastDay]);
     });
 
 });

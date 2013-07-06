@@ -248,7 +248,8 @@ var fs = require('fs.extra'),
         var period = 0,
             maxFiles = cfg.production.files.quantity[params.location.device],
             files = [],
-            orgPeriod = params.location.period;
+            orgPeriod = params.location.period,
+            expires;
 
         function process(period) {
 
@@ -267,10 +268,7 @@ var fs = require('fs.extra'),
                         if (period === 0) {
 
                             fs.stat(filename, function (err, stats) {
-                                production[params.location.device][String(params.location.id)] = {
-                                    expires : stats.mtime.getTime() + cfg.production.expires * 1000
-                                };
-
+                                expires = stats.mtime.getTime()  + cfg.production.expires * 1000;
                                 process(period + 1);
 
                             });
@@ -286,7 +284,11 @@ var fs = require('fs.extra'),
             } else {
 
                 params.location.period = orgPeriod;
-                production[params.location.device][String(params.location.id)].filenames = files;
+                production[params.location.device][String(params.location.id)] = {
+                    expires : expires,
+                    pretty : new Date(expires),
+                    filenames : files
+                };
 
                 cb(null, files);
 
@@ -313,20 +315,20 @@ var fs = require('fs.extra'),
 
             prodLocation = production[location.device][String(location.id)],
             expireTime,
-            epoch;
+            now;
 
         if (prodLocation !== undefined) {
 
             expireTime = prodLocation.expires;
-            epoch = new Date().getTime();
+            now = new Date();
 
             // TODO : handle first request after midnight if cache is still valid
             // Simple approach, doesn't handle timezones yet.
             // if (moment().hour() === 23) { ...
 
-            if (epoch < expireTime) {
+            if (now.getTime() < expireTime) {
 
-                console.log('USING PRODUCTION');
+                console.log('USING PRODUCTION at ' + now);
                 console.log(production);
                 cb(null, prodLocation.filenames);
                 return;

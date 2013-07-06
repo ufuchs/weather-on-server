@@ -24,7 +24,7 @@ module.exports = {
         },
 
         /* expire time in seconds of the output files*/
-        expires : 30
+        expires : 3600
 
     },
 
