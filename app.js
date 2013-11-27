@@ -72,6 +72,13 @@ function getWeather(location, res) {
 //
 //
 //
+app.get('/weather/version', function (req, res) {
+    res.send('v0.1beta');
+});
+
+//
+//
+//
 app.get('/weather/kindle4nt/:id', function (req, res) {
 
     var id,
