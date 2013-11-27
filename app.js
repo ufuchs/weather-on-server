@@ -2,7 +2,7 @@
 'use strict';
 
 /*!
- * index
+ * app
  * Copyright(c) 2013 Uli Fuchs <ufuchs@gmx.com>
  * MIT Licensed
  *
@@ -23,7 +23,7 @@ var express = require('express'),
 //
 function detectLocationById(id) {
 
-    var i,
+    var i = 0,
         loc;
 
     for (i = 0; i < locations.length; i += 1) {
@@ -56,64 +56,66 @@ app.configure(function () {
 //
 //
 //
-function validateLocation(location) {
+function getWeather(location, res) {
 
-    if (location.device !== 'df3120') {
-        location.period = 0;
-    }
+    console.log('request', location.id + ':' + location.name);
 
-    if ((location.period > 3) || (location.period < 0)) {
-        location.period = 0;
-    }
+    weather.main(location, function (err, filenames) {
 
-    return location;
+        console.log('response', filenames[location.period]);
+
+        res.sendfile(filenames[location.period]);
+    });
 
 }
 
 //
 //
 //
-app.get('/weather/:device/:id', function (req, res) {
+app.get('/weather/kindle4nt/:id', function (req, res) {
 
-    var id = 0,
-        device = req.params.device,
+    var id,
+        device = 'kindle4nt',
         location,
         forecastDay = 0;
 
-    if (req.params.id !== undefined) {
-        try {
-            id = parseInt(req.params.id, 10);
-        } catch (e1) {
-            id = 1;
-        }
-    }
-
-    if (req.params.device !== undefined) {
-        device = req.params.device.toLowerCase();
-    }
-
-    if (req.query.forecastDay !== undefined) {
-        try {
-            forecastDay = parseInt(req.query.forecastDay, 10);
-        } catch (e2) {
-            forecastDay = 0;
-        }
-    }
+    id = parseInt(req.params.id, 10) || 0;
 
     location = detectLocationById(id);
+
     location.device = device;
     location.period = forecastDay;
 
-    location = validateLocation(location);
+    getWeather(location, res);
 
-    forecastDay = location.period;
+});
 
-    console.log(location);
+//
+//
+//
+app.get('/weather/df3120/:id', function (req, res) {
 
-    weather.main(location, function (err, filenames) {
-        console.log(filenames);
-        res.sendfile(filenames[forecastDay]);
-    });
+    var id,
+        device = 'df3120',
+        location,
+        forecastDay;
+
+    console.log('--------------------------------------');
+
+    id = parseInt(req.params.id, 10) || 0;
+
+    forecastDay = parseInt(req.query.forecastDay, 10) || 0;
+
+    if ((forecastDay > 3) || (forecastDay < 0)) {
+        forecastDay = 0;
+    }
+
+    location = detectLocationById(id);
+
+    location.device = device;
+    location.period = forecastDay;
+
+    getWeather(location, res);
 
 });
 
