@@ -16,8 +16,10 @@ var express = require('express'),
     cfg = require('./weather-config.js'),
     app = express(),
     locations = require('./locations.json').locations,
+    utils = require('./lib/utils.js'),
     port = process.env.PORT || 5000;
 
+/*
 //
 //
 //
@@ -39,6 +41,7 @@ function detectLocationById(id) {
     return null;
 
 }
+*/
 
 //
 //
@@ -88,7 +91,7 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
 
     id = parseInt(req.params.id, 10) || 0;
 
-    location = detectLocationById(id);
+    location = utils.detectLocationById(locations, id);
 
     location.device = device;
     location.period = forecastDay;
@@ -117,7 +120,7 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-    location = detectLocationById(id);
+    location = utils.detectLocationById(locations, id);
 
     location.device = device;
     location.period = forecastDay;
