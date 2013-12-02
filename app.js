@@ -15,33 +15,9 @@ var express = require('express'),
     weather = require('./weather.js'),
     cfg = require('./weather-config.js'),
     app = express(),
-    locations = require('./locations.json').locations,
+    locations = require('./locations.js'),
     utils = require('./lib/utils.js'),
     port = process.env.PORT || 5000;
-
-/*
-//
-//
-//
-function detectLocationById(id) {
-
-    var i = 0,
-        loc;
-
-    for (i = 0; i < locations.length; i += 1) {
-
-        loc = locations[i];
-
-        if (loc.id === id) {
-            return loc;
-        }
-
-    }
-
-    return null;
-
-}
-*/
 
 //
 //
@@ -63,11 +39,11 @@ function getWeather(location, res) {
 
     console.log('request', location.id + ':' + location.name);
 
-    weather.main(location, function (err, filenames) {
+    weather.main(location, function (err, filename) {
 
-        console.log('response', filenames[location.period]);
+        console.log('response', filename);
 
-        res.sendfile(filenames[location.period]);
+        res.sendfile(filename);
     });
 
 }
@@ -91,7 +67,8 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
 
     id = parseInt(req.params.id, 10) || 0;
 
-    location = utils.detectLocationById(locations, id);
+    // Returns a _copy_ of the loction
+    location = utils.getLocationById(locations.locations, id);
 
     location.device = device;
     location.period = forecastDay;
@@ -110,8 +87,6 @@ app.get('/weather/df3120/:id', function (req, res) {
         location,
         forecastDay;
 
-    console.log('--------------------------------------');
-
     id = parseInt(req.params.id, 10) || 0;
 
     forecastDay = parseInt(req.query.forecastDay, 10) || 0;
@@ -120,7 +95,7 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-    location = utils.detectLocationById(locations, id);
+    location = utils.getLocationById(locations, id);
 
     location.device = device;
     location.period = forecastDay;

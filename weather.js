@@ -34,7 +34,7 @@ var fs = require('fs.extra'),
 
 
 
-(function (undefined) {
+(function () {
 
     var weather,
 
@@ -315,12 +315,12 @@ var fs = require('fs.extra'),
 
             prodLocation = production[location.device][String(location.id)],
             expireTime,
-            now;
+            now = new Date();
 
+        /*
         if (prodLocation !== undefined) {
 
             expireTime = prodLocation.expires;
-            now = new Date();
 
             // TODO : handle first request after midnight if cache is still valid
             // Simple approach, doesn't handle timezones yet.
@@ -328,24 +328,36 @@ var fs = require('fs.extra'),
 
             if (now.getTime() < expireTime) {
 
-                console.log('USING PRODUCTION at ' + now);
-                console.log(production);
+                console.log('USING PRODUCTION at ' + now + ' ' + location.id + ':' + location.name);
+//                console.log(production);
                 cb(null, prodLocation.filenames);
                 return;
 
             }
 
         }
+        */
 
-        console.log('USING NEW DATA');
+        /*
+        getFilenamesFor(location)
+            .then(function (filenames) {
+                console.log('USING NEW DATA at ' + now + ' ' + location.id + ':' + location.name + ':' + filenames[location.period]);
+                var fname = filenames[location.period];
+                location = null;
+                cb(null, fname);
+            });
+        */
+
 
         getFilenamesFor(location)
             .then(makeTargetDir)
             .then(getWeather)
             .then(processWeather)
             .then(function (filenames) {
-                console.log(production);
-                cb(null, filenames);
+                console.log('USING NEW DATA at ' + now + ' ' + location.id + ':' + location.name + ':' + filenames[location.period]);
+                var fname = filenames[location.period];
+                location = null;
+                cb(null, fname);
             });
 
     };
@@ -359,4 +371,4 @@ var fs = require('fs.extra'),
         module.exports = weather;
     }
 
-}).call(this);
+}());
