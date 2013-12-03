@@ -338,17 +338,6 @@ var fs = require('fs.extra'),
         }
         */
 
-        /*
-        getFilenamesFor(location)
-            .then(function (filenames) {
-                console.log('USING NEW DATA at ' + now + ' ' + location.id + ':' + location.name + ':' + filenames[location.period]);
-                var fname = filenames[location.period];
-                location = null;
-                cb(null, fname);
-            });
-        */
-
-
         getFilenamesFor(location)
             .then(makeTargetDir)
             .then(getWeather)

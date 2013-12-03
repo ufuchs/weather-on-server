@@ -70,6 +70,8 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
     // Returns a _copy_ of the loction
     location = utils.getLocationById(locations.locations, id);
 
+    location.lang = location.lang.toLowerCase();
+
     location.device = device;
     location.period = forecastDay;
 
