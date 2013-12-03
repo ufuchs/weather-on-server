@@ -142,7 +142,7 @@ var fs = require('fs.extra'),
         fs.writeFile(params.filenames.out.weatherSvg, params.svg, function (err) {
 
             if (err) {
-                cb(null, err);
+                cb(err, null);
                 return;
             }
 
@@ -162,17 +162,18 @@ var fs = require('fs.extra'),
         var targetDir = params.filenames.out.targetDir;
 
         fs.exists(targetDir, function (exists) {
+
             if (!exists) {
                 fs.mkdir(targetDir, function (err) {
                     if (err) {
                         cb(err, null);
-                    } else {
-                        cb(null, params);
+                        return;
                     }
                 });
-            } else {
-                cb(null, params);
             }
+
+            cb(null, params);
+
         });
 
     }
@@ -317,7 +318,7 @@ var fs = require('fs.extra'),
             expireTime,
             now = new Date();
 
-        /*
+
         if (prodLocation !== undefined) {
 
             expireTime = prodLocation.expires;
@@ -329,14 +330,13 @@ var fs = require('fs.extra'),
             if (now.getTime() < expireTime) {
 
                 console.log('USING PRODUCTION at ' + now + ' ' + location.id + ':' + location.name);
-//                console.log(production);
                 cb(null, prodLocation.filenames);
                 return;
 
             }
 
         }
-        */
+
 
         getFilenamesFor(location)
             .then(makeTargetDir)

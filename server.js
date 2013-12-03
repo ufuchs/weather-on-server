@@ -37,7 +37,7 @@ app.configure(function () {
 //
 function getWeather(location, res) {
 
-    console.log('request', location.id + ':' + location.name);
+    console.log('request', location.id + ':' + location.name + ':' + location.device);
 
     weather.main(location, function (err, filename) {
 
@@ -97,7 +97,9 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-    location = utils.getLocationById(locations, id);
+    location = utils.getLocationById(locations.locations, id);
+
+    location.lang = location.lang.toLowerCase();
 
     location.device = device;
     location.period = forecastDay;
