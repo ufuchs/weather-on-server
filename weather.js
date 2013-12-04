@@ -298,8 +298,6 @@ var fs = require('fs.extra'),
             }
         }
 
-        console.log('.....................');
-
         process(0);
 
     }
