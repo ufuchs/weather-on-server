@@ -340,7 +340,6 @@ var fs = require('fs.extra'),
 
         getFilenamesFor(location)
             .then(makeTargetDir)
-//            .then(wunderground.getWeather)
             .then(getWeather)
             .then(processWeather)
             .then(function (filenames) {
