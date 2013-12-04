@@ -298,6 +298,8 @@ var fs = require('fs.extra'),
             }
         }
 
+        console.log('.....................');
+
         process(0);
 
     }
@@ -318,7 +320,7 @@ var fs = require('fs.extra'),
             expireTime,
             now = new Date();
 
-
+/*
         if (prodLocation !== undefined) {
 
             expireTime = prodLocation.expires;
@@ -336,10 +338,11 @@ var fs = require('fs.extra'),
             }
 
         }
-
+*/
 
         getFilenamesFor(location)
             .then(makeTargetDir)
+//            .then(wunderground.getWeather)
             .then(getWeather)
             .then(processWeather)
             .then(function (filenames) {
