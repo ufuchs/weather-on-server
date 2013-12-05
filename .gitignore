@@ -15,10 +15,6 @@ results
 public/weather/*/*/*.png
 public/weather/*/*/*.svg
 
-# exclude tests
-*-test.js
-spec
-
 node_modules
 npm-debug.log
 vendor
