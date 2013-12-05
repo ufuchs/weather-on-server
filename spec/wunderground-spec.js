@@ -53,15 +53,13 @@ describe("wunderground", function () {
         expect(wunderground.weather).not.toBe(null);
     });
 
-
-    it("getWeather", function () {
+    it("wunderground.getWeather", function () {
 
         runs(function () {
             flag = false;
-            wunderground.useTestData(false);
+            wunderground.useTestData(true);
             wunderground.getWeather(params, function (err, p) {
                 flag = true;
-//                console.log(p.weather);
             });
         });
 
@@ -72,7 +70,6 @@ describe("wunderground", function () {
         runs(function() {
             expect(flag).toEqual(true);
         });
-
 
     });
 

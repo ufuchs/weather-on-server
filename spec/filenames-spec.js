@@ -32,13 +32,9 @@ describe("locations", function () {
 
     it("should work", function () {
 
-
         filenames.get(location, function (err, data) {
-            console.log(data);
             expect(data).not.toBe(null);
         });
-
-
 
     });
 
