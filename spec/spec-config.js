@@ -10,7 +10,7 @@ module.exports.location = {
     name: "Germany/Berlin",
     lang: "ru",
     device: "kindle4nt",
-    period: 0
+    period: [ 0 ]
 
 };
 
@@ -22,9 +22,18 @@ module.exports.params = {
         name: "Germany/Berlin",
         lang: "ru",
         device: "kindle4nt",
-        period: 0
+        period: [ 0 ]
 
     },
     weather : {},
-    json : null
+    json : null,
+    localized : {
+        common : {},
+        header : {
+            forecast : {},
+            sun : {}
+        },
+
+        forecastday : []
+    }
 };

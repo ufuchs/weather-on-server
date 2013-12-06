@@ -45,7 +45,7 @@ describe("localizer", function () {
             ready = false;
             localizer.localize(params, function(err, data) {
                 ready = true;
-                console.log(data);
+//                console.log(data.localized);
             })
 
 
