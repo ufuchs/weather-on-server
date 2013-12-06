@@ -71,14 +71,13 @@ describe("wunderground", function () {
         runs(function() {
             console.log(params.weather);
 
+            // http://www.jsoneditoronline.org/
             fs.writeFile('spec/unweather.json', JSON.stringify(params.weather), function (err) {
                 return;
             });
 
-
-
-
             expect(ready).toEqual(true);
+
         });
 
     });
