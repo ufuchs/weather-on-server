@@ -4,6 +4,7 @@
 'use strict';
 
 var cfg = require('../weather-config.js'),
+    fs = require('fs.extra'),
     wunderground = require('../lib/provider/wunderground.js'),
     proxy = process.env.HTTP_PROXY || process.env.http_proxy,
     apikey = process.env.WUNDERGROUND_KEY,
@@ -39,7 +40,7 @@ wunderground(proxy, apikey, 3600);
 
 describe("wunderground", function () {
 
-    var flag;
+    var ready;
 
     it("valid reference of 'params'", function() {
         expect(params).not.toBe(null);
@@ -56,22 +57,33 @@ describe("wunderground", function () {
     it("wunderground.getWeather", function () {
 
         runs(function () {
-            flag = false;
+            ready = false;
             wunderground.useTestData(true);
             wunderground.getWeather(params, function (err, p) {
-                flag = true;
+                ready = true;
             });
         });
 
         waitsFor(function() {
-            return flag;
-        }, "The Value should be incremented", 10000);
+            return ready;
+        }, "'getWeather' timed out", 10000);
 
         runs(function() {
-            expect(flag).toEqual(true);
+            console.log(params.weather);
+
+            fs.writeFile('spec/unweather.json', JSON.stringify(params.weather), function (err) {
+                return;
+            });
+
+
+
+
+            expect(ready).toEqual(true);
         });
 
     });
+
+    console.log("HIER");
 
 
 });
