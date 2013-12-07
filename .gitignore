@@ -5,6 +5,7 @@
 
 .idea
 .env
+*.iml
 wunderground.sh
 
 pids
