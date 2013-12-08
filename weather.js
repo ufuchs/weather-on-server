@@ -32,8 +32,6 @@ var fs = require('fs.extra'),
     utils = require('./lib/utils.js'),
     renderService = require('./lib/svg2png-renderer.js');
 
-
-
 (function () {
 
     var weather,
@@ -60,32 +58,26 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function populateSvgTemplate(params) {
+    function populateSvgTemplate(wfo) {
 
         var svgTemplate,
-            svg,
-            localize = nodefn.lift(localizer.localize),
-            deferred = when.defer();
+            deferred = when.defer(),
+            localized = wfo.localized;
 
-//        console.log(params);
-
-        callbacks.call(utils.readTextFile, params.filenames['in'].svgTemplate)
+        callbacks.call(utils.readTextFile, wfo.filenames['in'].svgTemplate)
             .then(function (template) {
                 svgTemplate = template;
-                return params;
+                return wfo.localized;
             })
-            .then(localize)
             .then(function (localized, cb) {
 
-//                console.log(localized);
-
                 deferred.resolve({
-                    filenames : params.filenames,
-                    location : params.location,
+                    filenames : wfo.filenames,
+                    location : wfo.location,
                     svg : utils.fillTemplates(svgTemplate, {
 
                         // common
-                        css : params.filenames['in'].cssFile,
+                        css : wfo.filenames['in'].cssFile,
                         tempUnit : localized.common.tempUnitToDisplay,
                         min : localized.common.min,
                         max : localized.common.max,
@@ -137,16 +129,16 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function writeResults(params, cb) {
+    function writeResults(wfo, cb) {
 
-        fs.writeFile(params.filenames.out.weatherSvg, params.svg, function (err) {
+        fs.writeFile(wfo.filenames.out.weatherSvg, wfo.svg, function (err) {
 
             if (err) {
                 cb(err, null);
                 return;
             }
 
-            renderService.render({device : params.location.device, out : params.filenames.out}, function (err, outPng) {
+            renderService.render({device : wfo.location.device, out : wfo.filenames.out}, function (err, outPng) {
                 cb(err, outPng);
             });
 
@@ -157,9 +149,9 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function prepareTargetDir(params, cb) {
+    function prepareTargetDir(wfo, cb) {
 
-        var targetDir = params.filenames.out.targetDir;
+        var targetDir = wfo.filenames.out.targetDir;
 
         fs.exists(targetDir, function (exists) {
 
@@ -172,7 +164,7 @@ var fs = require('fs.extra'),
                 });
             }
 
-            cb(null, params);
+            cb(null, wfo);
 
         });
 
@@ -201,49 +193,6 @@ var fs = require('fs.extra'),
     //
     //
     //
-    function processWeather4Device(params, cb) {
-
-        var writeRes = nodefn.lift(writeResults);
-
-        populateSvgTemplate(params)
-            .then(writeRes)
-            .then(function (filename, err) {
-                cb(err, filename);
-            });
-
-    }
-
-    //
-    //
-    //
-    function adjustParams(params, period) {
-
-        var filenames = params.filenames.out,
-            weatherSvg,
-            unweatherPng,
-            weatherPng;
-
-        if (params.location.device !== 'kindle4nt') {
-
-            params.location.period = period;
-
-            weatherSvg = utils.numberedFilename(filenames.weatherSvg, period);
-            unweatherPng = utils.numberedFilename(filenames.unweatherPng, period);
-            weatherPng = utils.numberedFilename(filenames.weatherPng, period);
-
-            params.filenames.out.weatherSvg = weatherSvg;
-            params.filenames.out.unweatherPng = unweatherPng;
-            params.filenames.out.weatherPng = weatherPng;
-
-        }
-
-        return params;
-
-    }
-
-    //
-    //
-    //
     function processWeatherdata(params, cb) {
 
         var period = 0,
@@ -252,6 +201,52 @@ var fs = require('fs.extra'),
             orgPeriod = params.location.period,
             expires;
 
+        //
+        //
+        //
+        function processWeather4Device(wfo, cb) {
+
+            var writeRes = nodefn.lift(writeResults);
+
+            populateSvgTemplate(wfo)
+                .then(writeRes)
+                .then(function (filename, err) {
+                    cb(err, filename);
+                });
+
+        }
+
+        //
+        // @param {wfo} Object - the workflow object
+        //
+        function adjustParams(wfo, period) {
+
+            var filenames = wfo.filenames.out,
+                weatherSvg,
+                unweatherPng,
+                weatherPng;
+
+            if (wfo.location.device !== 'kindle4nt') {
+
+                wfo.location.period = period;
+
+                weatherSvg = utils.numberedFilename(filenames.weatherSvg, period);
+                unweatherPng = utils.numberedFilename(filenames.unweatherPng, period);
+                weatherPng = utils.numberedFilename(filenames.weatherPng, period);
+
+                wfo.filenames.out.weatherSvg = weatherSvg;
+                wfo.filenames.out.unweatherPng = unweatherPng;
+                wfo.filenames.out.weatherPng = weatherPng;
+
+            }
+
+            return wfo;
+
+        }
+
+        // recursive call
+        //
+        //
         function process(period) {
 
             if (period < maxFiles) {
@@ -312,6 +307,7 @@ var fs = require('fs.extra'),
         var getWeather = nodefn.lift(wunderground.getWeather),
             processWeather = nodefn.lift(processWeatherdata),
             getFilenamesFor = nodefn.lift(filenames.get),
+            localize = nodefn.lift(localizer.localize),
             makeTargetDir = nodefn.lift(prepareTargetDir),
 
             prodLocation = production[location.device][String(location.id)],
@@ -341,6 +337,7 @@ var fs = require('fs.extra'),
         getFilenamesFor(location)
             .then(makeTargetDir)
             .then(getWeather)
+            .then(localize)
             .then(processWeather)
             .then(function (filenames) {
                 console.log('USING NEW DATA at ' + now + ' ' + location.id + ':' + location.name + ':' + filenames[location.period]);
