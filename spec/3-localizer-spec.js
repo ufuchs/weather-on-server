@@ -3,7 +3,7 @@
 
 'use strict';
 
-var localizer = require('../lib/localizer-ex.js'),
+var localizer = require('../lib/localizer.js'),
     location = require('./spec-config.js').location,
     params = require('./spec-config.js').params,
     utils = require('../lib/utils.js');
