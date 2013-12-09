@@ -6,9 +6,10 @@
 var localizer = require('../lib/localizer.js'),
     location = require('./spec-config.js').location,
     params = require('./spec-config.js').params,
+    locales = require('../locales/locales.js').loc,
     utils = require('../lib/utils.js');
 
-localizer();
+
 
 describe("localizer", function () {
 
@@ -35,20 +36,20 @@ describe("localizer", function () {
 
     });
 
+
     it("localizer.localize", function () {
 
-        waitsFor(function() {
-            return ready;
-        }, "'localize' timed out", 2000);
+        var x = null;
+
+
+        localizer();
 
         runs(function() {
             ready = false;
-            localizer.localize(params, function(err, data) {
-                ready = true;
-//                console.log(data.localized);
-            })
-
-
+            x = null;
+            x = localizer.localize(params);
+                        console.log(x);
+            ready = x !== null;
         });
 
         waitsFor(function() {
@@ -59,6 +60,28 @@ describe("localizer", function () {
             expect(ready).toEqual(true);
         });
 
+
+
     });
+
+
+/*
+    it("locales", function () {
+
+
+        var l = locales.moment,
+            i = locales.iso3166ToLocale,
+            x = locales.xy.moment;
+
+        expect(l).not.toBe(null);
+        expect(i).not.toBe(null);
+
+        console.log(l);
+        console.log(x);
+
+
+    });
+*/
+
 
 });
