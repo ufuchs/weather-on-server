@@ -12,7 +12,7 @@
  */
 
 var express = require('express'),
-    weather = require('./weather.js'),
+    weather = require('./lib/weather.js'),
     cfg = require('./weather-config.js'),
     app = express(),
     locations = require('./locations.js'),
