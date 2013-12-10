@@ -6,7 +6,7 @@
 var localizer = require('../lib/localizer.js'),
     location = require('./spec-config.js').location,
     params = require('./spec-config.js').params,
-    locales = require('../locales/locales.js').loc,
+    locales = require('../locales/locales.js').locales,
     utils = require('../lib/utils.js');
 
 
@@ -37,6 +37,7 @@ describe("localizer", function () {
     });
 
 
+    /*
     it("localizer.localize", function () {
 
         var x = null;
@@ -63,25 +64,34 @@ describe("localizer", function () {
 
 
     });
+    */
 
 
-/*
     it("locales", function () {
 
+        var i18n = locales.i18n,
+            iso3166ToLocale = locales.iso3166ToLocale,
+            lang;
 
-        var l = locales.moment,
-            i = locales.iso3166ToLocale,
-            x = locales.xy.moment;
 
-        expect(l).not.toBe(null);
-        expect(i).not.toBe(null);
+        expect(i18n).not.toBe(undefined);
+        expect(iso3166ToLocale).not.toBe('undefined');
 
-        console.log(l);
-        console.log(x);
+        console.log(i18n);
+        console.log(iso3166ToLocale);
+
+        lang = locales.mapIsoToI18n('cz');
+        expect(lang).toBe('cs');
+
+        lang = locales.mapIsoToI18n('dk');
+        expect(lang).toEqual('da');
+
+        lang = locales.mapIsoToI18n('de');
+        expect(lang).toEqual('de');
 
 
     });
-*/
+
 
 
 });
