@@ -9,7 +9,7 @@ var renderer = require('../lib/svg2png-renderer.js'),
 
 describe("renderer", function () {
 
-    var data = path.resolve(__dirname, 'data/kindle4nt/1');
+    var kindle = path.resolve(__dirname, '../public/weather/kindle4nt/test');
 
     it("shouldn't be null", function () {
         expect(renderer).not.toBe(null);
@@ -17,10 +17,10 @@ describe("renderer", function () {
 
     it("should render per 'renderSvgFile'", function () {
 
-        var inSvg = data + '/' + 'weather.svg',
-            outPng = data + '/' + 'weather.png';
+        var inSvg = kindle + '/' + 'weather.svg',
+            outPng = kindle + '/' + 'weather.png';
 
-        renderer.renderSvgFile(inSvg, outPng);
+        renderer.renderSvgFromFile(inSvg, outPng);
         expect(renderer).not.toBe(null);
 
     });

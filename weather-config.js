@@ -11,8 +11,6 @@ module.exports = {
         files : {
 
             names : {
-                weatherSvg : 'weather.svg',
-                unweatherPng : 'unweather.png',
                 weatherPng : 'weather.png'
             },
 
