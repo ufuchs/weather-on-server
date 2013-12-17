@@ -3,23 +3,87 @@
 
 'use strict';
 
-var downloader = require('../lib/downloader.js');
+var nodefn = require("when/node/function"),
+    when = require('when'),
+    downloader = require('../lib/downloader.js'),
+    wundergroundQuery = require('../lib/provider/wundergroundQuery.js'),
+    apikey = process.env.WUNDERGROUND_KEY,
+    proxy = process.env.HTTP_PROXY || process.env.http_proxy,
+    useTestData = false;
+
+
+describe("apiKey", function () {
+
+    it("'apiKey' shouldn't be undefined", function () {
+        expect(apikey).not.toBe(undefined);
+    });
+
+    it("'apiKey' shouldn't be null", function () {
+        expect(apikey).not.toBe(null);
+    });
+
+    it("'apiKey' shouldn't be empty", function () {
+        expect(apikey.length).not.toBe(0);
+    });
+
+
+});
+
+describe("wundergroundQuery", function () {
+
+    var apiUri;
+
+    it("shouldn't be null", function () {
+        expect(wundergroundQuery).not.toBe(null);
+    });
+
+    wundergroundQuery(apikey);
+
+    it("'getApiUri' should work", function () {
+
+        apiUri = wundergroundQuery.getApiUri('de', 'Germany/Berlin');
+
+        expect(apiUri).not.toBe(null);
+        expect(apiUri.length).not.toBe(0);
+
+    });
+
+    it("should be 'DL' for 'de'", function () {
+        expect(apiUri.indexOf(":DL")).toBe(83);
+    });
+
+});
 
 describe("downloader", function () {
 
-    downloader('xxxx', 'yyy');
-    downloader.apiUri();
+    var ready,
+        jsonData;
 
-    it("shouldn't be null", function () {
-        expect(downloader).not.toBe(null);
+    wundergroundQuery(apikey);
+
+    downloader(wundergroundQuery, proxy);
+
+    runs(function () {
+        ready = false;
+        downloader.useTestData(useTestData);
+        when(downloader.download('de', 'Germany/Berlin'))
+            .then(function (json) {
+                ready = true;
+                jsonData = json;
+            });
     });
 
+    waitsFor(function() {
+        return ready;
+    }, "'download' timed out", 10000);
 
-    /*
-    it("shouldn't be null", function () {
-        downloader.apiKey();
-        expect(downloader).not.toBe(null);
+    runs(function() {
+
+        console.log(jsonData);
+
+        expect(ready).toEqual(true);
+
     });
-*/
 
 });
+
