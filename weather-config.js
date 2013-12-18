@@ -4,6 +4,12 @@
 
 module.exports = {
 
+    provider : {
+        downloader : require('./lib/downloader.js'),
+        query : require('./lib/provider/wunderground/query.js'),
+        extractor : require('./lib/provider/wunderground/extractor.js')
+    },
+
     production : {
 
         dir : './public/weather',
