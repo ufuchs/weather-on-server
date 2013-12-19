@@ -6,12 +6,17 @@
 var nodefn = require("when/node/function"),
     when = require('when'),
     downloader = require('../lib/downloader.js'),
-    wundergroundQuery = require('../lib/provider/wundergroundQuery.js'),
+    wundergroundQuery = require('../lib/provider/wunderground/query.js'),
+    wundergroundExtractor = require('../lib/provider/wunderground/extractor.js'),
+    demoWeather = require('../lib/provider/wunderground/2013-03-29.json'),
+    utils = require('../lib/utils.js'),
+    providerService = require('../lib/providerService.js'),
     apikey = process.env.WUNDERGROUND_KEY,
     proxy = process.env.HTTP_PROXY || process.env.http_proxy,
-    useTestData = false;
+    useTestData = true;
 
 
+/*
 describe("apiKey", function () {
 
     it("'apiKey' shouldn't be undefined", function () {
@@ -53,15 +58,15 @@ describe("wundergroundQuery", function () {
     });
 
 });
+*/
 
+/*
 describe("downloader", function () {
 
     var ready,
         jsonData;
 
-    wundergroundQuery(apikey);
-
-    downloader(wundergroundQuery, proxy);
+    downloader(wundergroundQuery, apikey, proxy);
 
     runs(function () {
         ready = false;
@@ -71,6 +76,7 @@ describe("downloader", function () {
                 ready = true;
                 jsonData = json;
             });
+
     });
 
     waitsFor(function() {
@@ -84,6 +90,24 @@ describe("downloader", function () {
         expect(ready).toEqual(true);
 
     });
+
+
+});
+*/
+
+describe("wundergroundExtractor", function () {
+
+
+    var params = {
+        downloader : downloader,
+        query : wundergroundQuery,
+        extractor : wundergroundExtractor,
+    };
+
+    providerService(params, apikey, proxy);
+
+    providerService.process('de', 'Germany/Berlin');
+
 
 });
 
