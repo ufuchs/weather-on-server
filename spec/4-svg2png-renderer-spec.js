@@ -3,9 +3,8 @@
 
 'use strict';
 
-var renderer = require('../lib/svg2png-renderer.js'),
+var renderer = require('../lib/svg2png/svg2png.js'),
     path = require("path");
-
 
 describe("renderer", function () {
 
@@ -18,10 +17,12 @@ describe("renderer", function () {
     it("should render per 'renderSvgFile'", function () {
 
         var inSvg = kindle + '/' + 'weather.svg',
-            outPng = kindle + '/' + 'weather.png';
+            outPng = kindle + '/' + 'weather.png',
+            i;
 
-        renderer.renderSvgFromFile(inSvg, outPng);
+        renderer.renderSvgFromFile(inSvg, outPng, i);
         expect(renderer).not.toBe(null);
+
 
     });
 
