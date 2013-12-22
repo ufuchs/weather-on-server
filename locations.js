@@ -33,17 +33,15 @@ var locations = {
 
 module.exports = locations;
 
-//
-//
-//
-exports.getLocationById = function (locations, id) {
+locations.getLocationById = function (id) {
 
     var i,
-        loc;
+        loc,
+        locs = locations.locations;
 
-    for (i = 0; i < locations.length; i += 1) {
+    for (i = 0; i < locs.length; i += 1) {
 
-        loc = locations[i];
+        loc = locs[i];
 
         if (loc.id === id) {
 
@@ -52,7 +50,7 @@ exports.getLocationById = function (locations, id) {
                 lon: loc.lon,
                 lat: loc.lat,
                 name: loc.name,
-                lang: loc.lang
+                lang: loc.lang.toLowerCase()
             };
         }
 
@@ -60,4 +58,5 @@ exports.getLocationById = function (locations, id) {
 
     return null;
 
-};
+}
+

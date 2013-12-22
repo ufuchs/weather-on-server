@@ -95,7 +95,6 @@ describe("downloader", function () {
 
 describe("providerService", function () {
 
-
     var wfo = testCfg.createWfo(),
         cfg = {
             downloader : downloader,

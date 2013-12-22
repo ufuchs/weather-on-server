@@ -37,8 +37,6 @@ app.configure(function () {
 //
 function getWeather(location, res) {
 
-    console.log('request', location.id + ':' + location.name + ':' + location.device);
-
     weather.main(location, function (err, filename) {
 
         console.log('response', filename);
@@ -68,9 +66,7 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
     id = parseInt(req.params.id, 10) || 0;
 
     // Returns a _copy_ of the loction
-    location = utils.getLocationById(locations.locations, id);
-
-    location.lang = location.lang.toLowerCase();
+    location = locations.getLocationById(id);
 
     location.device = device;
     location.period = forecastDay;
@@ -97,9 +93,10 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-    location = utils.getLocationById(locations.locations, id);
+//    location = utils.getLocationById(locations.locations, id);
+    location = locations.getLocationById(id);
 
-    location.lang = location.lang.toLowerCase();
+//    location.lang = location.lang.toLowerCase();
 
     location.device = device;
     location.period = forecastDay;
