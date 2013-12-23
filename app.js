@@ -93,10 +93,7 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-//    location = utils.getLocationById(locations.locations, id);
     location = locations.getLocationById(id);
-
-//    location.lang = location.lang.toLowerCase();
 
     location.device = device;
     location.period = forecastDay;
