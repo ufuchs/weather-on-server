@@ -33,7 +33,8 @@
     "when": "~2.1.1",
     "memory-cache": "0.0.5",
     "jade": "*",
-    "phantom": "~0.5.4"
+    "phantom": "~0.5.4",
+    "bunyan": "~0.22.1"
   },
   "main": "app",
   "engines": {

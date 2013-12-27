@@ -39,21 +39,20 @@ module.exports.wfo = {
     }
 };
 
-module.exports.createWfo = function () {
+module.exports.createWfo = function (location) {
 
     return {
-        location : {
-            id: 1,
-            lon: ["13.4542", "13° 27"],
-            lat: ["52.5158", "52° 31'"],
-            name: "Germany/Berlin",
-            lang: "ru",
-            device: "kindle4nt",
-            period: 0
+        cfg : {
+            svgTemplate : null,
+            location : location,
+            filenames : {
+                svg : {},
+                png : {}
+            }
 
         },
-        weather : {},
         json : null,
+        weather : {},
         localized : {
             common : {},
             header : {
