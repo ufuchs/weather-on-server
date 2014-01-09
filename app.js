@@ -17,6 +17,7 @@ var express = require('express'),
     app = express(),
     locations = require('./locations.js'),
     utils = require('./lib/utils.js'),
+//    locales = require('./../locales/locales.js').locales,
     port = process.env.PORT || 5000;
 
 //
@@ -67,6 +68,8 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
 
     // Returns a _copy_ of the loction
     request = locations.getLocationById(id);
+
+//    request.lang = locales.mapIsoToI18n(request.lang);
 
     request.device = device;
     request.period = forecastDay;
