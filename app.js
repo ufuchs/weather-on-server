@@ -35,9 +35,9 @@ app.configure(function () {
 //
 //
 //
-function getWeather(location, res) {
+function getWeather(req, res) {
 
-    weather.main(location, function (err, filename) {
+    weather.main(req, function (err, filename) {
 
         console.log('response', filename);
 
@@ -60,18 +60,18 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
 
     var id,
         device = 'kindle4nt',
-        location,
+        request,
         forecastDay = 0;
 
     id = parseInt(req.params.id, 10) || 0;
 
     // Returns a _copy_ of the loction
-    location = locations.getLocationById(id);
+    request = locations.getLocationById(id);
 
-    location.device = device;
-    location.period = forecastDay;
+    request.device = device;
+    request.period = forecastDay;
 
-    getWeather(location, res);
+    getWeather(request, res);
 
 });
 
@@ -82,7 +82,7 @@ app.get('/weather/df3120/:id', function (req, res) {
 
     var id,
         device = 'df3120',
-        location,
+        request,
         forecastDay;
 
     id = parseInt(req.params.id, 10) || 0;
@@ -93,12 +93,12 @@ app.get('/weather/df3120/:id', function (req, res) {
         forecastDay = 0;
     }
 
-    location = locations.getLocationById(id);
+    request = locations.getLocationById(id);
 
-    location.device = device;
-    location.period = forecastDay;
+    request.device = device;
+    request.period = forecastDay;
 
-    getWeather(location, res);
+    getWeather(request, res);
 
 });
 
