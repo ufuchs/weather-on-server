@@ -34,7 +34,8 @@
     "memory-cache": "0.0.5",
     "jade": "*",
     "phantom": "~0.5.4",
-    "bunyan": "~0.22.1"
+    "bunyan": "~0.22.1",
+    "suncalc": "~1.2.2"
   },
   "main": "app",
   "engines": {
