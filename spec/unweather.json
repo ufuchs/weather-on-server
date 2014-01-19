@@ -1,0 +1,163 @@
+{
+  "id": 1,
+  "date": 1364595428000,
+  "forecastday": [
+    {
+      "epoch": 1364590800000,
+      "sun": {
+        "sunrise": {
+          "hh": "05",
+          "mm": "49"
+        },
+        "solarnoon": {
+          "hh": "12",
+          "mm": "12"
+        },
+        "sunset": {
+          "hh": "18",
+          "mm": "36"
+        },
+        "daylength": {
+          "hh": 12,
+          "mm": 47,
+          "ss": 4
+        },
+        "dld": {
+          "hh": 0,
+          "mm": 4,
+          "ss": 6
+        }
+      },
+      "temp": {
+        "high": {
+          "fahrenheit": "38",
+          "celsius": "3"
+        },
+        "low": {
+          "fahrenheit": "30",
+          "celsius": "-1"
+        }
+      },
+      "ic": "bkn",
+      "sic": "bkn"
+    },
+    {
+      "epoch": 1364677200000,
+      "sun": {
+        "sunrise": {
+          "hh": "05",
+          "mm": "46"
+        },
+        "solarnoon": {
+          "hh": "12",
+          "mm": "12"
+        },
+        "sunset": {
+          "hh": "18",
+          "mm": "37"
+        },
+        "daylength": {
+          "hh": 12,
+          "mm": 51,
+          "ss": 10
+        },
+        "dld": {
+          "hh": 0,
+          "mm": 4,
+          "ss": 6
+        }
+      },
+      "temp": {
+        "high": {
+          "fahrenheit": "37",
+          "celsius": "3"
+        },
+        "low": {
+          "fahrenheit": "30",
+          "celsius": "-1"
+        }
+      },
+      "ic": "sn",
+      "sic": "ovc"
+    },
+    {
+      "epoch": 1364763600000,
+      "sun": {
+        "sunrise": {
+          "hh": "06",
+          "mm": "44"
+        },
+        "solarnoon": {
+          "hh": "13",
+          "mm": "12"
+        },
+        "sunset": {
+          "hh": "19",
+          "mm": "39"
+        },
+        "daylength": {
+          "hh": 12,
+          "mm": 55,
+          "ss": 16
+        },
+        "dld": {
+          "hh": 0,
+          "mm": 4,
+          "ss": 5
+        }
+      },
+      "temp": {
+        "high": {
+          "fahrenheit": "39",
+          "celsius": "4"
+        },
+        "low": {
+          "fahrenheit": "23",
+          "celsius": "-5"
+        }
+      },
+      "ic": "sn",
+      "sic": "ovc"
+    },
+    {
+      "epoch": 1364850000000,
+      "sun": {
+        "sunrise": {
+          "hh": "06",
+          "mm": "42"
+        },
+        "solarnoon": {
+          "hh": "13",
+          "mm": "11"
+        },
+        "sunset": {
+          "hh": "19",
+          "mm": "41"
+        },
+        "daylength": {
+          "hh": 12,
+          "mm": 59,
+          "ss": 22
+        },
+        "dld": {
+          "hh": 0,
+          "mm": 4,
+          "ss": 5
+        }
+      },
+      "temp": {
+        "high": {
+          "fahrenheit": "36",
+          "celsius": "2"
+        },
+        "low": {
+          "fahrenheit": "25",
+          "celsius": "-4"
+        }
+      },
+      "ic": "bkn",
+      "sic": "bkn"
+    }
+  ],
+  "lastObservation": 1364595184000
+}
