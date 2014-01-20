@@ -4,8 +4,7 @@
 'use strict';
 
 var localizer = require('../lib/localizer.js'),
-    location = require('./spec-config.js').location,
-    params = require('./spec-config.js').params,
+    request = require('./spec-config.js').request,
     locales = require('../locales/locales.js').locales,
     utils = require('../lib/utils.js');
 
@@ -13,7 +12,8 @@ var localizer = require('../lib/localizer.js'),
 describe("localizer", function () {
 
     var ready,
-        weather;
+        weather,
+        wfo = utils.createWfo(request);
 
 
     it("loadWeather", function () {
@@ -21,7 +21,7 @@ describe("localizer", function () {
         runs(function () {
             ready = false;
             utils.readTextFile('spec/unweather.json', function (data) {
-                weather = JSON.parse(data);
+                wfo.weather = JSON.parse(data);
                 ready = true;
             });
 
@@ -32,12 +32,34 @@ describe("localizer", function () {
         }, "'loadWeather' timed out", 2000);
 
         runs(function() {
-            console.log(weather);
             expect(ready).toEqual(true);
         });
 
     });
 
+    it("localizer.init", function () {
+        localizer.init(locales);
+    });
+
+    it("localizer.prepare", function () {
+        localizer.prepare(wfo, 'de');
+    });
+
+    it("localizer.dayZero", function () {
+        var dayNum = 0;
+        localizer.dayZero(
+            {weather : wfo.weather, localized : wfo.localized},
+            dayNum
+        );
+    });
+
+    it("localizer.footer", function () {
+
+        localizer.footer(
+            {weather : wfo.weather, localized : wfo.localized}
+        );
+        console.log(wfo.localized);
+    });
 
 
     it("locales", function () {
@@ -45,7 +67,6 @@ describe("localizer", function () {
         var i18n = locales.i18n,
             iso3166ToLocale = locales.iso3166ToLocale,
             lang;
-
 
         expect(i18n).not.toBe(undefined);
         expect(iso3166ToLocale).not.toBe('undefined');
