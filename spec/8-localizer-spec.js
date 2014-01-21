@@ -9,12 +9,13 @@ var localizer = require('../lib/localizer.js'),
     utils = require('../lib/utils.js');
 
 
+utils.moment_applyPatch_de();
+
 describe("localizer", function () {
 
     var ready,
-        weather,
-        wfo = utils.createWfo(request);
-
+        wfo = utils.createWfo(request),
+        lang = 'ru';
 
     it("loadWeather", function () {
 
@@ -42,7 +43,7 @@ describe("localizer", function () {
     });
 
     it("localizer.prepare", function () {
-        localizer.prepare(wfo, 'de');
+        localizer.prepare(wfo, lang);
     });
 
     it("localizer.dayZero", function () {
@@ -58,7 +59,7 @@ describe("localizer", function () {
         localizer.footer(
             {weather : wfo.weather, localized : wfo.localized}
         );
-        console.log(wfo.localized);
+        console.log(JSON.stringify(wfo.localized, null, 2));
     });
 
 
