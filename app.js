@@ -17,7 +17,6 @@ var express = require('express'),
     app = express(),
     locations = require('./locations.js'),
     utils = require('./lib/utils.js'),
-//    locales = require('./../locales/locales.js').locales,
     port = process.env.PORT || 5000;
 
 //
