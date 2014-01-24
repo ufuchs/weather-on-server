@@ -5,8 +5,11 @@
 
 var configurator = require('../lib/configurator.js'),
     path = require('path'),
+    locales = require('./../locales/locales.js').locales,
+    kindle4ntLocalizer = require('../lib/kindle4ntLocalizer.js'),
     appcfg = require('../weather-config.js'),
     request = require('./spec-config.js').request,
+    processor = require('../lib/processor.js'),
     fn = require("when/function"),
     utils = require('../lib/utils.js');
 
@@ -16,6 +19,8 @@ var configurator = require('../lib/configurator.js'),
 describe("configurator", function () {
 
     var wfo = utils.createWfo(request);
+
+    kindle4ntLocalizer.init(locales);
 
     configurator(appcfg);
 
@@ -66,5 +71,9 @@ describe("configurator", function () {
             actual = path.basename(wfo.cfg.filenames.svg.cssFile);
         expect(expected).toEqual(actual);
     });
+
+    processor.init(kindle4ntLocalizer);
+
+    processor.process(wfo, 'ru');
 
 });
