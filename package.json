@@ -35,7 +35,8 @@
     "jade": "*",
     "phantom": "~0.5.4",
     "bunyan": "~0.22.1",
-    "suncalc": "~1.2.2"
+    "suncalc": "~1.2.2",
+    "q": "~1.0.0"
   },
   "main": "app",
   "engines": {

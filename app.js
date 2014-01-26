@@ -63,12 +63,12 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
         request,
         forecastDay = 0;
 
-    id = parseInt(req.params.id, 10) || 0;
+    // http://jsperf.com/performance-of-parseint/32
+    // id = parseInt(req.params.id, 10) || 0;
+    id = +req.params.id || 0;
 
     // Returns a _copy_ of the loction
     request = locations.getLocationById(id);
-
-//    request.lang = locales.mapIsoToI18n(request.lang);
 
     request.device = device;
     request.period = forecastDay;

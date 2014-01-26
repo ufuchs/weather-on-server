@@ -38,17 +38,17 @@ describe("localizer", function () {
 
     });
 
-    it("localizer.init", function () {
-        localizer.init(locales);
+    it("localizer", function () {
+        localizer(locales);
     });
 
-    it("localizer.prepare", function () {
-        localizer.prepare(wfo, lang);
+    it("localizer.prepare4Lang", function () {
+        localizer.fn.prepare4Lang(wfo, lang);
     });
 
     it("localizer.dayZero", function () {
         var dayNum = 0;
-        localizer.dayZero(
+        localizer.fn.dayZero(
             {weather : wfo.weather, localized : wfo.localized},
             dayNum
         );
@@ -56,7 +56,7 @@ describe("localizer", function () {
 
     it("localizer.footer", function () {
 
-        localizer.footer(
+        localizer.fn.footer(
             {weather : wfo.weather, localized : wfo.localized}
         );
         console.log(JSON.stringify(wfo.localized, null, 2));
