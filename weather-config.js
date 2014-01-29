@@ -12,6 +12,17 @@ var path = require('path'),
             extractor : require('./lib/provider/wunderground/extractor.js')
         },
 
+        devices : {
+            kindle4nt : {
+                resolution : '600x800',
+                singleDayDisplay : false
+            },
+            df3120 : {
+                resolution : '320x240',
+                singleDayDisplay : true
+            }
+        },
+
         production : {
 
             dir : './public/weather',
@@ -35,16 +46,19 @@ var path = require('path'),
         },
 
         templatesPool : {
-            dir : './templates',
-            devices : {
-                kindle4nt : '600x800.svg',
-                df3120 : '320x240.svg'
-            }
+            dir : './templates'
         }
 
     };
 
 module.exports = appCfg;
+
+//
+//
+//
+appCfg.getSingleDayDisplay = function (device) {
+    return appCfg.devices[device].singleDayDisplay;
+};
 
 //
 //
@@ -65,9 +79,12 @@ appCfg.getProductionDir = function () {
 //
 appCfg.getSvgTemplate = function (device) {
     return path.join(path.resolve(appCfg.templatesPool.dir),
-        appCfg.templatesPool.devices[device]);
+        appCfg.devices[device].resolution + '.svg');
 };
 
+//
+//
+//
 appCfg.getDeviceDir = function (device) {
     return path.join(path.resolve(appCfg.production.dir), device);
 };
