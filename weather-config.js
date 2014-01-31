@@ -15,16 +15,15 @@ var path = require('path'),
         devices : {
             kindle4nt : {
                 resolution : '600x800',
-                singleDayDisplay : false
+                singleDayDisplay : false,
+                crushed : true
             },
             df3120 : {
                 resolution : '320x240',
-                singleDayDisplay : true
+                singleDayDisplay : true,
+                crushed : true
             }
         },
-
-
-
 
         production : {
 
@@ -33,7 +32,7 @@ var path = require('path'),
             files : {
 
                 names : {
-                    weatherPng : 'weather.png'
+                    weatherPng : 'weather'
                 },
 
                 quantity : {
@@ -61,6 +60,13 @@ module.exports = appCfg;
 //
 appCfg.getSingleDayDisplay = function (device) {
     return appCfg.devices[device].singleDayDisplay;
+};
+
+//
+//
+//
+appCfg.getCrushed = function (device) {
+    return appCfg.devices[device].crushed;
 };
 
 //
