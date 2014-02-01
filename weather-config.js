@@ -58,15 +58,13 @@ module.exports = appCfg;
 //
 //
 //
-appCfg.getSingleDayDisplay = function (device) {
-    return appCfg.devices[device].singleDayDisplay;
-};
-
-//
-//
-//
-appCfg.getCrushed = function (device) {
-    return appCfg.devices[device].crushed;
+appCfg.getDisplay = function (device) {
+    return {
+        device : device,   // not really needed
+        resolution : appCfg.devices[device].resolution,
+        singleDayDisplay : appCfg.devices[device].singleDayDisplay,
+        crushed : appCfg.devices[device].crushed
+    };
 };
 
 //
