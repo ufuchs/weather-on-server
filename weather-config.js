@@ -16,12 +16,14 @@ var path = require('path'),
             kindle4nt : {
                 resolution : '600x800',
                 singleDayDisplay : false,
-                crushed : true
+                crushed : true,
+                maxForecastDays : 3
             },
             df3120 : {
                 resolution : '320x240',
                 singleDayDisplay : true,
-                crushed : true
+                crushed : true,
+                maxForecastDays : 3
             }
         },
 
@@ -63,7 +65,8 @@ appCfg.getDisplay = function (device) {
         device : device,   // not really needed
         resolution : appCfg.devices[device].resolution,
         singleDayDisplay : appCfg.devices[device].singleDayDisplay,
-        crushed : appCfg.devices[device].crushed
+        crushed : appCfg.devices[device].crushed,
+        maxForecastDays : appCfg.devices[device].maxForecastDays
     };
 };
 
