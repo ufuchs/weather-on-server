@@ -87,9 +87,9 @@ app.get('/weather/df3120/:id', function (req, res) {
         request,
         forecastDay;
 
-    id = parseInt(req.params.id, 10) || 0;
+    id = +req.params.id || 0;
 
-    forecastDay = parseInt(req.query.forecastDay, 10) || 0;
+    forecastDay = +req.query.forecastDay || 0;
 
     if ((forecastDay > 3) || (forecastDay < 0)) {
         forecastDay = 0;
