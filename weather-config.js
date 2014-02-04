@@ -6,6 +6,9 @@ var path = require('path'),
 
     appCfg = {
 
+        useTestData : process.env.NODE_ENV === undefined
+            || process.env.NODE_ENV === 'development',
+
         provider : {
             downloader : require('./lib/downloader.js'),
             query : require('./lib/provider/wunderground/query.js'),
@@ -17,7 +20,7 @@ var path = require('path'),
                 resolution : '600x800',
                 singleDayDisplay : false,
                 crushed : true,
-                maxForecastDays : 3
+                maxForecastDays : 4
             },
             df3120 : {
                 resolution : '320x240',
