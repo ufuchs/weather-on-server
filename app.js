@@ -29,7 +29,6 @@ params.extend(app);
 app.configure(function () {
 
     var proxy = process.env.HTTP_PROXY || process.env.http_proxy;
-//        apikey = process.env.WUNDERGROUND_KEY;
 
     app.set('port', process.env.PORT || 5000);
 
@@ -64,6 +63,8 @@ app.get('/range/:range', function(req, res, next){
 //
 function getWeather(req, res) {
 
+    console.log('request', req.id + ':' + req.device + ':' + req.name);
+
     weather.process(req, function (err, filename) {
 
         console.log('response', filename);
@@ -90,7 +91,7 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
         request,
         forecastDay = 0;
 
-//    console.log(req._parsedUrl);
+    console.log(req._parsedUrl);
 
     // http://jsperf.com/performance-of-parseint/32
     // id = parseInt(req.params.id, 10) || 0;
@@ -115,6 +116,9 @@ app.get('/weather/df3120/:id', function (req, res) {
         device = 'df3120',
         request,
         forecastDay;
+
+    // regexp: /^\/weather\/df3120\/(?:([^\/]+?))\/?$/i
+    // console.log(req);
 
     id = +req.params.id || 0;
 
