@@ -12,24 +12,51 @@
  */
 
 var express = require('express'),
+    url = require('url'),
+    params = require('express-params'),
     weather = require('./lib/weather.js'),
     cfg = require('./weather-config.js'),
-    app = express(),
     locations = require('./locations.js'),
     utils = require('./lib/utils.js'),
-    port = process.env.PORT || 5000;
+    path = require('path'),
+    app = express();
+
+params.extend(app);
 
 //
 //
 //
 app.configure(function () {
 
-    var proxy = process.env.HTTP_PROXY || process.env.http_proxy,
-        apikey = process.env.WUNDERGROUND_KEY;
+    var proxy = process.env.HTTP_PROXY || process.env.http_proxy;
+//        apikey = process.env.WUNDERGROUND_KEY;
+
+    app.set('port', process.env.PORT || 5000);
 
     app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
-    weather(proxy, apikey);
+    app.use(express.static(path.join(__dirname, '/public')));
+
+    app.use(express.logger('dev'));
+
+    weather.prepare(proxy);
+
+});
+
+//
+//
+//
+app.configure('development', function () {
+    app.use(express.errorHandler());
+});
+
+//app.param('range', /^(\w+)\.\.(\w+)?$/);
+app.param('range', /^(\w+)\.([\w( )?]+)?$/);
+
+app.param('lang', /([a-z]{2})/);
+
+app.get('/range/:range', function(req, res, next){
+    var range = req.params.range;
+    res.send('from ' + range[1] + ' to ' + range[2]);
 });
 
 //
@@ -37,7 +64,7 @@ app.configure(function () {
 //
 function getWeather(req, res) {
 
-    weather.main(req, function (err, filename) {
+    weather.process(req, function (err, filename) {
 
         console.log('response', filename);
 
@@ -62,6 +89,8 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
         device = 'kindle4nt',
         request,
         forecastDay = 0;
+
+//    console.log(req._parsedUrl);
 
     // http://jsperf.com/performance-of-parseint/32
     // id = parseInt(req.params.id, 10) || 0;
@@ -107,6 +136,6 @@ app.get('/weather/df3120/:id', function (req, res) {
 //
 //
 //
-app.listen(port, function () {
-    console.log("Listening on " + port);
+app.listen(app.get('port'), function () {
+    console.log("Express server listening on port " + app.get('port'));
 });
