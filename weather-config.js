@@ -9,12 +9,6 @@ var path = require('path'),
         useTestData : process.env.NODE_ENV === undefined
             || process.env.NODE_ENV === 'development',
 
-        provider : {
-            downloader : require('./lib/downloader.js'),
-            query : require('./lib/provider/wunderground/query.js'),
-            extractor : require('./lib/provider/wunderground/extractor.js')
-        },
-
         devices : {
             kindle4nt : {
                 resolution : '600x800',
@@ -59,6 +53,24 @@ var path = require('path'),
     };
 
 module.exports = appCfg;
+
+//
+//
+//
+appCfg.configureWunderground = function (downloader, proxy) {
+
+    var Query = require('./lib/provider/wunderground/query.js'),
+        apikey = process.env.WUNDERGROUND_KEY,
+        extractor = require('./lib/provider/wunderground/extractor.js');
+
+    downloader.prepare(new Query(apikey), proxy);
+
+    return {
+        downloader : downloader,
+        extractor : extractor
+    };
+
+};
 
 //
 //
