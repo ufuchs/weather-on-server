@@ -59,11 +59,11 @@ module.exports = appCfg;
 //
 appCfg.configureWunderground = function (downloader, proxy) {
 
-    var Query = require('./lib/provider/wunderground/query.js'),
+    var query = require('./lib/provider/wunderground/query.js'),
         apikey = process.env.WUNDERGROUND_KEY,
         extractor = require('./lib/provider/wunderground/extractor.js');
 
-    downloader.prepare(new Query(apikey), proxy);
+    downloader.prepare(query(apikey), proxy);
 
     return {
         downloader : downloader,

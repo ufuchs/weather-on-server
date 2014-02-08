@@ -91,7 +91,7 @@ app.get('/weather/kindle4nt/:id', function (req, res) {
         request,
         forecastDay = 0;
 
-    console.log(req._parsedUrl);
+//    console.log(req._parsedUrl);
 
     // http://jsperf.com/performance-of-parseint/32
     // id = parseInt(req.params.id, 10) || 0;
