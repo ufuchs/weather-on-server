@@ -4,7 +4,7 @@
 
 var path = require('path'),
 
-    ds = process.env.NODE_ENV === undefined && process.env.NODE_ENV === 'development'
+    ds = process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'
         ? 'byTestData'
         : 'byProvider',
 
