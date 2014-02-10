@@ -4,10 +4,13 @@
 
 var path = require('path'),
 
+    ds = process.env.NODE_ENV === undefined && process.env.NODE_ENV === 'development'
+        ? 'byTestData'
+        : 'byProvider',
+
     appCfg = {
 
-        useTestData : process.env.NODE_ENV === undefined
-            || process.env.NODE_ENV === 'development' || false,
+        weatherSource : ds,
 
         aws : {
             key: process.env.AWS_ACCESS_KEY_ID,
