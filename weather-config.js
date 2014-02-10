@@ -4,10 +4,19 @@
 
 var path = require('path'),
 
+    ds = process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'
+        ? 'byTestData'
+        : 'byProvider',
+
     appCfg = {
 
-        useTestData : process.env.NODE_ENV === undefined
-            || process.env.NODE_ENV === 'development',
+        weatherSource : ds,
+
+        aws : {
+            key: process.env.AWS_ACCESS_KEY_ID,
+            secret: process.env.AWS_SECRET_ACCESS_KEY,
+            bucket: process.env.AWS_BUCKET_SLEEPYFOX
+        },
 
         devices : {
             kindle4nt : {
@@ -53,24 +62,6 @@ var path = require('path'),
     };
 
 module.exports = appCfg;
-
-//
-//
-//
-appCfg.configureWunderground = function (downloader, proxy) {
-
-    var query = require('./lib/provider/wunderground/query.js'),
-        apikey = process.env.WUNDERGROUND_KEY,
-        extractor = require('./lib/provider/wunderground/extractor.js');
-
-    downloader.prepare(query(apikey), proxy);
-
-    return {
-        downloader : downloader,
-        extractor : extractor
-    };
-
-};
 
 //
 //
