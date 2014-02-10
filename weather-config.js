@@ -4,7 +4,7 @@
 
 var path = require('path'),
 
-    ds = process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'
+    ds = process.env.NODE_ENV === undefined && process.env.NODE_ENV === 'development'
         ? 'byTestData'
         : 'byProvider',
 
@@ -74,13 +74,6 @@ appCfg.getDisplay = function (device) {
         crushed : appCfg.devices[device].crushed,
         maxForecastDays : appCfg.devices[device].maxForecastDays
     };
-};
-
-//
-//
-//
-appCfg.getFilesQuantity = function (device) {
-    return appCfg.production.files.quantity[device];
 };
 
 //
