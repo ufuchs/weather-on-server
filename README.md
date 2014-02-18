@@ -5,7 +5,7 @@ The server side for 'weather-on-kindle4nt' and 'weather-on-df3120'.
 
 You need node.js, pngcrush and phantomjs to run it.
 
-Please read the INSTALL.md.
+Please read the [INSTALL.md](https://github.com/ufuchs/weather-on-server/INSTALL.md),
 
 Afterwards invoke 'weather.sh' to start the server.
 
