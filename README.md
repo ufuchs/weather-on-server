@@ -1,7 +1,7 @@
 weather-on-server
 =================
 
-The server side for [weather-on-kindle4nt](https://github.com/ufuchs/weather-on-kindle4nt/blob/master/README.md) and [weather-on-df3120](https://github.com/ufuchs/weather-on-df3120/blob/master/README.md).
+The server side for [weather-on-kindle4nt](https://github.com/ufuchs/weather-on-kindle4nt/releases) and [weather-on-df3120](https://github.com/ufuchs/weather-on-df3120/blob/master/README.md).
 
 You need node.js, pngcrush and phantomjs to run it.
 
