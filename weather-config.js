@@ -12,12 +12,6 @@ var path = require('path'),
 
         weatherSource : ds,
 
-        aws : {
-            key: process.env.AWS_ACCESS_KEY_ID,
-            secret: process.env.AWS_SECRET_ACCESS_KEY,
-            bucket: process.env.AWS_BUCKET_SLEEPYFOX
-        },
-
         devices : {
             kindle4nt : {
                 resolution : '600x800',
@@ -41,11 +35,6 @@ var path = require('path'),
 
                 names : {
                     weatherPng : 'weather'
-                },
-
-                quantity : {
-                    kindle4nt : 1,
-                    df3120 : 4
                 }
 
             },
