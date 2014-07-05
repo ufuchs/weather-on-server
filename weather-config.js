@@ -23,7 +23,7 @@ var path = require('path'),
                 resolution : '320x240',
                 singleDayDisplay : true,
                 crushed : true,
-                maxForecastDays : 3
+                maxForecastDays : 4
             }
         },
 
