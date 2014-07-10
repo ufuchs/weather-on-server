@@ -29,10 +29,8 @@
     "moment": "~2.0.0",
     "i18n-2": "~0.4.5",
     "fs.extra": "~1.2.1",
-    "memory-cache": "0.0.5",
     "suncalc": "~1.2.2",
-    "q": "~1.0.0",
-    "express-params": "~0.0.3"
+    "q": "~1.0.0"
   },
   "main": "app",
   "engines": {
