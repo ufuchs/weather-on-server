@@ -13,15 +13,12 @@
 
 var express = require('express'),
     url = require('url'),
-    params = require('express-params'),
     weather = require('./lib/weather.js'),
     cfg = require('./weather-config.js'),
     locations = require('./locations.js'),
     utils = require('./lib/utils.js'),
     path = require('path'),
     app = express();
-
-params.extend(app);
 
 //
 //
@@ -46,16 +43,6 @@ app.configure(function () {
 //
 app.configure('development', function () {
     app.use(express.errorHandler());
-});
-
-//app.param('range', /^(\w+)\.\.(\w+)?$/);
-app.param('range', /^(\w+)\.([\w( )?]+)?$/);
-
-app.param('lang', /([a-z]{2})/);
-
-app.get('/range/:range', function(req, res, next){
-    var range = req.params.range;
-    res.send('from ' + range[1] + ' to ' + range[2]);
 });
 
 //
