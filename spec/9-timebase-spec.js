@@ -1,12 +1,23 @@
 /*jslint node: true */
 /*jslint todo: true */
 
-var timebase = require('../lib/posas/timebase.js'),
-    tb = timebase();
+var MathEx = require('../lib/posas/util/MathEx.js'),
+    moment = require('moment'),
+    timebase = require('../lib/posas/timebase.js'),
+    af = require('../lib/posas/angleFormatter.js'),
+    tb = timebase(),
+    up,
+    x,
+    y;
 
 
 
-console.log(tb.update());
+
+up = tb.update();
+
+x = up.gmst0 * 240;
+
+console.log(af.formatTime(MathEx.deg2Hhmmss(up.gmst0)  , 1));
 
 describe("timebase", function () {
 
