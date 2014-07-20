@@ -1,10 +1,9 @@
 /*jslint node: true */
 /*jslint todo: true */
 
-//'use strict';
+'use strict';
 
-var julian = require('../julian.js');
-
+var julian = require('./../../lib/posas/meeus/julian/julian.js');
 
 describe("A given date by by year, month and day AND hours as decimal places", function () {
 

@@ -2,7 +2,7 @@
 /*jslint todo: true */
 /*jslint nomen: true */
 
-var deltaT = require('../deltaT.js');
+var deltaT = require('./../../lib/posas/meeus/deltat/deltat.js');
 
 describe("A given date by by year, month and day AND hours as decimal places", function () {
 
