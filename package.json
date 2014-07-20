@@ -11,6 +11,10 @@
   },
   "contributors": [
     {
+      "name": "Sonia Keys",
+      "url": "https://github.com/soniakeys/meeus"
+    },
+    {
       "name": "Matthew Petroff",
       "url": "http://www.mpetroff.net/archives/2012/09/14/kindle-weather-display"
     },
