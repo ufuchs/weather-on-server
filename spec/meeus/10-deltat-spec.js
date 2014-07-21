@@ -2,6 +2,8 @@
 /*jslint todo: true */
 /*jslint nomen: true */
 
+'use strict';
+
 var deltaT = require('./../../lib/posas/meeus/deltat/deltat.js');
 
 describe("Calcultes ΔT", function () {
