@@ -44,34 +44,24 @@ describe("JD to century and fraction of the day", function () {
 //
 //
 //
-describe("Sidereal Time at Greenwich at 00:00", function () {
+describe("Sidereal Time at Greenwich", function () {
 
-    it("in pure seconds", function () {
+    it("in pure seconds at 00:00", function () {
 
-        var actual = sidereal.mean0UT(jd_of_1987_Apr_10 + 0.8),
+        var actual = sidereal.mean0UT(jd_of_1987_Apr_10),
             expected_gmst0 = -1075753.63317289,
             expected_dayFrac = 0;
-
-        console.log(actual);
 
         expect(actual.gmst0).toBe(expected_gmst0);
         expect(actual.dayFrac).toBe(expected_dayFrac);
 
     });
 
-});
+    // Meeus, p. 88, part of example 12.a
+    it("normalized like the seconds of a day at 00:00", function () {
 
-//
-// SHOULD FAIL --> 'jd_of_1987_Apr_10 + 0.8'
-//
-describe("Sidereal Time at Greenwich at 00:00", function () {
-
-    it("normalized like the seconds of a day", function () {
-
-        var actual = sidereal.Mean0UT(jd_of_1987_Apr_10 + 0.8),
+        var actual = sidereal.Mean0UT(jd_of_1987_Apr_10),
             expected = 47446.36682711006;
-
-        console.log(actual);
 
         expect(actual).toBe(expected);
 
@@ -82,5 +72,21 @@ describe("Sidereal Time at Greenwich at 00:00", function () {
 
     });
 
+    // Meeus, p. 89, example 12.b
+    it("normalized like the seconds of a day at 19:21", function () {
+
+        var actual = sidereal.Mean(jd_of_1987_Apr_10 + 0.80625),
+            expected = 30897.08958436246;
+
+        expect(actual).toBe(expected);
+
+        var r = actual % 3600;
+        console.log(~~(actual / 3600));
+        console.log(~~(r / 60));
+        console.log(r % 60);
+
+    });
+
 });
+
 
