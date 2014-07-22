@@ -80,10 +80,10 @@ describe("Sidereal Time at Greenwich", function () {
 
         expect(actual).toBe(expected);
 
-        var r = actual % 3600;
-        console.log(~~(actual / 3600));
-        console.log(~~(r / 60));
-        console.log(r % 60);
+        // var r = actual % 3600;
+        // console.log(~~(actual / 3600));
+        // console.log(~~(r / 60));
+        // console.log(r % 60);
 
     });
 
