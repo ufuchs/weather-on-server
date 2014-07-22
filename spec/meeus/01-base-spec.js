@@ -38,21 +38,12 @@ describe("Horner algorithm", function () {
 
 describe("Century since J2K", function () {
 
-    it("returns a value of 0.14550308008... by 2014 July 21 00:00:00.0 UT", function () {
+    var jd_of_1987_Apr_10 = 2446895.5;
 
-        var jd = 2456859.5,
-
-            actual = base.j2000Century(jd),
-            expected = 0.14550308008213553;
-
-        expect(expected).toBe(actual);
-
-    });
-
-    // Meeus, p. 88
+    // Meeus, p. 88, example 12.a
     it("returns a value of -0.127296372347... by 1987 April 10 00:00:00.0 UT", function () {
 
-        var jd = 2446895.5,
+        var jd = jd_of_1987_Apr_10,
 
             actual = base.j2000Century(jd),
             expected = -0.12729637234770705;
@@ -60,5 +51,18 @@ describe("Century since J2K", function () {
         expect(expected).toBe(actual);
 
     });
+
+    // Meeus, p. 89, examole 12.b
+    it("returns a value of -0.127296372347... by 1987 April 10 19:00", function () {
+
+        var jd = jd_of_1987_Apr_10 + 0.80625,
+
+            actual = base.j2000Century(jd),
+            expected = -0.12729637234770705;
+
+        expect(expected).toBe(actual);
+
+    });
+
 
 });
