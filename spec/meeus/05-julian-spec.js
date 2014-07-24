@@ -85,3 +85,5 @@ describe("Century since J2K", function () {
 
 });
 
+// console.log(julian.toDays(new Date()));
+
