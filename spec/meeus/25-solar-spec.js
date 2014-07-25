@@ -48,9 +48,9 @@ describe("Solar Coordinates", function () {
             C    = -1.897323843371985,
         //  C    = -1.89732
             dotO = 199.90987266333545,
-        //  dotO = 199.909 88
+        //> dotO = 199.90988
             v    = 277.09664258822556;
-        //  The True Anomaly is not mentioned in the example
+        //  The True Anomaly is not listed in the example
 
         // The input params to calc finally the Sun's true longitude and true anomaly
         expect(s.L0).toBe(L0);
@@ -64,7 +64,6 @@ describe("Solar Coordinates", function () {
 
     });
 
-    // > check
     it("calculates the Sun's radius vector", function () {
 
         // Comments refer to the values of:
@@ -81,30 +80,54 @@ describe("Solar Coordinates", function () {
 
     });
 
-    // > check
     it("calculates the Sun's apparent longitude", function () {
 
         // Comments refer to the values of:
         //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
         //   example 25.a
         var actual = solar.calcAppLon(s),
-            Ω  = 264.65,     // !mismatch!
-        //  Ω  = 264°.65,
-            λ  = 199.90538497690034;
-        //  λ  = 199.90895
+            Omega  = 264.657131805429,
+        //> Ω  = 264.65,
+            lambda  = 199.90894189571074;
+        //> λ  = 199.90895
 
-        console.log(s);
-
-        expect(s.Ω).toBe(Ω);
-        expect(s.λ).toBe(λ);
+        expect(s.Omega).toBe(Omega);
+        expect(s.lambda).toBe(lambda);
 
     });
 
-/*
-        ε0 = 23°.440 23   (by 22.2),
-        ε  = 23°.439 99,
-        alpha = 198°.380 83.
-        beta  = -7°.785 07
-*/
+    it("calculates the mean obliquity of the ecliptic", function () {
+
+        // Comments refer to the values of:
+        //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
+        //   example 25.a
+        var actual = solar.calcMeanObliquity(s),
+            epsilon0 = 23.44022979550012,
+        //  ε0 = 23.44023
+            epsilon  = 23.439991419682084;
+        //  ε  = 23.43999
+
+        expect(s.epsilon0).toBe(epsilon0);
+        expect(s.epsilon).toBe(epsilon);
+
+    });
+
+    it("calculates the Sun's Apparent Right Ascension and Declination", function () {
+
+        // Comments refer to the values of:
+        //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
+        //   example 25.a
+        var actual = solar.calcAppPosition(s),
+            alpha = 198.38082521916053,
+        //  α     = 198.38083.
+            delta = -7.785069873192935;
+        //  δ     = -7.78507
+
+        console.log(s);
+
+        expect(s.alpha).toBe(alpha);
+        expect(s.delta).toBe(delta);
+
+    });
 
 });
