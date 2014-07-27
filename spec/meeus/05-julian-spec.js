@@ -10,24 +10,27 @@ var julian = require('./../../lib/posas/meeus/julian/julian.js'),
         // the time of the day is coded as decimal places
         // @see: MEEUS, Astronomical Algorithms (Second Edition), p. 62
         // year, month, day, expected JD
-        [2014, 7, 17.0, 2456855.5],
-        [2000, 1, 1.5, 2451545.0],
-        [1999, 1, 1.0, 2451179.5],
-        [1987, 1, 27.0, 2446822.5],
-        [1900, 1, 1.0, 2415020.5],
-        [1600, 1, 1.0, 2305447.5],
-        [1957, 10, 4.81, 2436116.31],  // launch time of Sputnik One
+        [2014,  7, 17.0,  2456855.5],
+        [2000,  1,  1.5,  2451545.0],
+        [1999,  1,  1.0,  2451179.5],
+        [1987,  1, 27.0,  2446822.5],
+        [1900,  1,  1.0,  2415020.5],
+        [1600,  1,  1.0,  2305447.5],
+        [1957, 10,  4.81, 2436116.31],  // launch time of Sputnik One
     ],
     date2JdA = [
         // @see: MEEUS, Astronomical Algorithms (Second Edition), p62
-        // year, month, day, hour, min, sec, expected JD
-        [2014, 7, 17, 0, 0, 0, 2456855.5],     // midnight
-        [2000, 1, 1, 12, 0, 0,  2451545.0],    // noon
-        [1957, 10, 4, 19, 26, 24, 2436116.31], // launch time of Sputnik One
-//                [1969, 7, 20, 20, 17, 35, 2440423.3455903], // Apollo 11 moon landing
+        // year, month, day, hour, min, sec, expected JD, expected JD (UTC)
+        [2014, 7, 17,  0, 0, 0, 2456855.5, 2456855.4166666665],     // midnight
+        [2000, 1,  1, 12, 0, 0, 2451545.0, 2451544.9583333335],     // noon
+        [2000, 1,  1,  0, 0, 0, 2451544.5, 2451544.4583333335],     // midnight
+//      [1957, 10, 4, 19, 26, 24, 2436116.31], // launch time of Sputnik One
+//      [1969, 7, 20, 20, 17, 35, 2440423.3455903], // Apollo 11 moon landing
     ];
 
-
+//
+// julian.calendarGregorianToJd
+//
 describe("A given date by by year, month and day AND hours as decimal places", function () {
 
     // julian.calendarGregorianToJD
@@ -44,6 +47,9 @@ describe("A given date by by year, month and day AND hours as decimal places", f
 
 });
 
+//
+// julian.calendarGregorianToJdA
+//
 describe("A given date by by year, month, day, hours, min and sec", function () {
 
     it("returns a Julian Day number", function () {
@@ -59,6 +65,9 @@ describe("A given date by by year, month, day, hours, min and sec", function () 
 
 });
 
+//
+// julian.j2000Century
+//
 describe("Century since J2K", function () {
 
     var jd_of_1987_Apr_10 = 2446895.5,
@@ -87,21 +96,45 @@ describe("Century since J2K", function () {
 
 });
 
+//
+// julian.timeToJdUTC
+//
+describe("Date object to Julian Day number", function () {
 
-describe("Date object to Julian Day number and vice versa", function () {
 
-    it("returns a Gregorian Calendar date", function () {
+    it("returns a Julian Day number", function () {
 
         var actual,
-            expected,
-            compared;
+            d;
 
-        julian.timeToJd(new Date());
+        date2JdA.forEach(function (item) {
 
+            d = new Date(item[0], item[1] - 1, item[2], item[3], item[4], item[5]);
+            actual = julian.timeToJdUTC(d);
+
+            expect(item[7]).toBe(actual);
+        });
 
     });
 
 });
 
+//
+// julian.dec2hhmmss
+//
+describe("Decimal places of a JD to hour, min, sec.msec", function () {
+
+
+    it("returns hour, min, sec", function () {
+
+        var actual = julian.dec2hhmmss(0.81);
+
+
+        console.log(actual);
+
+
+    });
+
+});
 
 
