@@ -87,7 +87,8 @@ describe("Century since J2K", function () {
 
 });
 
-describe("Julian Day number to Gregorian Calendar", function () {
+
+describe("Date object to Julian Day number and vice versa", function () {
 
     it("returns a Gregorian Calendar date", function () {
 
@@ -95,15 +96,8 @@ describe("Julian Day number to Gregorian Calendar", function () {
             expected,
             compared;
 
-        date2Jd.forEach(function (item) {
+        julian.timeToJd(new Date());
 
-            actual = (julian.jdToCalendarGregorian.apply(this, item.slice(-1)));
-
-            expected = _.zipObject(['year', 'month', 'day'], item.slice(0, 3));
-
-            compared = _.isEqual(actual, expected);
-            expect(_.isEqual(actual, expected)).toBe.True;
-        });
 
     });
 
