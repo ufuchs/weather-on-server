@@ -128,7 +128,7 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
 
             result = _.difference(expected, _.values(actual)).length === 0;
 
-            expect(result).toBe.True;
+            expect(result).toBe(true);
         });
 
     });
@@ -155,7 +155,7 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
 
             result = _.difference(expected, actual).length === 0;
 
-            expect(result).toBe.True;
+            expect(result).toBe(true);
         });
 
     });
@@ -168,23 +168,29 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
 //
 describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
-    var f = [
-        [0,    12,  0,  0],     // midnight
-        [0.5,   9,  0,  0],     // noon
-        [0.81, 19, 26, 24]     // midnight
+    var actual,
+        expected,
+        result,
+        dp2hhmmss = [
+        [0,     0,  0,  0],     // midnight
+        [0.5,  12,  0,  0],     // noon
+        [0.81, 19, 26, 24]      // 19:26:24
     ];
-
 
     it("returns hour, min, sec", function () {
 
+        dp2hhmmss.forEach(function (item) {
 
+            actual = julian.dec2hhmmss(item[0]);
 
+            expected = item.slice(1, 4);
 
-        var actual = julian.dec2hhmmss(0.81);
+//          console.log(_.difference(expected, actual));
 
+            result = _.difference(expected, actual).length === 0;
 
-        console.log(actual);
-
+            expect(result).toBe(true);
+        });
 
     });
 
