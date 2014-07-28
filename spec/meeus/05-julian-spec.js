@@ -100,13 +100,13 @@ describe("Century since J2K", function () {
 //
 describe("Locale Time to UTC /Greenwich Mean Time", function () {
 
-    var f = [
+    var lt2utc = [
         [2014, 7, 17,  17, 0, 0, 0, 2014,  7, 17,  15, 0, 0, 0],    // midnight
         [2000, 1,  1, 12, 0, 0, 0, 2000,  1,  1, 11, 0, 0, 0],      // noon
         [2000, 1,  1,  0, 0, 0, 0, 1999, 12, 31, 23, 0, 0, 0]       // midnight
     ];
 
-    it("returns a UTC date", function () {
+    it("returns a UTC date as object", function () {
 
         var actual,
             expected,
@@ -117,7 +117,7 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
             return new Date(yy, mm - 1, dd, hour, min, sec, msec);
         }
 
-        f.forEach(function (item) {
+        lt2utc.forEach(function (item) {
 
             d = newDay.apply(this, item.slice(0, 7));
             actual = julian.localTime2utcTime(d);
@@ -133,6 +133,34 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
 
     });
 
+    it("returns a UTC date as array", function () {
+
+        var actual,
+            expected,
+            result,
+            d;
+
+        function newDay(yy, mm, dd, hour, min, sec, msec) {
+            return new Date(yy, mm - 1, dd, hour, min, sec, msec);
+        }
+
+        lt2utc.forEach(function (item) {
+
+            d = newDay.apply(this, item.slice(0, 7));
+            actual = julian.localTime2utcTimeArr(d);
+
+            expected = item.slice(7, 14);
+
+//          console.log(_.difference(expected, actual));
+
+            result = _.difference(expected, actual).length === 0;
+
+            expect(result).toBe.True;
+        });
+
+    });
+
+
 });
 
 //
@@ -141,9 +169,9 @@ describe("Locale Time to UTC /Greenwich Mean Time", function () {
 describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
     var f = [
-        [2014, 7, 17,  0, 0, 0, 2014, 7, 15,  0, 0, 0],     // midnight
-        [2000, 1,  1, 12, 0, 0, 2000, 1,  1, 11, 0, 0],     // noon
-        [2000, 1,  1,  0, 0, 0, 1999, 12,  31,  23, 0, 0]     // midnight
+        [0,    12,  0,  0],     // midnight
+        [0.5,   9,  0,  0],     // noon
+        [0.81, 19, 26, 24]     // midnight
     ];
 
 
