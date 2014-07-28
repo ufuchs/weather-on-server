@@ -196,4 +196,41 @@ describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
 });
 
+//
+// julian.jdAtMidnight
+//
+describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
+    var jd_of_1987_Apr_10_noon = 2446896.0,
+        jd_of_1987_Apr_10_T192624 = 2446896.31,
+        jd_of_1987_Apr_10_midnigth = 2446895.5,
+        deltaT_1987 = 55.3,
+        jd_of_1987_Apr_10_midnigth_plus_deltaT = jd_of_1987_Apr_10_midnigth +
+            deltaT_1987 / 86400;
+
+    // Meeus, p. 88, example 12.a
+    it("returns the Julian Day number at midnight for 1987-APR-10T12:00", function () {
+
+        var actual = julian.jdAtMidnight(jd_of_1987_Apr_10_noon);
+
+        expect(jd_of_1987_Apr_10_midnigth).toBe(actual);
+
+    });
+
+    it("returns the Julian Day number at midnight for 1987-APR-10T19:26:24", function () {
+
+        var actual = julian.jdAtMidnight(jd_of_1987_Apr_10_T192624);
+
+        expect(jd_of_1987_Apr_10_midnigth).toBe(actual);
+
+    });
+
+    it("returns the Julian Day number at midnight for 1987-APR-10T19:26:24 PLUS deltaT for 1987", function () {
+
+        var actual = julian.jdAtMidnight(jd_of_1987_Apr_10_T192624, deltaT_1987);
+
+        expect(jd_of_1987_Apr_10_midnigth_plus_deltaT).toBe(actual);
+
+    });
+
+});
