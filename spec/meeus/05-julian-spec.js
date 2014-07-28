@@ -97,22 +97,39 @@ describe("Century since J2K", function () {
 });
 
 //
-// julian.timeToJdUTC
+// julian.localTime2utcTime
 //
 describe("Date object to Julian Day number", function () {
 
+    var f = [
+        [2014, 7, 17,  17, 0, 0, 0, 2014,  7, 17,  15, 0, 0, 0],    // midnight
+        [2000, 1,  1, 12, 0, 0, 0, 2000,  1,  1, 11, 0, 0, 0],      // noon
+        [2000, 1,  1,  0, 0, 0, 0, 1999, 12, 31, 23, 0, 0, 0]       // midnight
+    ];
 
     it("returns a Julian Day number", function () {
 
         var actual,
+            expected,
+            result,
             d;
 
-        date2JdA.forEach(function (item) {
+        function newDay(yy, mm, dd, hour, min, sec, msec) {
+            return new Date(yy, mm - 1, dd, hour, min, sec, msec);
+        }
 
-            d = new Date(item[0], item[1] - 1, item[2], item[3], item[4], item[5]);
-            actual = julian.timeToJdUTC(d);
+        f.forEach(function (item) {
 
-            expect(item[7]).toBe(actual);
+            d = newDay.apply(this, item.slice(0, 7));
+            actual = julian.localTime2utcTime(d);
+
+            expected = item.slice(7, 14);
+
+//          console.log(_.difference(expected, _.values(actual)));
+
+            result = _.difference(expected, _.values(actual)).length === 0;
+
+            expect(result).toBe.True;
         });
 
     });
@@ -124,8 +141,17 @@ describe("Date object to Julian Day number", function () {
 //
 describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
+    var f = [
+        [2014, 7, 17,  0, 0, 0, 2014, 7, 15,  0, 0, 0],     // midnight
+        [2000, 1,  1, 12, 0, 0, 2000, 1,  1, 11, 0, 0],     // noon
+        [2000, 1,  1,  0, 0, 0, 1999, 12,  31,  23, 0, 0]     // midnight
+    ];
+
 
     it("returns hour, min, sec", function () {
+
+
+
 
         var actual = julian.dec2hhmmss(0.81);
 
