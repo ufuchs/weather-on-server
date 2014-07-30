@@ -3,7 +3,7 @@
 /*jslint nomen: true */
 
 
-var base = require('./../../lib/posas/meeus/base/base.js');
+var base = require('./../../lib/posas/meeus/base.js');
 
 describe("Positive Modulo", function () {
 

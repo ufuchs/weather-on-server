@@ -4,7 +4,7 @@
 
 'use strict';
 
-var sidereal = require('./../../lib/posas/meeus/sidereal/sidereal.js'),
+var sidereal = require('./../../lib/posas/meeus/sidereal.js'),
     jd_of_1987_Apr_10 = 2446895.5;
 
 //

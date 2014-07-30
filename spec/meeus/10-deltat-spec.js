@@ -4,7 +4,7 @@
 
 'use strict';
 
-var deltaT = require('./../../lib/posas/meeus/deltat/deltat.js');
+var deltaT = require('./../../lib/posas/meeus/deltat.js');
 
 describe("Calcultes ΔT", function () {
 

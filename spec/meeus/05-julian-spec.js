@@ -3,7 +3,7 @@
 
 'use strict';
 
-var julian = require('./../../lib/posas/meeus/julian/julian.js'),
+var julian = require('./../../lib/posas/meeus/julian.js'),
     _ = require('lodash'),
 
     date2Jd = [
