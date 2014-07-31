@@ -65,6 +65,26 @@ describe("A given date by by year, month, day, hours, min and sec", function () 
 
 });
 
+
+//
+// julian.calendarGregorianToJdA
+//
+describe("dayFrac", function () {
+
+    it("returns a Julian Day number", function () {
+
+        var actual = julian.calendarDayFrac(22.01);
+
+        console.log(actual);
+
+
+    });
+
+});
+
+
+
+
 //
 // julian.j2000Century
 //
