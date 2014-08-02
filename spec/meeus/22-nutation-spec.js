@@ -20,10 +20,8 @@ function x(a) {
         min = f * 60;
         sec = (min - ~~min) * 60;
         min = ~~min;
-//        min = f - ~~f;
-//        sec = f;
 
-    console.log(deg, min, sec.toFixed(3));
+    console.log(deg, min, sec);
 }
 
 //
@@ -31,7 +29,8 @@ function x(a) {
 //
 describe("", function () {
 
-    var T = julian.j2000Century(jd_of_1988_April_10),
+    var T = //-0.127296372348,
+            julian.j2000Century(jd_of_1988_April_10),
         actual,
         expected = 108.53437047264285;
 
@@ -40,23 +39,22 @@ describe("", function () {
 
     it("", function () {
 
-        actual = nutation.calcMeanObliquity(T);
+        actual = nutation.calcMeanObliquityLaskar(T);//calcMeanObliquity(T);
 
         console.log(actual);
 
         x(actual);
 
-        actual = nutation.calcMeanObliquityLaskar(T);
+        var n = nutation.calcApproxNutation(T);
 
-        console.log(nutation.calcApproxNutation(T));
+        console.log(n);
 
-        x(actual + nutation.calcApproxNutation(T).['Δε']);
+        actual += n.Δε;
 
+        x(actual);
 
+        x(n.Δψ);
 
-
-
-//        expect(expected).toBe(actual.H0);
 
     });
 
