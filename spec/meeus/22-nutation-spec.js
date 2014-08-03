@@ -26,6 +26,8 @@ describe("Obliqity of Ecliptic", function () {
 
         actual = nutation.calcMeanObliquityLaskar(T);
 
+        console.log('Mean Obliquity', base.degdec2degmmss(actual));
+
         expect(actual).toBe(expected);
 
     });
@@ -34,8 +36,8 @@ describe("Obliqity of Ecliptic", function () {
 
         actual = nutation.calcApproxNutation(T);
 
-//      console.log(base.degdec2degmmss(actual.Δψ));
-//      console.log(base.degdec2degmmss(actual.Δε));
+      console.log('Δψ', /*base.degdec2degmmss*/(actual.Δψ));
+      console.log(base.degdec2degmmss(actual.Δε));
 
         expect(actual.Δε).toBe(expected_Δε);
         expect(actual.Δψ).toBe(expected_Δψ);
@@ -49,7 +51,7 @@ describe("Obliqity of Ecliptic", function () {
 
         actual = nutation.calcMeanObliquityLaskar(T) + n.Δε;
 
-//      console.log(base.degdec2degmmss(actual));
+      console.log(base.degdec2degmmss(actual));
 
         expect(actual).toBe(expected_ε);
 
