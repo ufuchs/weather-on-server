@@ -15,27 +15,30 @@ var julian = require('./../../lib/posas/meeus/julian.js'),
 describe("Mean Sidereal Time at Greenwich", function () {
 
     // Meeus, p. 88, part of example 12.a
-    it("in pure degrees at 00:00", function () {
+    it("returns in pure seconds at 00:00", function () {
 
         // (m)ean0UT
         var actual = sidereal.calcGmst0(jd_of_1987_Apr_10),
-            expected_gmst0 = 197.69319510799596;
+            expected_gmst0 = 47446.36682711006;
 
-//        console.log(julian.dec2hhmmss(actual / 360));
+        // 13h 10m 46".3668 2711006142
+//        console.log(julian.dec2hhmmss(actual / 86400));
 
         expect(actual).toBe(expected_gmst0);
 
     });
 
-    // Meeus, p. 89, example 12.b
-    it("normalized like the seconds of a day at 19:21", function () {
+    // Meeus, p. 89, part of example 12.b
+    it("returns in pure seconds at 19:21", function () {
 
-        var actual = sidereal.calcGmst(jd_of_1987_Apr_10 + 0.80625),
-            expected = 128.73787326321406;
+        var actual = sidereal.calcGmst(jd_of_1987_Apr_10 +
+                julian.hhmmss2dec(19, 21, 0)),
+            expected_gmst = 30897.089584362402;
 
-//        console.log(julian.dec2hhmmss(actual / 360));
+        // 8h 34m 57".0895 8436240209
+//        console.log(julian.dec2hhmmss(actual / 86400));
 
-        expect(actual).toBe(expected);
+        expect(actual).toBe(expected_gmst);
 
     });
 
@@ -47,18 +50,33 @@ describe("Mean Sidereal Time at Greenwich", function () {
 describe("Apparent Sidereal Time at Greenwich", function () {
 
     // Meeus, p. 88, part of example 12.a
-    it("in pure degrees at 00:00", function () {
+    it("returns in pure seconds at 00:00", function () {
 
         // (m)ean0UT
         var actual = sidereal.calcGast0(jd_of_1987_Apr_10),
-            expected_gast0 = 197.4569353685419;
-                          // 197.69319510799596;
+            expected_gast0 = 47443.12390599808;
 
-//        console.log(julian.dec2hhmmss(actual / 360));
+        // 13h 10m 46".1351
+        console.log(julian.dec2hhmmss(actual / 86400));
 
         expect(actual).toBe(expected_gast0);
 
     });
+
+    // Meeus, p. 89, part of example 12.b
+    it("returns in pure seconds at 19:21", function () {
+
+        var actual = sidereal.calcGast(jd_of_1987_Apr_10 +
+                julian.hhmmss2dec(19, 21, 0)),
+            expected_gast = 30897.089584362402;
+
+        // 8h 34m 57".0895 8436240209
+        console.log(julian.dec2hhmmss(actual / 86400));
+
+//        expect(actual).toBe(expected_gast);
+
+    });
+
 
 });
 
