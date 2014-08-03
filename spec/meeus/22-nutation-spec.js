@@ -53,7 +53,18 @@ describe("Obliqity of Ecliptic", function () {
 
         expect(actual).toBe(expected_ε);
 
+    });
+
+    it("gets the nutation in RA", function () {
+
+        var expected_ra = -0.23625973945406323;
+
+        actual = nutation.calcNutationInRA(T);
+//      console.log(base.degdec2degmmss(actual));
+
+        expect(actual).toBe(expected_ra);
 
     });
+
 
 });
