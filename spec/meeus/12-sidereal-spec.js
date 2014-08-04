@@ -54,26 +54,27 @@ describe("Apparent Sidereal Time at Greenwich", function () {
 
         // (m)ean0UT
         var actual = sidereal.calcGast0(jd_of_1987_Apr_10),
-            expected_gast0 = 47443.12390599808;
+            expected_gast0 = 47446.13514402334;
 
         // 13h 10m 46".1351
-        console.log(julian.dec2hhmmss(actual / 86400));
+//        console.log(julian.dec2hhmmss(actual / 86400));
 
         expect(actual).toBe(expected_gast0);
 
     });
 
-    // Meeus, p. 89, part of example 12.b
+    // Meeus, p. 88, part of example 12.a
     it("returns in pure seconds at 19:21", function () {
 
+        // (m)ean0UT
         var actual = sidereal.calcGast(jd_of_1987_Apr_10 +
                 julian.hhmmss2dec(19, 21, 0)),
-            expected_gast = 30897.089584362402;
+            expected_gast = 30896.85790127568;
 
-        // 8h 34m 57".0895 8436240209
+        // 8° 34' 56".8579 012756818
         console.log(julian.dec2hhmmss(actual / 86400));
 
-//        expect(actual).toBe(expected_gast);
+        expect(actual).toBe(expected_gast);
 
     });
 
