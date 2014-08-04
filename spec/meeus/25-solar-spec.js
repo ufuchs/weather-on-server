@@ -29,7 +29,7 @@ describe("Solar Coordinates", function () {
         //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
         //   example 25.a
         var T = -0.07218343600273786;
-        //  T = -0.072183436;
+        //  T = -0.072 183 436;
 
         expect(s.T).toBe(T);
 
@@ -80,6 +80,23 @@ describe("Solar Coordinates", function () {
 
     });
 
+    it("calculates the mean obliquity of the ecliptic", function () {
+
+        // Comments refer to the values of:
+        //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
+        //   example 25.a
+        var actual = solar.calcMeanObliquity(s),
+            epsilon0 = 23.440229681819808,
+        //  ε0 = 23.44023
+            epsilon  = 23.440144214673726;
+        //  ε  = 23.43999
+
+        expect(s.epsilon0).toBe(epsilon0);
+        expect(s.epsilon).toBe(epsilon);
+
+    });
+
+
     it("calculates the Sun's apparent longitude", function () {
 
         // Comments refer to the values of:
@@ -96,21 +113,6 @@ describe("Solar Coordinates", function () {
 
     });
 
-    it("calculates the mean obliquity of the ecliptic", function () {
-
-        // Comments refer to the values of:
-        //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
-        //   example 25.a
-        var actual = solar.calcMeanObliquity(s),
-            epsilon0 = 23.44022979550012,
-        //  ε0 = 23.44023
-            epsilon  = 23.439991419682084;
-        //  ε  = 23.43999
-
-        expect(s.epsilon0).toBe(epsilon0);
-        expect(s.epsilon).toBe(epsilon);
-
-    });
 
     it("calculates the Sun's Apparent Right Ascension and Declination", function () {
 
@@ -118,9 +120,9 @@ describe("Solar Coordinates", function () {
         //   MEEUS, Astronomical Algorithms (Second Edition), p. 165
         //   example 25.a
         var actual = solar.calcAppPosition(s),
-            alpha = 198.38082521916053,
+            alpha = 198.38080539510963,
         //  α     = 198.38083.
-            delta = -7.785069873192935;
+            delta = -7.78511805423649;
         //  δ     = -7.78507
 
         console.log(s);
