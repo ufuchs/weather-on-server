@@ -17,63 +17,56 @@ describe("Obliqity of Ecliptic", function () {
 
     var T = julian.j2000Century(jd_of_1988_April_10),
         actual,
-//        expected = 23.440946290957324,
-
-        expected_Δε = 0.002629995763497817,     //  9°.46798474859214
-        expected_Δψ = -0.0010729882875282794;   // -3°.8627578351018057
+        n,
+        ε0;
 
     it("gets the 'Mean Obliquity'", function () {
 
-        var expected_ε0 = 23.440946290957324;
+        var expected_ε0 = 23.440946290957324;       // 23° 26' 27".407
 
-        actual = nutation.calcMeanObliquityLaskar(T);
+        ε0 = nutation.calcMeanObliquityLaskar(T);
 
         // 23° 26' 27".406 647 446 367 458
 //        console.log('Mean Obliquity:', base.degdec2degmmss(actual));
 
-        expect(actual).toBe(expected_ε0);
+        expect(ε0).toBe(expected_ε0);
 
     });
-
 
     it("gets the correction of the 'Mean Obliquity'", function () {
 
-        actual = nutation.calcNutation(T);
+        var expected_Δε = 0.0026229224163215135,    //  9".443
+            expected_Δψ = -0.0010522030768343308;   // -3".788
 
-        // console.log();
-        // console.log('Δψ:', base.degdec2degmmss(actual.Δψ));
-        // console.log('Δε:', base.degdec2degmmss(actual.Δε));
-        // console.log('Δε:', (actual.Δε));
+        n = nutation.calcNutation(T);
 
-//        expect(actual.Δε).toBe(expected_Δε);
-//        expect(actual.Δψ).toBe(expected_Δψ);
+        expect(n.Δε).toBe(expected_Δε);
+        expect(n.Δψ).toBe(expected_Δψ);
 
     });
 
-    /*
     it("gets the 'True Obliquity'", function () {
 
-        var n = nutation.calcApproxNutation(T),
-            expected_ε = 23.443576286720823;
+        var n = nutation.calcNutation(T),
+            expected_ε = 23.443569213373646,        // 23° 26' 36".850
+            ε = nutation.calcMeanObliquityLaskar(T) + n.Δε;
 
-        actual = nutation.calcMeanObliquityLaskar(T) + n.Δε;
+//      console.log(base.degdec2degmmss(actual));
 
-      console.log(base.degdec2degmmss(actual));
-
-        expect(actual).toBe(expected_ε);
+        expect(ε).toBe(expected_ε);
 
     });
 
     it("gets the nutation in RA", function () {
 
-        var expected_ra = -0.23625973945406323;
+        var expected_ra = -0.2316830867206746;
 
-        actual = nutation.calcNutationInRA(T);
+        actual = nutation.calcNutationInRA(n, ε0);
 //      console.log(base.degdec2degmmss(actual));
 
         expect(actual).toBe(expected_ra);
 
     });
-    */
+
 
 });
