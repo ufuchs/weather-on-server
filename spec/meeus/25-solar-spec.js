@@ -7,7 +7,8 @@
 var base = require('./../../lib/posas/meeus/base.js'),
     solar = require('./../../lib/posas/meeus/solar.js'),
     julian = require('./../../lib/posas/meeus/julian.js'),
-    jd_of_1992_Oct_13 = 2448908.5;
+    jd_of_1992_Oct_13 = 2448908.5,
+    jd_of_2007_Dec_14 = 2454449.5;
 
 //
 // @see : MEEUS, Astronomical Algorithms (Second Edition), p. 165
@@ -101,9 +102,9 @@ describe("Solar Coordinates", function () {
         //   example 25.a
         var actual = solar.calcAppLon(s),
             Omega  = 264.657131805429,
-        //> Ω  = 264.65,
-            lambda  = 199.90893240913303;
-        //> λ  = 199.90895
+        //> Ω      = 264.65,
+            lambda = 199.90893240913303;
+        //> λ      = 199.90895
 
         expect(s.Omega).toBe(Omega);
         expect(s.lambda).toBe(lambda);
@@ -121,10 +122,10 @@ describe("Solar Coordinates", function () {
             delta = -7.785039305745461;
         //  δ     = -7.78507
 
-        console.log(s);
-
         expect(s.alpha).toBe(alpha);
         expect(s.delta).toBe(delta);
+
+        console.log(s);
 
     });
 
