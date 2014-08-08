@@ -27,7 +27,7 @@ describe("Obliqity of Ecliptic", function () {
         ε0 = nutation.calcMeanObliquityLaskar(T);
 
         // 23° 26' 27".406 647 446 367 458
-//        console.log('Mean Obliquity:', base.degdec2degmmss(actual));
+        console.log('Mean Obliquity:', base.degdec2degmmss(ε0));
 
         expect(ε0).toBe(expected_ε0);
 
