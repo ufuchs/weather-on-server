@@ -26,8 +26,10 @@ describe("Obliqity of Ecliptic", function () {
 
         ε0 = nutation.calcMeanObliquityLaskar(T);
 
+        ε0 = nutation.calcMeanObliquity(T);
+
         // 23° 26' 27".406 647 446 367 458
-        console.log('Mean Obliquity:', base.degdec2degmmss(ε0));
+//        console.log('Mean Obliquity:', base.degdec2degmmss(ε0));
 
         expect(ε0).toBe(expected_ε0);
 
@@ -35,10 +37,12 @@ describe("Obliqity of Ecliptic", function () {
 
     it("gets the correction of the 'Mean Obliquity'", function () {
 
-        var expected_Δε = 0.0026229224163215135,    //  9".443
-            expected_Δψ = -0.0010522030768343308;   // -3".788
+        var expected_Δε = 0.0026229224163215174,    //  9".443
+            expected_Δψ = -0.0010522030768343293;   // -3".788
 
-        n = nutation.calcNutation(T);
+        n = nutation.calc(T);
+
+      console.log(base.degdec2degmmss(n.Δε));
 
         expect(n.Δε).toBe(expected_Δε);
         expect(n.Δψ).toBe(expected_Δψ);
@@ -47,11 +51,11 @@ describe("Obliqity of Ecliptic", function () {
 
     it("gets the 'True Obliquity'", function () {
 
-        var n = nutation.calcNutation(T),
+        var n = nutation.calc(T),
             expected_ε = 23.443569213373646,        // 23° 26' 36".850
             ε = nutation.calcMeanObliquityLaskar(T) + n.Δε;
 
-//      console.log(base.degdec2degmmss(actual));
+      console.log(base.degdec2degmmss(actual));
 
         expect(ε).toBe(expected_ε);
 
@@ -59,14 +63,14 @@ describe("Obliqity of Ecliptic", function () {
 
     it("gets the nutation in RA", function () {
 
-        var expected_ra = -0.2316830867206746;
+        var expected_ra = -0.2316830867206743;
 
         actual = nutation.calcNutationInRA(n, ε0);
-//      console.log(base.degdec2degmmss(actual));
+
+      console.log(base.degdec2degmmss(actual));
 
         expect(actual).toBe(expected_ra);
 
     });
-
 
 });

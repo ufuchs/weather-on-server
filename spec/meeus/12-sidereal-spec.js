@@ -26,7 +26,7 @@ describe("Mean Sidereal Time at Greenwich", function () {
         actual = sidereal.calcGmst0(jd_of_1987_Apr_10),
 
         // 13h 10m 46".3668 2711006142
-//        console.log(julian.dec2hhmmss(actual));
+        console.log('gmst0', julian.dec2hhmmss(actual));
 
         expect(actual).toBe(expected_gmst0);
 
@@ -40,7 +40,7 @@ describe("Mean Sidereal Time at Greenwich", function () {
             expected_gmst = 0.35760520352271286;
 
         // 8h 34m 57".0895 8436240209
-//        console.log(julian.dec2hhmmss(actual) );
+//        console.log('gmst', julian.dec2hhmmss(actual) );
 
         expect(actual).toBe(expected_gmst);
 
@@ -54,7 +54,7 @@ describe("Mean Sidereal Time at Greenwich", function () {
             expected_gmst = 0.856236248847713;
 
         // 20h 32' 58".8119 0044240793
-//        console.log(julian.dec2hhmmss(actual));
+//        console.log('gmst', julian.dec2hhmmss(actual));
 
         expect(actual).toBe(expected_gmst);
 
@@ -76,11 +76,28 @@ describe("Apparent Sidereal Time at Greenwich", function () {
             expected_gast0 = 0.5491450826854554;
 
         // 13h 10m 46".1351
-//        console.log(julian.dec2hhmmss(actual));
+//        console.log('gast0', julian.dec2hhmmss(actual));
 
         expect(actual).toBe(expected_gast0);
 
     });
+
+
+    // Meeus, p. 88, part of example 12.a
+    // it("returns in pure seconds at 00:00", function () {
+
+    //     // (m)ean0UT
+    //     var actual = sidereal.calcGmstEx(jd_of_1987_Apr_10),
+    //         expected_gast0 = 0.5491450826854554;
+
+    //     // 13h 10m 46".1351
+    //     console.log('gast0', julian.dec2hhmmss(actual));
+
+    //     expect(actual).toBe(expected_gast0);
+
+    // });
+
+
 
     // Meeus, p. 88, part of example 12.a
     it("returns in pure seconds at 19:21", function () {
@@ -88,10 +105,10 @@ describe("Apparent Sidereal Time at Greenwich", function () {
         // (m)ean0UT
         var actual = sidereal.calcGast(jd_of_1987_Apr_10 +
                 julian.hhmmss2dec(19, 21, 0)),
-            expected_gast = 0.35760252200550546;
+            expected_gast = 0.3576024658368484;
 
         // 8° 34' 56".8579 012756818
-//        console.log(julian.dec2hhmmss(actual));
+//        console.log('gast', julian.dec2hhmmss(actual));
 
         expect(actual).toBe(expected_gast);
 
