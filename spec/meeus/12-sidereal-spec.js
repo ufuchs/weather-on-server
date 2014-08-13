@@ -5,10 +5,10 @@
 'use strict';
 
 // OK
-var julian = require('./../../lib/posas/meeus/julian.js'),
-    base = require('./../../lib/posas/meeus/base.js'),
-    deltat = require('./../../lib/posas/meeus/deltat.js'),
-    sidereal = require('./../../lib/posas/meeus/sidereal.js'),
+var julian = require('./../../lib/sunJS/meeus/julian.js'),
+    base = require('./../../lib/sunJS/meeus/base.js'),
+    deltat = require('./../../lib/sunJS/meeus/deltat.js'),
+    sidereal = require('./../../lib/sunJS/meeus/sidereal.js'),
     jd_of_1987_Apr_10 = 2446895.5;
 
 //
