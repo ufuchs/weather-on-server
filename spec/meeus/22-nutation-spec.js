@@ -7,6 +7,8 @@
 var base = require('./../../lib/sunJS/meeus/base.js'),
     nutation = require('./../../lib/sunJS/meeus/nutationHigherAcc.js'),
     solar = require('./../../lib/sunJS/meeus/solar.js'),
+    sidereal = require('./../../lib/sunJS/meeus/sidereal.js'),
+
     julian = require('./../../lib/sunJS/meeus/julian.js'),
     jd_of_1988_April_10 = 2446895.5;
 
@@ -66,4 +68,51 @@ describe("Obliqity of Ecliptic", function () {
 
     });
 
+    it("gets the nutation in RA", function () {
+
+        var expected_ra = -0.2316830867206743;
+
+//      console.log(base.degdec2degmmss(n.ra));
+
+        expect(n.ra).toBe(expected_ra);
+
+    });
+
+
 });
+
+
+//
+//
+//
+describe("Obliqity of Ecliptic", function () {
+
+    var jd_of_1987_April_10_1921 = julian.calendarGregorianToJdA(1987, 4, 10, 19, 21, 0), 
+        T = julian.j2000Century(jd_of_1987_April_10_1921),
+        actual,
+        n = nutation.calc(T),
+        ε0;
+
+    it("gets the 'Mean Obliquity'", function () {
+
+        // example 13.b
+        var expected_ε = 23.44357521577815;       // 23° 26' 36".87
+
+        ε0 = n.ε;
+
+        // 23° 26' 36".870 776 801 340 24
+//       console.log('Mean Obliquity:', base.degdec2degmmss(ε0));
+//       console.log('Mean Obliquity:', base.degdec2degmmss(n.Δψ));
+
+        // console.log(julian.dec2hhmmss(
+        //     sidereal.calcGmst(jd_of_1987_April_10_1921) + n.ra / 86400)    );
+
+        expect(ε0).toBe(expected_ε);
+
+    });
+
+
+});
+
+
+
