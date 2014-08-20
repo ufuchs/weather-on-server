@@ -13,10 +13,10 @@ var base = require('./../../lib/sunJS/meeus/base.js'),
     jde_of_1988_April_10 = 2446895.5,
     ΔT = 55.8;
 
+// Test coverage depends on the availability of examples/reference data
 //
 //
-//
-describe("Obliqity of Ecliptic", function () {
+describe("Nutation and Obliqity of Ecliptic at 1988 April 10, 0h UT", function () {
 
     var //T = julian.j2000Century(jde_of_1988_April_10),
         actual,
@@ -38,7 +38,7 @@ describe("Obliqity of Ecliptic", function () {
 
     it("gets the correction of the 'Mean Obliquity'", function () {
 
-                          
+
         var expected_Δε = 0.0026229282898315564,     //  9".457
             expected_Δψ = -0.0010522180326076578;   // -3".862
 
@@ -75,10 +75,10 @@ describe("Obliqity of Ecliptic", function () {
 //
 //
 //
-describe("Obliqity of Ecliptic", function () {
+describe("Nutation an Obliqity of Ecliptic at 1987 April 10 19h 21'", function () {
 
     var jde_of_1987_April_10_1921 = julian.calendarGregorianToJdA(1987, 4, 10, 19, 21, 0),
-        ΔT = 58.4, 
+        ΔT = 58.4,
         actual,
         n = nutation.calc(jde_of_1987_April_10_1921, ΔT),
         ε0;
@@ -99,7 +99,6 @@ describe("Obliqity of Ecliptic", function () {
         expect(ε0).toBe(expected_ε);
 
     });
-
 
 });
 
