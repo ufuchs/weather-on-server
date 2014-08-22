@@ -13,7 +13,7 @@ var base = require('./../../lib/sunJS/meeus/base.js'),
 // Test coverage depends on the availability of examples/reference data
 //
 //
-describe("Nutation and Obliqity of Ecliptic at 1988 April 10, 0h UT", function () {
+describe("Nutation and Obliqity of Ecliptic on 1988 April 10 at 0h UT", function () {
 
     var jde_of_1988_April_10 = 2446895.5,
         ΔT = 55.8,
@@ -68,7 +68,7 @@ describe("Nutation and Obliqity of Ecliptic at 1988 April 10, 0h UT", function (
 // example 13.b
 //
 //
-describe("Nutation an Obliqity of Ecliptic at 1987 April 10 19h 21'", function () {
+describe("Nutation an Obliqity of Ecliptic on 1987 April 10 at 19h 21'", function () {
 
     var jd_of_1987_April_10_1921 = julian.calendarGregorianToJdA(1987, 4, 10, 19, 21, 0),
         ΔT = 58.4,
