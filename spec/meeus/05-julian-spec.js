@@ -3,7 +3,7 @@
 
 'use strict';
 
-var julian = require('./../../lib/posas/meeus/julian.js'),
+var julian = require('./../../lib/sunJS/meeus/julian.js'),
     _ = require('lodash'),
 
     date2Jd = [
@@ -34,7 +34,7 @@ var julian = require('./../../lib/posas/meeus/julian.js'),
 describe("A given date by by year, month and day AND hours as decimal places", function () {
 
     // julian.calendarGregorianToJD
-    it("returns a Julian Day number", function () {
+    it("gets a Julian Day number", function () {
 
         var actual;
 
@@ -52,7 +52,7 @@ describe("A given date by by year, month and day AND hours as decimal places", f
 //
 describe("A given date by by year, month, day, hours, min and sec", function () {
 
-    it("returns a Julian Day number", function () {
+    it("gets a Julian Day number", function () {
 
         var actual;
 
@@ -65,55 +65,37 @@ describe("A given date by by year, month, day, hours, min and sec", function () 
 
 });
 
-
-//
-// julian.calendarGregorianToJdA
-//
-describe("dayFrac", function () {
-
-    it("returns a Julian Day number", function () {
-
-        var actual = julian.calendarDayFrac(22.01);
-
-        console.log(actual);
-
-
-    });
-
-});
-
-
-
-
 //
 // julian.j2000Century
 //
 describe("Century since J2K", function () {
 
-    var jd_of_1987_Apr_10 = 2446895.5,
-        centuryAtMidnight = -0.12729637234770705;
+    var jd_of_1987_Apr_10 = 2446895.5;
 
     // Meeus, p. 88, example 12.a
-    it("returns a value of -0.127296372347... by 1987 April 10 00:00:00.0 UT", function () {
+    it("gets T on 1987 April 10 at 0h UT", function () {
 
-        var actual = julian.j2000Century(jd_of_1987_Apr_10);
+        var expected_T = -0.12729637234770705,
+            T = julian.j2000Century(jd_of_1987_Apr_10);
 
-        expect(centuryAtMidnight).toBe(actual);
+        expect(T).toBe(expected_T);
 
     });
 
     // Meeus, p. 89, examole 12.b
-    it("returns a value of -0.127296372347... by 1987 April 10 19:21", function () {
+    it("gets T on 1987 April 10 at 19:21 UT", function () {
 
         var at_19h21min = 0.80625,
-            actual = julian.j2000Century(jd_of_1987_Apr_10 + at_19h21min);
+            expected_T = -0.12727429842573834,
+            T = julian.j2000Century(jd_of_1987_Apr_10 + at_19h21min);
 
-        expect(centuryAtMidnight).toBe(actual);
+        expect(T).toBe(expected_T);
 
     });
 
-
 });
+
+
 
 //
 // julian.localTime2utcTime
@@ -205,8 +187,6 @@ describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
             expected = item.slice(1, 4);
 
-//          console.log(_.difference(expected, actual));
-
             result = _.difference(expected, actual).length === 0;
 
             expect(result).toBe(true);
@@ -223,10 +203,7 @@ describe("Decimal places of a JD to hour, min, sec.msec", function () {
 
     var jd_of_1987_Apr_10_noon = 2446896.0,
         jd_of_1987_Apr_10_T192624 = 2446896.31,
-        jd_of_1987_Apr_10_midnigth = 2446895.5,
-        deltaT_1987 = 55.3,
-        jd_of_1987_Apr_10_midnigth_plus_deltaT = jd_of_1987_Apr_10_midnigth +
-            deltaT_1987 / 86400;
+        jd_of_1987_Apr_10_midnigth = 2446895.5;
 
     // Meeus, p. 88, example 12.a
     it("returns the Julian Day number at midnight for 1987-APR-10T12:00", function () {
@@ -242,14 +219,6 @@ describe("Decimal places of a JD to hour, min, sec.msec", function () {
         var actual = julian.jdAtMidnight(jd_of_1987_Apr_10_T192624);
 
         expect(jd_of_1987_Apr_10_midnigth).toBe(actual);
-
-    });
-
-    it("returns the Julian Day number at midnight for 1987-APR-10T19:26:24 PLUS deltaT for 1987", function () {
-
-        var actual = julian.jdAtMidnight(jd_of_1987_Apr_10_T192624, deltaT_1987);
-
-        expect(jd_of_1987_Apr_10_midnigth_plus_deltaT).toBe(actual);
 
     });
 
