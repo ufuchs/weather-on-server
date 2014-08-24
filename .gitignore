@@ -15,8 +15,8 @@ logs
 results
 
 # exclude weather artefacts
-public/weather/*/*/*.png
-public/weather/*/*/*.svg
+public/weather/kindle4nt/*/
+public/weather/df3120/*/
 
 node_modules
 npm-debug.log
