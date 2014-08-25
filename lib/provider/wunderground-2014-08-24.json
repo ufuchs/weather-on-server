@@ -1,0 +1,512 @@
+
+{
+  "response": {
+  "version":"0.1",
+  "termsofService":"http://www.wunderground.com/weather/api/d/terms.html",
+  "features": {
+  "astronomy": 1
+  ,
+  "conditions": 1
+  ,
+  "forecast": 1
+  }
+    }
+  , "current_observation": {
+        "image": {
+        "url":"http://icons.wxug.com/graphics/wu2/logo_130x80.png",
+        "title":"Weather Underground",
+        "link":"http://www.wunderground.com"
+        },
+        "display_location": {
+        "full":"Berlin, Germany",
+        "city":"Berlin",
+        "state":"",
+        "state_name":"Germany",
+        "country":"DL",
+        "country_iso3166":"DE",
+        "zip":"00000",
+        "magic":"10",
+        "wmo":"10389",
+        "latitude":"52.51666641",
+        "longitude":"13.39999962",
+        "elevation":"34.00000000"
+        },
+        "observation_location": {
+        "full":"Berolinastr., Berlin-Mitte, Berlin, BERLIN",
+        "city":"Berolinastr., Berlin-Mitte, Berlin",
+        "state":"BERLIN",
+        "country":"GERMANY",
+        "country_iso3166":"DE",
+        "latitude":"52.522869",
+        "longitude":"13.422680",
+        "elevation":"125 ft"
+        },
+        "estimated": {
+        },
+        "station_id":"IBERLINB42",
+        "observation_time":"Last Updated on August 24, 8:55 PM CEST",
+        "observation_time_rfc822":"Sun, 24 Aug 2014 20:55:04 +0200",
+        "observation_epoch":"1408906504",
+        "local_time_rfc822":"Sun, 24 Aug 2014 20:58:50 +0200",
+        "local_epoch":"1408906730",
+        "local_tz_short":"CEST",
+        "local_tz_long":"Europe/Berlin",
+        "local_tz_offset":"+0200",
+        "weather":"Clear",
+        "temperature_string":"58.1 F (14.5 C)",
+        "temp_f":58.1,
+        "temp_c":14.5,
+        "relative_humidity":"60%",
+        "wind_string":"Calm",
+        "wind_dir":"South",
+        "wind_degrees":180,
+        "wind_mph":0.0,
+        "wind_gust_mph":0,
+        "wind_kph":0,
+        "wind_gust_kph":0,
+        "pressure_mb":"1016",
+        "pressure_in":"30.01",
+        "pressure_trend":"0",
+        "dewpoint_string":"44 F (7 C)",
+        "dewpoint_f":44,
+        "dewpoint_c":7,
+        "heat_index_string":"NA",
+        "heat_index_f":"NA",
+        "heat_index_c":"NA",
+        "windchill_string":"NA",
+        "windchill_f":"NA",
+        "windchill_c":"NA",
+        "feelslike_string":"58.1 F (14.5 C)",
+        "feelslike_f":"58.1",
+        "feelslike_c":"14.5",
+        "visibility_mi":"N/A",
+        "visibility_km":"N/A",
+        "solarradiation":"--",
+        "UV":"-1","precip_1hr_string":"0.00 in ( 0 mm)",
+        "precip_1hr_in":"0.00",
+        "precip_1hr_metric":" 0",
+        "precip_today_string":"0.00 in (0 mm)",
+        "precip_today_in":"0.00",
+        "precip_today_metric":"0",
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/nt_clear.gif",
+        "forecast_url":"http://www.wunderground.com/global/stations/10389.html",
+        "history_url":"http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=IBERLINB42",
+        "ob_url":"http://www.wunderground.com/cgi-bin/findweather/getForecast?query=52.522869,13.422680",
+        "nowcast":""
+    }
+        ,
+    "forecast":{
+        "txt_forecast": {
+        "date":"7:50 PM CEST",
+        "forecastday": [
+        {
+        "period":0,
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "title":"Sunday",
+        "fcttext":"Mainly clear. Lows overnight in the upper 40s.",
+        "fcttext_metric":"Clear. Low 9C.",
+        "pop":"0"
+        }
+        ,
+        {
+        "period":1,
+        "icon":"nt_clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/nt_clear.gif",
+        "title":"Sunday Night",
+        "fcttext":"Clear skies. Low 49F. Winds W at 5 to 10 mph.",
+        "fcttext_metric":"A clear sky. Low 9C. Winds WSW at 10 to 15 km/h.",
+        "pop":"0"
+        }
+        ,
+        {
+        "period":2,
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "title":"Monday",
+        "fcttext":"Mostly sunny skies. High 68F. Winds WSW at 10 to 15 mph.",
+        "fcttext_metric":"Generally sunny despite a few afternoon clouds. High around 20C. Winds WSW at 15 to 25 km/h.",
+        "pop":"0"
+        }
+        ,
+        {
+        "period":3,
+        "icon":"nt_chancerain",
+        "icon_url":"http://icons.wxug.com/i/c/k/nt_chancerain.gif",
+        "title":"Monday Night",
+        "fcttext":"Cloudy with occasional showers late at night. Low 54F. Winds SW at 5 to 10 mph. Chance of rain 60%.",
+        "fcttext_metric":"Cloudy with occasional showers late at night. Low 12C. Winds SSW at 10 to 15 km/h. Chance of rain 60%.",
+        "pop":"60"
+        }
+        ,
+        {
+        "period":4,
+        "icon":"chancerain",
+        "icon_url":"http://icons.wxug.com/i/c/k/chancerain.gif",
+        "title":"Tuesday",
+        "fcttext":"Cloudy. Some light rain is likely. High 59F. Winds ESE at 5 to 10 mph. Chance of rain 70%.",
+        "fcttext_metric":"Light rain early...then remaining cloudy with showers in the afternoon. High near 15C. Winds E at 10 to 15 km/h. Chance of rain 70%.",
+        "pop":"70"
+        }
+        ,
+        {
+        "period":5,
+        "icon":"nt_chancerain",
+        "icon_url":"http://icons.wxug.com/i/c/k/nt_chancerain.gif",
+        "title":"Tuesday Night",
+        "fcttext":"Showers in the evening, then partly cloudy overnight. Low around 50F. Winds NNE at 5 to 10 mph. Chance of rain 40%.",
+        "fcttext_metric":"Rain showers early with clearing later at night. Low near 10C. Winds NNE at 10 to 15 km/h. Chance of rain 40%.",
+        "pop":"40"
+        }
+        ,
+        {
+        "period":6,
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "title":"Wednesday",
+        "fcttext":"Sun and a few passing clouds. High around 70F. Winds NW at 5 to 10 mph.",
+        "fcttext_metric":"Mostly sunny skies. High 21C. Winds NW at 10 to 15 km/h.",
+        "pop":"10"
+        }
+        ,
+        {
+        "period":7,
+        "icon":"nt_clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/nt_clear.gif",
+        "title":"Wednesday Night",
+        "fcttext":"Mainly clear. Low near 50F. Winds WNW at 5 to 10 mph.",
+        "fcttext_metric":"Mostly clear skies. Low around 10C. Winds WNW at 10 to 15 km/h.",
+        "pop":"10"
+        }
+        ]
+        },
+        "simpleforecast": {
+        "forecastday": [
+        {"date":{
+    "epoch":"1408899600",
+    "pretty":"7:00 PM CEST on August 24, 2014",
+    "day":24,
+    "month":8,
+    "year":2014,
+    "yday":235,
+    "hour":19,
+    "min":"00",
+    "sec":0,
+    "isdst":"1",
+    "monthname":"August",
+    "monthname_short":"Aug",
+    "weekday_short":"Sun",
+    "weekday":"Sunday",
+    "ampm":"PM",
+    "tz_short":"CEST",
+    "tz_long":"Europe/Berlin"
+},
+        "period":1,
+        "high": {
+        "fahrenheit":"67",
+        "celsius":"19"
+        },
+        "low": {
+        "fahrenheit":"49",
+        "celsius":"9"
+        },
+        "conditions":"Clear",
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "skyicon":"",
+        "pop":0,
+        "qpf_allday": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "qpf_day": {
+        "in": null,
+        "mm": null
+        },
+        "qpf_night": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "snow_allday": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_day": {
+        "in": null,
+        "cm": null
+        },
+        "snow_night": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "maxwind": {
+        "mph": 0,
+        "kph": 0,
+        "dir": "",
+        "degrees": 0
+        },
+        "avewind": {
+        "mph": 0,
+        "kph": 0,
+        "dir": "",
+        "degrees": 0
+        },
+        "avehumidity": 70,
+        "maxhumidity": 0,
+        "minhumidity": 0
+        }
+        ,
+        {"date":{
+    "epoch":"1408986000",
+    "pretty":"7:00 PM CEST on August 25, 2014",
+    "day":25,
+    "month":8,
+    "year":2014,
+    "yday":236,
+    "hour":19,
+    "min":"00",
+    "sec":0,
+    "isdst":"1",
+    "monthname":"August",
+    "monthname_short":"Aug",
+    "weekday_short":"Mon",
+    "weekday":"Monday",
+    "ampm":"PM",
+    "tz_short":"CEST",
+    "tz_long":"Europe/Berlin"
+},
+        "period":2,
+        "high": {
+        "fahrenheit":"68",
+        "celsius":"20"
+        },
+        "low": {
+        "fahrenheit":"54",
+        "celsius":"12"
+        },
+        "conditions":"Clear",
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "skyicon":"",
+        "pop":0,
+        "qpf_allday": {
+        "in": 0.10,
+        "mm": 3
+        },
+        "qpf_day": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "qpf_night": {
+        "in": 0.10,
+        "mm": 3
+        },
+        "snow_allday": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_day": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_night": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "maxwind": {
+        "mph": 20,
+        "kph": 32,
+        "dir": "WSW",
+        "degrees": 254
+        },
+        "avewind": {
+        "mph": 13,
+        "kph": 21,
+        "dir": "WSW",
+        "degrees": 254
+        },
+        "avehumidity": 57,
+        "maxhumidity": 0,
+        "minhumidity": 0
+        }
+        ,
+        {"date":{
+    "epoch":"1409072400",
+    "pretty":"7:00 PM CEST on August 26, 2014",
+    "day":26,
+    "month":8,
+    "year":2014,
+    "yday":237,
+    "hour":19,
+    "min":"00",
+    "sec":0,
+    "isdst":"1",
+    "monthname":"August",
+    "monthname_short":"Aug",
+    "weekday_short":"Tue",
+    "weekday":"Tuesday",
+    "ampm":"PM",
+    "tz_short":"CEST",
+    "tz_long":"Europe/Berlin"
+},
+        "period":3,
+        "high": {
+        "fahrenheit":"59",
+        "celsius":"15"
+        },
+        "low": {
+        "fahrenheit":"50",
+        "celsius":"10"
+        },
+        "conditions":"Chance of Rain",
+        "icon":"chancerain",
+        "icon_url":"http://icons.wxug.com/i/c/k/chancerain.gif",
+        "skyicon":"",
+        "pop":70,
+        "qpf_allday": {
+        "in": 0.19,
+        "mm": 5
+        },
+        "qpf_day": {
+        "in": 0.16,
+        "mm": 4
+        },
+        "qpf_night": {
+        "in": 0.03,
+        "mm": 1
+        },
+        "snow_allday": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_day": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_night": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "maxwind": {
+        "mph": 10,
+        "kph": 16,
+        "dir": "ESE",
+        "degrees": 103
+        },
+        "avewind": {
+        "mph": 7,
+        "kph": 11,
+        "dir": "ESE",
+        "degrees": 103
+        },
+        "avehumidity": 84,
+        "maxhumidity": 0,
+        "minhumidity": 0
+        }
+        ,
+        {"date":{
+    "epoch":"1409158800",
+    "pretty":"7:00 PM CEST on August 27, 2014",
+    "day":27,
+    "month":8,
+    "year":2014,
+    "yday":238,
+    "hour":19,
+    "min":"00",
+    "sec":0,
+    "isdst":"1",
+    "monthname":"August",
+    "monthname_short":"Aug",
+    "weekday_short":"Wed",
+    "weekday":"Wednesday",
+    "ampm":"PM",
+    "tz_short":"CEST",
+    "tz_long":"Europe/Berlin"
+},
+        "period":4,
+        "high": {
+        "fahrenheit":"70",
+        "celsius":"21"
+        },
+        "low": {
+        "fahrenheit":"50",
+        "celsius":"10"
+        },
+        "conditions":"Clear",
+        "icon":"clear",
+        "icon_url":"http://icons.wxug.com/i/c/k/clear.gif",
+        "skyicon":"",
+        "pop":10,
+        "qpf_allday": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "qpf_day": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "qpf_night": {
+        "in": 0.00,
+        "mm": 0
+        },
+        "snow_allday": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_day": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "snow_night": {
+        "in": 0.0,
+        "cm": 0.0
+        },
+        "maxwind": {
+        "mph": 10,
+        "kph": 16,
+        "dir": "NW",
+        "degrees": 310
+        },
+        "avewind": {
+        "mph": 9,
+        "kph": 14,
+        "dir": "NW",
+        "degrees": 310
+        },
+        "avehumidity": 65,
+        "maxhumidity": 0,
+        "minhumidity": 0
+        }
+        ]
+        }
+    }
+        ,   "moon_phase": {
+        "percentIlluminated":"1",
+        "ageOfMoon":"29",
+        "phaseofMoon":"Waning Crescent",
+        "hemisphere":"North",
+        "current_time": {
+        "hour":"20",
+        "minute":"58"
+        },
+        "sunrise": {
+        "hour":"6",
+        "minute":"03"
+        },
+        "sunset": {
+        "hour":"20",
+        "minute":"12"
+        }
+    },
+    "sun_phase": {
+        "sunrise": {
+        "hour":"6",
+        "minute":"03"
+        },
+        "sunset": {
+        "hour":"20",
+        "minute":"12"
+        }
+    }
+}
