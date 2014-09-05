@@ -8,28 +8,30 @@ var interpol = require('./../../lib/sunJS/meeus/interpol.js'),
 
     actual,
 
+    // @see: MEEUS, Astronomical Algorithms (Second Edition), example 3.a
     linearValues = [
-        [0.3, 0.2, 0.1, 0.2],
-        [0.1, 0.2, 0.3, 0.2]
+        //  y1         y2       y3      n
+        [0.884226, 0.877366, 0.870531, 4.35/24, 0.8761253012695313]
     ],
 
-    zeroValues = [
-        [0.3, 0.1, -0.2, 0.4],
-        [-0.2, 0.1, 0.3, -0.4]
-    ],
-
+    // @see: MEEUS, Astronomical Algorithms (Second Edition), example 3.b
     extremumValues = [
-        [0.1, 0.3, -0.2, { ym : 0.31607142857142856, nm : -0.21428571428571433 }],
-        [-0.2, 0.3, 0.1, { ym : 0.31607142857142856, nm : 0.21428571428571433 } ]
-    ];
+        //  y1         y2       y3
+        [1.3814294, 1.3812213, 1.3812453, { ym : 1.3812030466555365, nm : 0.39659629470048713 }]
+    ],
 
+    // @see: MEEUS, Astronomical Algorithms (Second Edition), example 3.c
+    zeroValues = [
+        //  y1      y2      y3
+        [-1693.4, 406.3, 2303.2, -0.20332282440074062]
+    ];
 
 describe("The 'zero' function", function () {
 
     // interpol.zero
-    it("should return a Number", function () {
+    it("should return a Number for zero values", function () {
         zeroValues.forEach(function (values) {
-            actual = interpol.zero(values.slice(0, 3), 0);
+            actual = interpol.zeroA(values.slice(0, 3), 0);
             expect(values[3]).toBe(actual);
         });
 
@@ -37,7 +39,7 @@ describe("The 'zero' function", function () {
 
     // interpol.zero with inappropriate values
     // should return 'undefined'
-    it("should return 'undefined'", function () {
+    it("should return 'undefined' for extremum values", function () {
         extremumValues.forEach(function (values) {
             actual = interpol.zero(values.slice(0, 3), 0);
             expect(undefined).toBe(actual);
@@ -50,7 +52,7 @@ describe("The 'zero' function", function () {
 describe("The 'extremum' function", function () {
 
     // interpol.extremum
-    it("should return a Number", function () {
+    it("should return a Number for extremum values", function () {
         extremumValues.forEach(function (values) {
             actual = interpol.extremum(values.slice(0, 3), 0);
             expect(values[3].ym).toBe(actual.ym);
@@ -61,7 +63,7 @@ describe("The 'extremum' function", function () {
 
     // interpol.extremum with inappropriate values.
     // should return 'undefined'
-    it("should return 'undefined'", function () {
+    it("should return 'undefined' for zero values", function () {
         zeroValues.forEach(function (values) {
             actual = interpol.extremum(values.slice(0, 3));
             expect(undefined).toBe(actual);
@@ -74,17 +76,17 @@ describe("The 'extremum' function", function () {
 describe("The 'linear' function", function () {
 
     // interpol.linear
-    it("should return a Number", function () {
+    it("should return a Number for linear values", function () {
         linearValues.forEach(function (values) {
-            actual = interpol.linear(values.slice(0, 3), 0);
-            expect(values[3]).toBe(actual);
+            actual = interpol.linear(values.slice(0, 3), values[3]);
+            expect(values[4]).toBe(actual);
         });
 
     });
 
     // interpol.extremum with inappropriate values.
     // should return 'undefined'
-    it("should return 'undefined'", function () {
+    it("should return 'undefined' for extremum values", function () {
         extremumValues.forEach(function (values) {
             actual = interpol.linear(values.slice(0, 3), 0);
             expect(undefined).toBe(actual);
@@ -94,12 +96,12 @@ describe("The 'linear' function", function () {
 
     // interpol.zero with inappropriate values
     // should return 'undefined'
-    it("should return 'undefined'", function () {
-        zeroValues.forEach(function (values) {
-            actual = interpol.linear(values.slice(0, 3), 0);
-            expect(undefined).toBe(actual);
-        });
+    // it("should return 'undefined' for zero values", function () {
+    //     zeroValues.forEach(function (values) {
+    //         actual = interpol.linear(values.slice(0, 3), 0);
+    //         expect(undefined).toBe(actual);
+    //     });
 
-    });
+    // });
 
 });
