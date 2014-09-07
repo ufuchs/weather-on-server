@@ -23,35 +23,41 @@ var interpol = require('./../../lib/sunJS/meeus/interpol.js'),
     // @see: MEEUS, Astronomical Algorithms (Second Edition), example 3.c
     zeroValues = [
         //  y1      y2      y3
-        [-1693.4, 406.3, 2303.2, -0.20332282440074062]
+        [-1693.4, 406.3, 2303.2, -0.20126729503147783]
     ];
 
-describe("The 'zero' function", function () {
+//
+// linear
+//
+describe("The 'linear' function", function () {
 
-    // interpol.zero
-    it("should return a Number for zero values", function () {
-        zeroValues.forEach(function (values) {
-            actual = interpol.zeroA(values.slice(0, 3), 0);
-            expect(values[3]).toBe(actual);
+    it("should return a Number for linear values", function () {
+        linearValues.forEach(function (values) {
+            actual = interpol.linear(values.slice(0, 3), values[3]);
+            expect(values[4]).toBe(actual);
         });
 
     });
 
-    // interpol.zero with inappropriate values
-    // should return 'undefined'
+    // interpol.linear with extremum values.
     it("should return 'undefined' for extremum values", function () {
         extremumValues.forEach(function (values) {
-            actual = interpol.zero(values.slice(0, 3), 0);
+            actual = interpol.linear(values.slice(0, 3), values[3]);
             expect(undefined).toBe(actual);
         });
 
     });
 
+    // interpol.linear with zero values.
+    // nothing to do
+
 });
 
+//
+// extremum
+//
 describe("The 'extremum' function", function () {
 
-    // interpol.extremum
     it("should return a Number for extremum values", function () {
         extremumValues.forEach(function (values) {
             actual = interpol.extremum(values.slice(0, 3), 0);
@@ -61,8 +67,16 @@ describe("The 'extremum' function", function () {
 
     });
 
-    // interpol.extremum with inappropriate values.
-    // should return 'undefined'
+    // interpol.extremum with linear values.
+    it("should return 'undefined' for linear values", function () {
+        linearValues.forEach(function (values) {
+            actual = interpol.extremum(values.slice(0, 3));
+            expect(undefined).toBe(actual);
+        });
+
+    });
+
+    // interpol.extremum with zero values.
     it("should return 'undefined' for zero values", function () {
         zeroValues.forEach(function (values) {
             actual = interpol.extremum(values.slice(0, 3));
@@ -73,35 +87,35 @@ describe("The 'extremum' function", function () {
 
 });
 
-describe("The 'linear' function", function () {
+//
+// zero
+//
+describe("The 'zero' function", function () {
 
-    // interpol.linear
-    it("should return a Number for linear values", function () {
-        linearValues.forEach(function (values) {
-            actual = interpol.linear(values.slice(0, 3), values[3]);
-            expect(values[4]).toBe(actual);
+    it("should return a Number for zero values", function () {
+        zeroValues.forEach(function (values) {
+            actual = interpol.zero(values.slice(0, 3), 0);
+            expect(values[3]).toBe(actual);
         });
 
     });
 
-    // interpol.extremum with inappropriate values.
-    // should return 'undefined'
+    // interpol.zero with extremum values
     it("should return 'undefined' for extremum values", function () {
         extremumValues.forEach(function (values) {
-            actual = interpol.linear(values.slice(0, 3), 0);
+            actual = interpol.zero(values.slice(0, 3), 0);
             expect(undefined).toBe(actual);
         });
 
     });
 
-    // interpol.zero with inappropriate values
-    // should return 'undefined'
-    // it("should return 'undefined' for zero values", function () {
-    //     zeroValues.forEach(function (values) {
-    //         actual = interpol.linear(values.slice(0, 3), 0);
-    //         expect(undefined).toBe(actual);
-    //     });
+    // interpol.zero with linear values
+    it("should return 'undefined' for linear values", function () {
+        linearValues.forEach(function (values) {
+            actual = interpol.zero(values.slice(0, 3), 0);
+            expect(undefined).toBe(actual);
+        });
 
-    // });
+    });
 
 });
