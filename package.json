@@ -11,6 +11,10 @@
   },
   "contributors": [
     {
+      "name": "Sonia Keys",
+      "url": "https://github.com/soniakeys/meeus"
+    },
+    {
       "name": "Matthew Petroff",
       "url": "http://www.mpetroff.net/archives/2012/09/14/kindle-weather-display"
     },
@@ -24,13 +28,14 @@
   ],
   "dependencies": {
     "express": "~3.1.x",
-    "request": "~2.16.x",
+    "fs.extra": "~1.2.1",
+    "i18n-2": "~0.4.5",
+    "lodash": "^2.4.1",
     "mkdirp": "0.3.x",
     "moment": "~2.0.0",
-    "i18n-2": "~0.4.5",
-    "fs.extra": "~1.2.1",
-    "suncalc": "~1.2.2",
-    "q": "~1.0.0"
+    "q": "~1.0.0",
+    "request": "~2.16.x",
+    "suncalc": "~1.2.2"
   },
   "main": "app",
   "engines": {
