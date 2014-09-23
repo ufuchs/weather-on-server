@@ -4,7 +4,7 @@
 #+ env instead in a file
 # export WONDERGROUND_KEY=Your key from Wunderground
 
-#export NODE_ENV=production
+export NODE_ENV=production
 
 node app.js  
 
