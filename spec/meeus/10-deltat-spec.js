@@ -4,18 +4,43 @@
 
 'use strict';
 
-var deltaT = require('./../../lib/posas/meeus/deltat.js');
+var deltaT = require('./../../lib/sunJS/meeus/deltat.js');
 
 describe("Calcultes ΔT", function () {
 
-    it("for years after 2000", function () {
+    it("for year 2005/Nasa", function () {
 
-        console.log('Nasa ', 2005, deltaT.poly2005to2050Nasa(2005));
-        console.log('MEEUS', 2005, deltaT.polyAfter2000Meeus(2005));
+        var actual = deltaT.poly2005to2050Nasa(2005),
+            expected = 64.670575;
 
-        console.log('Nasa ', 2010, deltaT.poly2005to2050Nasa(2010));
-        console.log('MEEUS', 2010, deltaT.polyAfter2000Meeus(2010));
+        expect(expected).toBe(actual);
 
+    });
+
+    it("for years 2005/Meeus", function () {
+
+        var actual = deltaT.polyAfter2000Meeus(2005),
+            expected = 72.01325;
+
+        expect(expected).toBe(actual);
+
+    });
+
+    it("for year 2010/Nasa", function () {
+
+        var actual = deltaT.poly2005to2050Nasa(2010),
+            expected = 66.70060000000001;
+
+        expect(expected).toBe(actual);
+
+    });
+
+    it("for years 2010/Meeus", function () {
+
+        var actual = deltaT.polyAfter2000Meeus(2010),
+            expected = 79.153;
+
+        expect(expected).toBe(actual);
 
     });
 
