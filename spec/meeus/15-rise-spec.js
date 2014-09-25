@@ -4,15 +4,12 @@
 
 'use strict';
 
-var base = require('./../../lib/posas/meeus/base.js'),
-    solar = require('./../../lib/posas/meeus/solar.js'),
-    julian = require('./../../lib/posas/meeus/julian.js'),
-    deltat = require('./../../lib/posas/meeus/deltat.js'),
-    rise = require('./../../lib/posas/meeus/rise.js'),
+var base = require('./../../lib/sunJS/meeus/base.js'),
+    solar = require('./../../lib/sunJS/meeus/solar.js'),
+    julian = require('./../../lib/sunJS/meeus/julian.js'),
+    deltat = require('./../../lib/sunJS/meeus/deltat.js'),
+    rise = require('./../../lib/sunJS/meeus/rise.js'),
     jd_of_1992_Oct_13 = 2448908.5;
-
-
-// deltaT.poly1986to2005Nasa
 
 //
 // rise.calcH0
@@ -20,7 +17,7 @@ var base = require('./../../lib/posas/meeus/base.js'),
 describe("Local hour angle", function () {
 
     var actual,
-        expected = 108.53437047264285,
+        expected = 108.53437047264283,
 
         // @see : MEEUS, Astronomical Algorithms (Second Edition), p. 103,
         //        example 15.a
@@ -31,16 +28,11 @@ describe("Local hour angle", function () {
             h0 : -0.5667        // for stars and planets
         };
 
-
-
-
-
-
     it("returns H0", function () {
 
-        actual = rise.calcH0(p);
+        actual = rise.calcH0(p.phi, p.delta2, p.h0);
 
-        expect(expected).toBe(actual.H0);
+        expect(expected).toBe(actual);
 
     });
 
